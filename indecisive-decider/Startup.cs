@@ -1,7 +1,13 @@
+using indecisive_decider.Data;
+using indecisive_decider.Dtos;
+using indecisive_decider.Entities;
+using indecisive_decider.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,6 +27,23 @@ namespace indecisive_decider
         public void ConfigureServices(IServiceCollection services)
         {
 
+
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlite(
+                    Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<AppDbContext>();
+
+
+            services.AddIdentityServer()
+                .AddApiAuthorization<ApplicationUser, AppDbContext>();
+
+            services.AddAuthentication()
+                .AddIdentityServerJwt();
+
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -28,6 +51,11 @@ namespace indecisive_decider
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddAutoMapper(typeof(MapperProfile));
+            services.AddScoped<PresetService>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +78,9 @@ namespace indecisive_decider
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseIdentityServer();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
