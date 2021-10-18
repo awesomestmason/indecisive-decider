@@ -9,22 +9,22 @@
     "oidc-client": "^1.9.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-particles-js": "^3.5.3",
     "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.4",
+    "react-scripts": "4.0.3",
+    "react-tilt": "^0.1.4",
+    "react-tsparticles": "^1.35.4",
     "reactstrap": "^8.4.1",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "tachyons": "^4.12.0",
+    "tsparticles": "^1.35.4",
+    "web-vitals": "^2.1.2"
   },
   "devDependencies": {
     "ajv": "^6.9.1",
     "cross-env": "^5.2.0",
     "typescript": "^3.7.5",
-    "eslint": "^6.8.0",
-    "eslint-config-react-app": "^5.2.0",
-    "eslint-plugin-flowtype": "^4.6.0",
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.18.3",
     "nan": "^2.14.1"
   },
   "eslintConfig": {
@@ -34,8 +34,7 @@
     "start": "rimraf ./build && react-scripts start",
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "lint": "eslint ./src/"
+    "eject": "react-scripts eject"
   },
   "browserslist": {
     "production": [
