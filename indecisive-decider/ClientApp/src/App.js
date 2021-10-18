@@ -11,6 +11,7 @@ import './App.css';
 import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 import ListTextBox from './components/ListTextBox/ListTextBox';
+import PresetCardList from './components/PresetCardList/PresetCardList';
 //import { NavMenu } from './components/NavMenu';
 /*const app = new Clarifai.App({
   apiKey: 'a160db1d6c1743aa9d4f94148f5b952f'
@@ -122,6 +123,7 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
+      presets: [] ,
       input: '',
       customList: '',
       box: {},
@@ -155,6 +157,10 @@ class App extends Component {
     fetch('http://localhost:3000')
       .then(response => response.json())
       .then(console.log)
+
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then(users => this.setState({ presets: users}));
   }
   
   // calculateFaceLocation = (data) => {
@@ -209,7 +215,7 @@ class App extends Component {
   }
   
   render(){
-    const {isSignedIn, route} = this.state
+    const {isSignedIn, route, presets} = this.state;
     return (
       <div className="App">
         <Particles className='particles'
@@ -224,6 +230,7 @@ class App extends Component {
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onButtonSubmit}
               />
+            <PresetCardList presets={presets}/>
           </div> 
         
         : ( route === 'register'
