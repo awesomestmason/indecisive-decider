@@ -36,7 +36,7 @@ namespace indecisive_decider.Services
         }
 
 
-        public async Task AddPreset(Preset preset)
+        public async Task AddPresetAsync(Preset preset)
         {
             await _context.Presets.AddAsync(preset);
             await _context.SaveChangesAsync();

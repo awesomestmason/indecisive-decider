@@ -1,8 +1,11 @@
+using System.Text;
 using indecisive_decider.Data;
 using indecisive_decider.Dtos;
 using indecisive_decider.Entities;
 using indecisive_decider.Services;
+using indecisive_decider.Util;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace indecisive_decider
 {
@@ -38,12 +42,24 @@ namespace indecisive_decider
                 .AddEntityFrameworkStores<AppDbContext>();
 
 
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, AppDbContext>();
-
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
-
+            services.AddAuthentication(auth =>
+                {
+                    auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = JwtHelper.GetIssuer(),
+                        ValidateAudience = true,
+                        ValidAudience = JwtHelper.GetAudience(),
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = JwtHelper.GetKey()
+                    };
+                });
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -79,7 +95,6 @@ namespace indecisive_decider
             app.UseRouting();
 
             app.UseAuthentication();
-            app.UseIdentityServer();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

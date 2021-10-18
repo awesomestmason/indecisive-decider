@@ -27,7 +27,17 @@ namespace indecisive_decider.Controllers
         [HttpGet]
         public async Task<IEnumerable<PresetDto>> Get()
         {
+
             return (await presetService.GetDefaultPresetsAsync()).Select(preset => mapper.Map<PresetDto>(preset));
+        }
+        // PUT api/preset
+        [HttpPut]
+        public async Task Put([FromBody] Preset p)
+        {
+            //"bananas", "apples", "oranges"
+            //Create list
+            // => 
+            await presetService.AddPresetAsync(p);
         }
 
         [HttpGet("init")]
@@ -58,7 +68,7 @@ namespace indecisive_decider.Controllers
                 }
             };
 
-            await presetService.AddPreset(p);
+            await presetService.AddPresetAsync(p);
         }
     }
 }
