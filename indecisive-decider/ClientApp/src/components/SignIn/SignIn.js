@@ -20,7 +20,7 @@ class SignIn extends React.Component {
 
     onSubmitSignIn = () => {
         //console.log(this.state);
-        fetch('http://localhost:3000/signIn', {
+        fetch('api/account/login', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -30,9 +30,13 @@ class SignIn extends React.Component {
         })
         .then(response => response.json())
         .then(data => {
-            if(data === 'success'){
-                this.props.onRouteChange('home');
-            }
+            //if(data === 'success'){
+            this.props.onRouteChange('home');
+            //}
+        }) 
+        
+        .catch(error => {
+            alert("bad login credentials");
         })
     };
     
