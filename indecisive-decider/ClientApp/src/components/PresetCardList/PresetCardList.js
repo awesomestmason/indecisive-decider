@@ -3,15 +3,12 @@ import PresetCard from './PresetCard';
 
 const PresetCardList = ({presets}) => {
     return [
-      <div className=''
+      <div className='ph7 pv2'
       style={
         {
           display: 'grid',
-          width: '700px',
-         
-          gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
           gridTemplateRows: '2fr', 
-          justifyItems: 'stretch',
           
         }
       }>
