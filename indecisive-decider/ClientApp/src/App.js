@@ -123,7 +123,7 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      presets: [] ,
+      presets: [],
       input: '',
       customList: '',
       box: {},
@@ -191,7 +191,7 @@ class App extends Component {
   onButtonSubmit = () =>{
     //console.log('click');
     this.setState({customList: this.state.input});
-    
+    console.log(this.state.customList);
     /*app.models.predict(
       //"53e1df302c079b3db8a0a36033ed2d15",
       "f76196b43bbd45c99b4f3cd8e8b40a8a", 
