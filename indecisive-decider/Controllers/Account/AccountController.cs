@@ -39,19 +39,21 @@ namespace indecisive_decider.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> GetAuthToken(LoginRequest loginRequest)
         {
-            var result = await _signInManager.PasswordSignInAsync(
-                loginRequest.Email,
+            var user = await _userManager.FindByEmailAsync(loginRequest.Email);
+            if (user == null)
+            {
+                return BadRequest("No user by that email");
+            }
+            var result = await _signInManager.CheckPasswordSignInAsync(
+                user,
                 loginRequest.Password,
-                false,
                 false);
 
             if (result.Succeeded)
             {
-                var user = await _userManager.FindByNameAsync(loginRequest.Email);
                 var token = JwtHelper.GenerateToken(user);
                 var handler = new JwtSecurityTokenHandler();
                 var tokenString = handler.WriteToken(token);
-
                 return Ok(tokenString);
             }
 
