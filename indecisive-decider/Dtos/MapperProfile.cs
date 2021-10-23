@@ -9,6 +9,7 @@ namespace indecisive_decider.Dtos
         {
             CreateMap<Preset, PresetDto>();
             CreateMap<PresetItem, PresetItemDto>();
+            CreateMap<ApplicationUser, UserDto>();
         }
     }
 }

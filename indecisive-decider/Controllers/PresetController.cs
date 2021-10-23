@@ -2,12 +2,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using indecisive_decider.Dtos;
 using indecisive_decider.Entities;
 using indecisive_decider.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace indecisive_decider.Controllers
 {
@@ -30,10 +33,19 @@ namespace indecisive_decider.Controllers
 
             return (await presetService.GetDefaultPresetsAsync()).Select(preset => mapper.Map<PresetDto>(preset));
         }
+
+        [Authorize]
+        [HttpGet("custom")]
+        public async Task<IActionResult> AuthGet()
+        {
+            return Ok(User);
+        }
+
         // PUT api/preset
         [HttpPut]
         public async Task Put([FromBody] Preset p)
         {
+            User.FindFirst(ClaimTypes.NameIdentifier);
             //"bananas", "apples", "oranges"
             //Create list
             // => 

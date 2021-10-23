@@ -5,7 +5,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using indecisive_decider.Controllers.Account;
+using indecisive_decider.Dtos;
 using indecisive_decider.Entities;
 using indecisive_decider.Util;
 using Microsoft.AspNetCore.Identity;
@@ -23,22 +25,24 @@ namespace indecisive_decider.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<AccountController> _logger;
+        private readonly IMapper _mapper;
 
         public AccountController(
             IConfiguration configuration,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger, IMapper mapper)
         {
             _configuration = configuration;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> GetAuthToken(LoginRequest loginRequest)
-        {
+        public async Task<ActionResult<LoginResponse>> GetAuthToken(LoginRequest loginRequest)
+        {   
             var user = await _userManager.FindByEmailAsync(loginRequest.Email);
             if (user == null)
             {
@@ -54,9 +58,13 @@ namespace indecisive_decider.Controllers
                 var token = JwtHelper.GenerateToken(user);
                 var handler = new JwtSecurityTokenHandler();
                 var tokenString = handler.WriteToken(token);
-                return Ok(tokenString);
+                var response = new LoginResponse()
+                {
+                    JwtToken = tokenString,
+                    User = _mapper.Map<UserDto>(user)
+                };
+                return Ok(response);
             }
-
             return BadRequest("Invalid login details");
         }
 
