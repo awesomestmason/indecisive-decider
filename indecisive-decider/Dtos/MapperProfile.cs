@@ -7,6 +7,8 @@ namespace indecisive_decider.Dtos
     {
         public MapperProfile()
         {
+            CreateMap<PresetDto, Preset>();
+            CreateMap<PresetItemDto, PresetItem>();
             CreateMap<Preset, PresetDto>();
             CreateMap<PresetItem, PresetItemDto>();
             CreateMap<ApplicationUser, UserDto>();

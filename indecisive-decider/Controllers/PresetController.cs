@@ -21,10 +21,13 @@ namespace indecisive_decider.Controllers
 
         private readonly IMapper mapper;
         private readonly PresetService presetService;
-        public PresetController(IMapper mapper, PresetService presetService)
+        private readonly UserService _userService;
+
+        public PresetController(IMapper mapper, PresetService presetService, UserService userService)
         {
             this.mapper = mapper;
             this.presetService = presetService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -42,14 +45,20 @@ namespace indecisive_decider.Controllers
         }
 
         // PUT api/preset
+        [Authorize]
         [HttpPut]
-        public async Task Put([FromBody] Preset p)
+        public async Task<IActionResult> Put([FromBody] PresetDto p)
         {
-            User.FindFirst(ClaimTypes.NameIdentifier);
-            //"bananas", "apples", "oranges"
-            //Create list
-            // => 
-            await presetService.AddPresetAsync(p);
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var user = await _userService.GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                return BadRequest("Invalid user");
+            }
+            var preset = mapper.Map<Preset>(p);
+            preset.Owner = user;
+            await presetService.AddPresetAsync(preset);
+            return Ok();
         }
 
         [HttpGet("init")]

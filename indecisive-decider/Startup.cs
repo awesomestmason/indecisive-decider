@@ -70,6 +70,7 @@ namespace indecisive_decider
 
             services.AddAutoMapper(typeof(MapperProfile));
             services.AddScoped<PresetService>();
+            services.AddScoped<UserService>();
 
 
         }
