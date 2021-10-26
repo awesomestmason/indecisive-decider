@@ -1,42 +1,15 @@
 import React, { Component } from 'react';
 import Navigation from './components/Navigation/Navigation';
 import Logo from './components/Logo/Logo';
-//import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
-//import FaceRecongnition from './components/FaceRecongnition/FaceRecongnition';
-//import Particles from 'react-particles-js';
 import Particles from 'react-tsparticles';
-/*import Clarifai from 'clarifai';*/
 import './App.css';
 import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 import ListTextBox from './components/ListTextBox/ListTextBox';
 import PresetCardList from './components/PresetCardList/PresetCardList';
-//import { NavMenu } from './components/NavMenu';
-/*const app = new Clarifai.App({
-  apiKey: 'a160db1d6c1743aa9d4f94148f5b952f'
- });*/
 
-/*const particleOptions={
-    particles: {
-      number: {
-        value: 50,
-        density: {
-          enable: true,
-          value_area: 800
-        }
-      }
-
-      line_linked: {
-        shadow: {
-            enable: true,
-            color: "#3CA9D1",
-            blur: 5
-          }
-      }
-    }
-}*/
-
+//This constant is used for the particle ambience graphics...
 const particleOptions = {
   particles: {
     color: {
@@ -119,6 +92,7 @@ const particleOptions = {
   },
 }
 
+//Remember that when sending to RNG decider, to send that preset's item list for it to work
 class App extends Component {
   constructor(){
     super();
@@ -163,25 +137,6 @@ class App extends Component {
       .then(users => this.setState({ presets: users}));
   }
   
-  // calculateFaceLocation = (data) => {
-  //   const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
-  //   const image = document.getElementById('inputImage');
-  //   const width = Number(image.width);
-  //   const height = Number(image.height);
-  //   console.log(width, height);
-  //   return{
-  //     leftCol: clarifaiFace.left_col * width,
-  //     topRow: clarifaiFace.top_row * height,
-  //     rightCol: width - (clarifaiFace.right_col * width),
-  //     bottomRow: height - (clarifaiFace.bottom_row * height),
-  //   }
-  // }
-
-  // displayFaceBox = (box) => {
-  //   this.setState({box: box});
-  //   console.log(box);
-  // }
-
   onInputChange = (event) => {
     //console.log(event.target.value);
     this.setState({input: event.target.value});
@@ -192,14 +147,6 @@ class App extends Component {
     //console.log('click');
     this.setState({customList: this.state.input});
     console.log(this.state.customList);
-    /*app.models.predict(
-      //"53e1df302c079b3db8a0a36033ed2d15",
-      "f76196b43bbd45c99b4f3cd8e8b40a8a", 
-      this.state.input
-      )
-    //console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
-    .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
-    .catch(err => console.log(err));*/
   }
 
   onRouteChange = (route) => {
