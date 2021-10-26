@@ -2,11 +2,11 @@ function createList(wordlist)
 {
     const userList = wordlist.split(", ");
     var counter = userList.length;
-    for(int i = 0; i < userList.length; i++)
+    for(let i = 0; i < userList.length; i++)
     {
         userList[i].trim();
     }
-    var rand = Math.floor(Math.random() * (counter + 1);
+    var rand = Math.floor(Math.random() * (counter + 1));
     return userList[rand];
 }
 
@@ -23,7 +23,7 @@ function getRandomNum(min, max)
 function getPreset(items)
 {
     var counter = items.length;
-    var rand = Math.floor(Math.random() * (counter + 1);
+    var rand = Math.floor(Math.random() * (counter + 1));
     return items[rand].value;
 }
 
