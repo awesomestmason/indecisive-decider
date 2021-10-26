@@ -44,7 +44,6 @@ namespace indecisive_decider.Controllers
             return Ok(User);
         }
 
-        // PUT api/preset
         [Authorize]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] PresetDto p)
@@ -61,35 +60,18 @@ namespace indecisive_decider.Controllers
             return Ok();
         }
 
-        [HttpGet("init")]
-        public async Task AddDefaults()
+        [HttpPost("defaults")]
+        public async Task<IActionResult> PostPresets([FromBody] List<PresetDto> presets)
         {
-            Preset p = new Preset()
-            {
-                Name = "Bread",
-                Items = new List<PresetItem>()
-                {
-                    new PresetItem()
-                    {
-                        Value = "Ciabatta"
-                    },
-                    new PresetItem()
-                    {
-                        Value = "Rye"
-                    },
-                    new PresetItem()
-                    {
-                        Value = "Brioche"
-                    },
-                    new PresetItem()
-                    {
-                        Value = "Baguette"
-                    }
-
-                }
-            };
-
-            await presetService.AddPresetAsync(p);
+            var presetList = presets.Select(p => mapper.Map<Preset>(p));
+            await presetService.AddPresetsAsync(presetList);
+            return Ok();
+        }
+        [HttpDelete("defaults")]
+        public async Task<IActionResult> DeletePresets()
+        {
+            await presetService.RemoveDefaults();
+            return Ok();
         }
     }
 }
