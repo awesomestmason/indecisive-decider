@@ -8,6 +8,7 @@ import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 import ListTextBox from './components/ListTextBox/ListTextBox';
 import PresetCardList from './components/PresetCardList/PresetCardList';
+import {fetchPresets} from './ApiCalls';
 
 //This constant is used for the particle ambience graphics...
 const particleOptions = {
@@ -19,7 +20,7 @@ const particleOptions = {
       color: "#ffffff",
       distance: 100,
       enable: true,
-      opacity: 0.4,
+      opacity: 0.3,
       width: 1,
     },
     collisions: {
@@ -128,13 +129,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    //fetch('http://localhost:3000')
-    //  .then(response => response.json())
-    //  .then(console.log)
 
-    fetch('api/preset')
-      .then(response => response.json())
-      .then(users => this.setState({ presets: users}));
+  fetchPresets()
+    .then(users => this.setState({ presets: users}));
   }
   
   onInputChange = (event) => {
