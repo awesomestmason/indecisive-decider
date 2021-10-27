@@ -1,6 +1,6 @@
 import React from 'react';
 import './PresetCard.css';
-
+import Tilt from 'react-tilt'
 
 
 const PresetCard = ({ name, id}) => {

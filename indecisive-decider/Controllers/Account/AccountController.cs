@@ -84,5 +84,6 @@ namespace indecisive_decider.Controllers
 
             return BadRequest(result.Errors.Select(e => e.Description));
         }
+
     }
 }

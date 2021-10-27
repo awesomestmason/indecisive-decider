@@ -18,5 +18,6 @@ namespace indecisive_decider.Services
         {
             return await _context.Users.FirstOrDefaultAsync(user => user.Email == email);
         }
+
     }
 }
