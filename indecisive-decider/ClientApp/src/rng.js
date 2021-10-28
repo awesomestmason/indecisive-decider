@@ -1,4 +1,4 @@
-function createList(wordlist)
+export function createList(wordlist)
 {
     const userList = wordlist.split(", ");
     var counter = userList.length;
@@ -11,7 +11,7 @@ function createList(wordlist)
 }
 
 //just a getting random function from a min and max value
-function getRandomNum(min, max)
+export function getRandomNum(min, max)
 {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -20,7 +20,7 @@ function getRandomNum(min, max)
 //list should already have the items in an array/list order
 //presets assumed in array functionality with objects.
 //take in presets
-function getPreset(items)
+export function getPreset(items)
 {
     var counter = items.length;
     var rand = Math.floor(Math.random() * (counter + 1));
