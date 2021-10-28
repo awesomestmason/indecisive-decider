@@ -9,7 +9,7 @@ export function createList(wordlist)
     return userList;
 }
 
-function returnRandomItem(userList)
+export function returnRandomItem(userList)
 {
     var rand = Math.floor(Math.random() * (userList.length));
     return userList[rand];
