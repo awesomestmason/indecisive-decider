@@ -1,8 +1,12 @@
 ﻿namespace indecisive_decider.Dtos
 {
-    public class PresetItemDto
+    public class PresetItemWithIdDto
     {
         public int Id { get; set; }
+        public string Value { get; set; }
+    }
+    public class PresetItemDto
+    {
         public string Value { get; set; }
     }
 }

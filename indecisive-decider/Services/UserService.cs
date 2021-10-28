@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using indecisive_decider.Data;
 using indecisive_decider.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,15 @@ namespace indecisive_decider.Services
             _context = context;
         }
 
-        public async Task<ApplicationUser> GetUserByEmailAsync(string email)
+        public async Task<IEnumerable<ApplicationUser>> GetUsers()
         {
-            return await _context.Users.FirstOrDefaultAsync(user => user.Email == email);
+            return await _context.Users.ToListAsync();
         }
 
+
+        public async Task<ApplicationUser> GetUserByIdAsync(string id)
+        {
+            return await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
+        }
     }
 }

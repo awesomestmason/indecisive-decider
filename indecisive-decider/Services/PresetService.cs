@@ -34,7 +34,18 @@ namespace indecisive_decider.Services
                 .Where(preset => preset.Owner.Id == userId)
                 .ToListAsync();
         }
+        public async Task<List<Preset>> GetUserAndDefaultPresetsAsync(string userId)
+        {
+            return await _context.Presets.Include(preset => preset.Items)
+                .Where(preset => preset.Owner == null || preset.Owner.Id == userId)
+                .ToListAsync();
+        }
 
+
+        public async Task RemovePresetAsync(int presetId){
+            _context.Presets.Remove(_context.Presets.Where(preset => preset.Id == presetId).FirstOrDefault());
+            await _context.SaveChangesAsync();
+        }
 
         public async Task AddPresetAsync(Preset preset)
         {

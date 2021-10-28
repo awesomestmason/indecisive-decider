@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using indecisive_decider.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace indecisive_decider.Util
@@ -17,21 +21,27 @@ namespace indecisive_decider.Util
 
         public static JwtSecurityToken GenerateToken(ApplicationUser user)
         {
-            var expiry = (int)(DateTime.UtcNow.AddMinutes(60) - DateTime.UnixEpoch).TotalSeconds;
-            //https://jwt.io/)
-            var securityKey = JwtHelper.GetKey();
+            //https://jwt.io/
+            var securityKey = GetKey();
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var header = new JwtHeader(signingCredentials);
-            var payload = new JwtPayload
-            {
-                { "sub", "api" },
-                { "name", $"{user.UserName}" },
-                { "exp", expiry },
-                { "iss", GetIssuer() },
-                { "aud", GetAudience() }
-            };
-            var token = new JwtSecurityToken(header, payload);
+            var claims = GetValidClaims(user);
+            var token = new JwtSecurityToken(claims: claims, signingCredentials: signingCredentials);
             return token;
+        }
+
+        private static List<Claim> GetValidClaims(ApplicationUser user)
+        {
+            var expiry = (int)(DateTime.UtcNow.AddMinutes(60) - DateTime.UnixEpoch).TotalSeconds;
+            IdentityOptions _options = new IdentityOptions();
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Iss, GetIssuer()),
+                new Claim(JwtRegisteredClaimNames.Aud, GetAudience()),
+                new Claim(JwtRegisteredClaimNames.Exp, expiry.ToString(), ClaimValueTypes.Integer64),
+                new Claim(_options.ClaimsIdentity.UserIdClaimType, user.Id),
+                new Claim(_options.ClaimsIdentity.UserNameClaimType, user.UserName)
+            };
+            return claims;
         }
 
         public static string GetIssuer()
