@@ -43,7 +43,8 @@ export function fetchLogin(email, password){
 
 //TODO
 export function addCustomList(list){
-    fetch('api/', {
+    fetch('api/preset', {
+        method: 'put',
         headers: {'Bearer': token}
     })
 }
