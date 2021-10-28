@@ -9,6 +9,8 @@ import Register from './components/Register/Register';
 import ListTextBox from './components/ListTextBox/ListTextBox';
 import PresetCardList from './components/PresetCardList/PresetCardList';
 import {fetchPresets} from './ApiCalls';
+import {addCustomList} from './ApiCalls';
+import { createList } from './rng';
 
 //This constant is used for the particle ambience graphics...
 const particleOptions = {
@@ -146,6 +148,11 @@ class App extends Component {
     console.log(this.state.customList);
   }
 
+  onButtonSave = () => {
+    this.setState({customList: this.state.input});
+    //addCustomList(createList(this.state.customList));
+  }
+
   onRouteChange = (route) => {
     if(route === 'signOut'){
       this.setState({isSignedIn:false})
@@ -173,6 +180,7 @@ class App extends Component {
             <ListTextBox
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onButtonSubmit}
+              onButtonSave={this.onButtonSave}
               />
             <PresetCardList presets={presets}/>
           </div> 

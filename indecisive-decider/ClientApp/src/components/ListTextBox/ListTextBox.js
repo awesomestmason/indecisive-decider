@@ -2,7 +2,7 @@ import React from 'react';
 import './ListTextBox.css';
 
 //<input className='f4 pa2 w-70 center' type='tex' onChange={onInputChange}/>
-const ListTextBox = ( {onInputChange, onButtonSubmit} ) => {
+const ListTextBox = ( {onInputChange, onButtonSubmit, onButtonSave} ) => {
     return (
         <div>
             <p className='f3'>
@@ -15,13 +15,23 @@ const ListTextBox = ( {onInputChange, onButtonSubmit} ) => {
                         <textarea className="form-control" style={{resize: 'vertical'}} onChange={onInputChange} rows="5" id="userList" ></textarea>
                         
                         <div>
+                        <p></p>
                             <button 
-                            className='w-30 grow f4 link ph3 pv2 dib white bg-red pointer' 
-                            onClick={onButtonSubmit} 
+                                className='w-30 grow f4 link ph3 pv2 dib white bg-red pointer' 
+                                onClick={onButtonSubmit} 
                             >
                                 Submit
                             </button>
+                            <p></p>
+                             <button 
+                                className='w-30 grow f4 link ph3 pv2 dib white bg-blue pointer'
+                                onClick={onButtonSave}
+                             >
+                                Save List
+                            </button>
+
                         </div>
+
                     </div>
                 </div>
             </div>
