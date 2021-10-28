@@ -6,7 +6,12 @@ function createList(wordlist)
     {
         userList[i].trim();
     }
-    var rand = Math.floor(Math.random() * (counter + 1));
+    return userList;
+}
+
+function returnRandomItem(userList)
+{
+    var rand = Math.floor(Math.random() * (userList.length));
     return userList[rand];
 }
 
