@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { fetchRegister } from '../../ApiCalls'
 
 class Register extends React.Component {
     constructor(props) {
@@ -8,6 +8,7 @@ class Register extends React.Component {
             Email: '',
             Password: '',
             Name: '',
+            ErrorMessage: ''
         }
     }
     
@@ -24,28 +25,16 @@ class Register extends React.Component {
     };
 
     onSubmitRegister = () => {
-        //console.log(this.state);
-        fetch('api/account/register', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                user: {
-                    username: this.state.Name,
-                    email: this.state.Email,
-                },
-                password: this.state.Password,
-                confirmpassword: this.state.Password
-            })
-        })
-        //.then(response => response.json())
+        fetchRegister(this.state.Name, this.state.Email, this.state.Password)
         .then(user => {
             if(user){
-                alert(user);
                 this.props.loadUser(user);
                 this.props.onRouteChange('signIn');
             }
         }).catch(error => {
-            alert(error);
+            //alert(error);
+            console.log(error);
+            this.setState({ErrorMessage: error.toString()});
         })
     };
 
@@ -102,12 +91,18 @@ class Register extends React.Component {
                         <div>
                             <p></p>
                         </div>
-
                         <div className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer dib">
                             <p onClick={() => this.props.onRouteChange('home')} className="f5 link dim black db pointer" > Continue As Guest </p>
                         </div>
 
                     </div>
+                    
+                    { this.state.ErrorMessage &&
+                        <div className=".dark-red {color: #E7040F}">
+                           <p>test</p> 
+                           {this.state.ErrorMessage}
+                        </div>
+                    }
                 </main>
             </article>
         );

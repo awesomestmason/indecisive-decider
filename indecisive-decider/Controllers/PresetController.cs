@@ -21,10 +21,13 @@ namespace indecisive_decider.Controllers
 
         private readonly IMapper mapper;
         private readonly PresetService presetService;
-        public PresetController(IMapper mapper, PresetService presetService)
+        private readonly UserService _userService;
+
+        public PresetController(IMapper mapper, PresetService presetService, UserService userService)
         {
             this.mapper = mapper;
             this.presetService = presetService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -41,46 +44,34 @@ namespace indecisive_decider.Controllers
             return Ok(User);
         }
 
-        // PUT api/preset
+        [Authorize]
         [HttpPut]
-        public async Task Put([FromBody] Preset p)
+        public async Task<IActionResult> Put([FromBody] PresetDto p)
         {
-            User.FindFirst(ClaimTypes.NameIdentifier);
-            //"bananas", "apples", "oranges"
-            //Create list
-            // => 
-            await presetService.AddPresetAsync(p);
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var user = await _userService.GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                return BadRequest("Invalid user");
+            }
+            var preset = mapper.Map<Preset>(p);
+            preset.Owner = user;
+            await presetService.AddPresetAsync(preset);
+            return Ok();
         }
 
-        [HttpGet("init")]
-        public async Task AddDefaults()
+        [HttpPost("defaults")]
+        public async Task<IActionResult> PostPresets([FromBody] List<PresetDto> presets)
         {
-            Preset p = new Preset()
-            {
-                Name = "Bread",
-                Items = new List<PresetItem>()
-                {
-                    new PresetItem()
-                    {
-                        Value = "Ciabatta"
-                    },
-                    new PresetItem()
-                    {
-                        Value = "Rye"
-                    },
-                    new PresetItem()
-                    {
-                        Value = "Brioche"
-                    },
-                    new PresetItem()
-                    {
-                        Value = "Baguette"
-                    }
-
-                }
-            };
-
-            await presetService.AddPresetAsync(p);
+            var presetList = presets.Select(p => mapper.Map<Preset>(p));
+            await presetService.AddPresetsAsync(presetList);
+            return Ok();
+        }
+        [HttpDelete("defaults")]
+        public async Task<IActionResult> DeletePresets()
+        {
+            await presetService.RemoveDefaults();
+            return Ok();
         }
     }
 }

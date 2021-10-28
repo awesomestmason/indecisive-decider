@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { fetchLogin } from '../../ApiCalls'
 
 class SignIn extends React.Component {
     constructor(props) {
@@ -20,21 +20,10 @@ class SignIn extends React.Component {
 
     onSubmitSignIn = () => {
         //console.log(this.state);
-        fetch('api/account/login', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                email: this.state.signInEmail,
-                password: this.state.signInPassword
-            })
-        })
-        .then(response => response.json())
+        fetchLogin(this.state.signInEmail, this.state.signInPassword)
         .then(data => {
-            //if(data === 'success'){
             this.props.onRouteChange('home');
-            //}
-        }) 
-        
+        })
         .catch(error => {
             alert("bad login credentials");
         })
