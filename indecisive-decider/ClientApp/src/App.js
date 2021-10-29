@@ -9,6 +9,7 @@ import Register from './components/Register/Register';
 import ListTextBox from './components/ListTextBox/ListTextBox';
 import PresetCardList from './components/PresetCardList/PresetCardList';
 import {fetchPresets} from './ApiCalls';
+import { fetchPresetsDefaults } from './ApiCalls'
 import {addCustomList} from './ApiCalls';
 import { createList } from './rng';
 
@@ -131,9 +132,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-
-  fetchPresets()
-    .then(users => this.setState({ presets: users}));
+    fetchPresetsDefaults()
+      .then(users => this.setState({ presets: users}));
   }
   
   onInputChange = (event) => {
@@ -159,7 +159,9 @@ class App extends Component {
     } 
     
     else if(route === 'home'){
-      this.setState({isSignedIn: true})
+      this.setState({isSignedIn: true});
+      fetchPresets()
+        .then(users => this.setState({ presets: users}));
     }
 
     this.setState({route: route});

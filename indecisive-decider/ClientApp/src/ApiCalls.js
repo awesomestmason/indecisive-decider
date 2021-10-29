@@ -35,7 +35,8 @@ export function fetchLogin(email, password){
         })
         .then(response => response.json())
         .then(response => {
-            token = response.token;
+            console.log(response);
+            token = response.jwtToken;
             return response;
         })
     );
@@ -45,15 +46,39 @@ export function fetchLogin(email, password){
 export function addCustomList(list){
     fetch('api/preset', {
         method: 'put',
-        headers: {'Bearer': token}
+        headers: {'Content-Type': 'application/json', 'Authorization': "Bearer "+ token},
+        body: JSON.stringify({
+            preset: list
+        })
     })
+    .then(async response => {
+        if(response.ok){
+            return response;
+        }
+        let errmsg = await response.text();
+        throw new Error(errmsg);
+    });
 }
 
 export function fetchPresets(){
+    console.log(token);
+    return(
+        fetch('api/preset',{
+            method: 'get',
+            headers: {'Authorization': "Bearer "+ token},
+        })
+        .then(response => response.json())
+    );
+        
+}
+
+export function fetchPresetsDefaults(){
     
     return(
-        fetch('api/preset')
+        fetch('api/preset/defaults')
             .then(response => response.json())
-        );
+
+    );
+        
 }
 
