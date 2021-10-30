@@ -5,9 +5,6 @@ import './ListTextBox.css';
 const ListTextBox = ( {onInputChange, onButtonSubmit, onButtonSave, isSave} ) => {
     return (
         <div>
-            <p className='f3'>
-                {'Type in your list of decisions or pick one of the presets to get started'}
-            </p>
             <div className=" ">
                 <div className='center'>
                     <div className='center form pa4 br3 shadow-5 d-flex flex-column '>
@@ -17,7 +14,8 @@ const ListTextBox = ( {onInputChange, onButtonSubmit, onButtonSave, isSave} ) =>
                         <div>
                         <p></p>
                             <button 
-                                className='w-30 grow f4 link ph3 pv2 dib white bg-red pointer' 
+                                className='w-30 grow f4 link ph3 pv2 dib white bg-red pointer'
+                                style={{userSelect: 'none'}}
                                 onClick={onButtonSubmit} 
                             >
                                 Submit
@@ -26,6 +24,7 @@ const ListTextBox = ( {onInputChange, onButtonSubmit, onButtonSave, isSave} ) =>
 
                              <button 
                                 className='w-30 grow f4 link ph3 pv2 dib white bg-blue pointer'
+                                style={{userSelect: 'none'}}
                                 onClick={onButtonSave}
                              >
                                 Save List

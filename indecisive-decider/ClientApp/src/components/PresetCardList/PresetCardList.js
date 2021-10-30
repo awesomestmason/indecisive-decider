@@ -1,7 +1,7 @@
 import React from 'react';
 import PresetCard from './PresetCard';
 
-const PresetCardList = ({presets}) => {
+const PresetCardList = ({presets, rngPreset}) => {
     return [
       <div className='ph7 pv2'
       style={
@@ -17,9 +17,10 @@ const PresetCardList = ({presets}) => {
             return [
             <PresetCard 
               key={i} 
-              id={presets[i].id} 
+              //id={presets[i].id} 
               name={presets[i].name}
-              items={preset[i].items}
+              items={presets[i].items}
+              rngPreset = {rngPreset}
             />];
              })}
       </div>

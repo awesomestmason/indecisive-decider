@@ -1,6 +1,6 @@
 export function createList(wordlist)
 {
-    const userList = wordlist.split(", ");
+    const userList = wordlist.split(",");
     var counter = userList.length;
     for(let i = 0; i < userList.length; i++)
     {
@@ -28,7 +28,7 @@ export function getRandomNum(min, max)
 export function getPreset(items)
 {
     var counter = items.length;
-    var rand = Math.floor(Math.random() * (counter + 1));
+    var rand = Math.floor(Math.random() * (counter));
     return items[rand].value;
 }
 

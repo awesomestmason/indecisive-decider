@@ -10,10 +10,9 @@ import CustomListPopup from './components/CustomListPopup/CustomListPopup'
 import Register from './components/Register/Register';
 import ListTextBox from './components/ListTextBox/ListTextBox';
 import PresetCardList from './components/PresetCardList/PresetCardList';
-import {fetchPresets} from './ApiCalls';
-import { fetchPresetsDefaults } from './ApiCalls'
-import {addCustomList} from './ApiCalls';
-import { createList } from './rng';
+import ResultBox from './components/ResultBox/ResultBox';
+import {fetchPresets, fetchPresetsDefaults, addCustomList} from './ApiCalls';
+import { createList, returnRandomItem, getRandomNum, getPreset } from './rng';
 
 //This constant is used for the particle ambience graphics...
 const particleOptions = {
@@ -107,6 +106,7 @@ class App extends Component {
       input: '',
       customList: '',
       nameInput: '',
+      result: '',
       box: {},
       route: 'signIn',
       isSignedIn: false,
@@ -153,33 +153,39 @@ class App extends Component {
   }
 
   onListNameSubmit = () => {
-    
     //let list = createList(this.state.customList);
     //console.log(list);
     //console.log("Name of List:", this.state.nameInput);
-    
     addCustomList(this.state.nameInput, createList(this.state.customList));
     this.saveToggle();
+    fetchPresets()
+        .then(users => this.setState({ presets: users}));
   }
 
   onButtonSave = () => {
     this.saveToggle();
     this.setState({customList: this.state.input});
-    //addCustomList(createList(this.state.customList));
   }
 
-  onButtonSubmit = () =>{
+  //Use asynce if lines of code are superceding each other
+  onButtonSubmit = async() =>{
     //console.log('click');
     this.setState({customList: this.state.input});
     //RNG code here:
       // create list
       // get random list item
-
-    console.log(this.state.customList);
+      let result = await returnRandomItem(createList(this.state.input));
+      this.setState({result: result});
+      console.log(this.state.result);
+      console.log("actual result from let", result);
   }
 
   saveToggle = ()  => {
     this.setState({isSave: !this.state.isSave});
+  }
+
+  rngPreset= (items) => {
+    this.setState({result: getPreset(items)});
   }
 
   onRouteChange = (route) => {
@@ -201,7 +207,7 @@ class App extends Component {
 
 
   getComponent(){
-    const {route, presets, isSave} = this.state;
+    const {route, presets, isSave, result} = this.state;
     switch(route){
       case 'register': 
         return <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>;
@@ -216,6 +222,9 @@ class App extends Component {
         return <div>
                 <Logo />
                 <Rank />
+                { result !== "" &&
+                  <ResultBox result={result}/>
+                }
                 <ListTextBox
                   onInputChange={this.onInputChange}
                   onButtonSubmit={this.onButtonSubmit}
@@ -249,7 +258,7 @@ class App extends Component {
                   </CustomListPopup>
                 }
                 
-                <PresetCardList presets={presets}/>
+                <PresetCardList presets={presets} rngPreset={this.rngPreset}/>
               </div>;
 
       // .. etc
@@ -265,7 +274,6 @@ class App extends Component {
         <Particles className='particles'
           options={particleOptions}
         />
-
         <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} route={route}/>
         {this.getComponent()}
       </div>
