@@ -43,21 +43,25 @@ export function fetchLogin(email, password){
 }
 
 //TODO
-export function addCustomList(list){
-    fetch('api/preset', {
-        method: 'put',
-        headers: {'Content-Type': 'application/json', 'Authorization': "Bearer "+ token},
-        body: JSON.stringify({
-            preset: list
+export function addCustomList(name, list){
+    return(
+        fetch('api/preset', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json', 
+                      'Authorization': "Bearer "+ token},
+            body: JSON.stringify({
+                name: name,
+                preset: list
+            })
         })
-    })
-    .then(async response => {
-        if(response.ok){
-            return response;
-        }
-        let errmsg = await response.text();
-        throw new Error(errmsg);
-    });
+        .then(async response => {
+            if(response.ok){
+                return response;
+            }
+            let errmsg = await response.text();
+            throw new Error(errmsg);
+        })
+    );
 }
 
 export function fetchPresets(){

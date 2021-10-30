@@ -2,7 +2,7 @@ import React from 'react';
 import './ListTextBox.css';
 
 //<input className='f4 pa2 w-70 center' type='tex' onChange={onInputChange}/>
-const ListTextBox = ( {onInputChange, onButtonSubmit, onButtonSave} ) => {
+const ListTextBox = ( {onInputChange, onButtonSubmit, onButtonSave, isSave} ) => {
     return (
         <div>
             <p className='f3'>
@@ -23,6 +23,7 @@ const ListTextBox = ( {onInputChange, onButtonSubmit, onButtonSave} ) => {
                                 Submit
                             </button>
                             <p></p>
+
                              <button 
                                 className='w-30 grow f4 link ph3 pv2 dib white bg-blue pointer'
                                 onClick={onButtonSave}

@@ -3,14 +3,15 @@ import Navigation from './components/Navigation/Navigation';
 import Logo from './components/Logo/Logo';
 import Rank from './components/Rank/Rank';
 import Particles from 'react-tsparticles';
+import SettingsView from './components/UserSettings/Settings';
 import './App.css';
 import SignIn from './components/SignIn/SignIn';
+import CustomListPopup from './components/CustomListPopup/CustomListPopup'
 import Register from './components/Register/Register';
 import ListTextBox from './components/ListTextBox/ListTextBox';
 import PresetCardList from './components/PresetCardList/PresetCardList';
 import {fetchPresets} from './ApiCalls';
 import { fetchPresetsDefaults } from './ApiCalls'
-import SettingsView from './components/UserSettings/Settings';
 import {addCustomList} from './ApiCalls';
 import { createList } from './rng';
 
@@ -105,9 +106,11 @@ class App extends Component {
       presets: [],
       input: '',
       customList: '',
+      nameInput: '',
       box: {},
       route: 'signIn',
       isSignedIn: false,
+      isSave: false,
       user: {
         id: '',
         name: '',
@@ -143,15 +146,40 @@ class App extends Component {
     //console.log(event.target.value);
   }
 
-  onButtonSubmit = () =>{
-    //console.log('click');
-    this.setState({customList: this.state.input});
-    console.log(this.state.customList);
+  onListNameChange = (event) => {
+    console.log(event.target.value);
+    this.setState({nameInput: event.target.value});
+    
+  }
+
+  onListNameSubmit = () => {
+    
+    //let list = createList(this.state.customList);
+    //console.log(list);
+    //console.log("Name of List:", this.state.nameInput);
+    
+    addCustomList(this.state.nameInput, createList(this.state.customList));
+    this.saveToggle();
   }
 
   onButtonSave = () => {
+    this.saveToggle();
     this.setState({customList: this.state.input});
     //addCustomList(createList(this.state.customList));
+  }
+
+  onButtonSubmit = () =>{
+    //console.log('click');
+    this.setState({customList: this.state.input});
+    //RNG code here:
+      // create list
+      // get random list item
+
+    console.log(this.state.customList);
+  }
+
+  saveToggle = ()  => {
+    this.setState({isSave: !this.state.isSave});
   }
 
   onRouteChange = (route) => {
@@ -167,20 +195,19 @@ class App extends Component {
         .then(users => this.setState({ presets: users}));
     }
 
-    this.setState({route: route});
-    
+    this.setState({route: route});    
     //console.log("After OnRouteChange "+ this.state.route);
   }
 
+
   getComponent(){
-    const {route, presets} = this.state;
+    const {route, presets, isSave} = this.state;
     switch(route){
       case 'register': 
         return <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>;
         
       case 'settings': 
-        // return <div> Settings To be Implemented</div>; 
-        return <SettingsView />;
+        return <SettingsView />;; 
 
       case 'friends': 
         return <div> Friends To be Implemented</div>;
@@ -193,7 +220,35 @@ class App extends Component {
                   onInputChange={this.onInputChange}
                   onButtonSubmit={this.onButtonSubmit}
                   onButtonSave={this.onButtonSave}
+                  isSave={isSave}
                   />
+                {this.state.isSave && 
+                  <CustomListPopup 
+                    content={<>
+                      <b className="white">Give your list a name.</b>
+                      <p></p>
+                      <input 
+                        className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                        type="listName" 
+                        name="listName"
+                        id="listName"
+                        onChange={this.onListNameChange}
+                        />
+                      <p></p>
+                      
+                      <button
+                        className="b ph3 pv2 input-reset ba white b--white bg-transparent grow pointer dib"
+                        onClick={this.onListNameSubmit}
+                      >
+                        Submit            
+                      </button>
+
+                    </>}
+                  handleClose={this.saveToggle}>
+
+                  </CustomListPopup>
+                }
+                
                 <PresetCardList presets={presets}/>
               </div>;
 
@@ -206,7 +261,7 @@ class App extends Component {
   render(){
     const {isSignedIn, route} = this.state;
     return (
-      <div className="App">
+      <div className="App" style={{}}>
         <Particles className='particles'
           options={particleOptions}
         />
