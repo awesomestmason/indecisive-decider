@@ -154,6 +154,7 @@ class App extends Component {
   }
 
   onRouteChange = (route) => {
+    
     if(route === 'signOut'){
       this.setState({isSignedIn:false})
     } 
@@ -166,16 +167,60 @@ class App extends Component {
 
     this.setState({route: route});
   }
-  
+
+  getNavBarComponent(){
+    const {route, isSignedIn} = this.state;
+    switch(route){
+      case 'settings': 
+        return <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>; 
+
+      case 'friends': 
+        return <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>;
+
+      default:
+        return <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>;
+    }
+  }
+
+  getComponent(){
+    const {route, presets} = this.state;
+    switch(route){
+      case 'register': 
+        return <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>;
+        
+      case 'settings': 
+        return <div> Settings To be Implemented</div>; 
+
+      case 'friends': 
+        return <div> Friends To be Implemented</div>;
+
+      case 'home': 
+        return <div>
+                <Logo />
+                <Rank />
+                <ListTextBox
+                  onInputChange={this.onInputChange}
+                  onButtonSubmit={this.onButtonSubmit}
+                  onButtonSave={this.onButtonSave}
+                  />
+                <PresetCardList presets={presets}/>
+              </div>;
+
+      // .. etc
+      default: 
+        return <SignIn onRouteChange={this.onRouteChange}/>
+    }
+  }
+
   render(){
-    const {isSignedIn, route, presets} = this.state;
+    const {isSignedIn} = this.state;
     return (
       <div className="App">
         <Particles className='particles'
           options={particleOptions}
         />
-        <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>
-        { route === 'home' 
+        {/* <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/> */}
+        {/* { route === 'home' 
         ? <div>
             <Logo />
             <Rank />
@@ -192,7 +237,9 @@ class App extends Component {
             : <SignIn onRouteChange={this.onRouteChange}/>
 
           ) 
-        }
+        } */}
+        {this.getNavBarComponent()}
+        {this.getComponent()}
       </div>
     );
   }
