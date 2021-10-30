@@ -10,6 +10,7 @@ import ListTextBox from './components/ListTextBox/ListTextBox';
 import PresetCardList from './components/PresetCardList/PresetCardList';
 import {fetchPresets} from './ApiCalls';
 import { fetchPresetsDefaults } from './ApiCalls'
+import SettingsView from './components/UserSettings/Settings';
 import {addCustomList} from './ApiCalls';
 import { createList } from './rng';
 
@@ -178,7 +179,8 @@ class App extends Component {
         return <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>;
         
       case 'settings': 
-        return <div> Settings To be Implemented</div>; 
+        // return <div> Settings To be Implemented</div>; 
+        return <SettingsView />;
 
       case 'friends': 
         return <div> Friends To be Implemented</div>;
