@@ -154,6 +154,7 @@ class App extends Component {
   }
 
   onRouteChange = (route) => {
+    //console.log("before OnRouteChange "+ this.state.route);
     
     if(route === 'signOut'){
       this.setState({isSignedIn:false})
@@ -166,20 +167,8 @@ class App extends Component {
     }
 
     this.setState({route: route});
-  }
-
-  getNavBarComponent(){
-    const {route, isSignedIn} = this.state;
-    switch(route){
-      case 'settings': 
-        return <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>; 
-
-      case 'friends': 
-        return <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>;
-
-      default:
-        return <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>;
-    }
+    
+    //console.log("After OnRouteChange "+ this.state.route);
   }
 
   getComponent(){
@@ -213,32 +202,14 @@ class App extends Component {
   }
 
   render(){
-    const {isSignedIn} = this.state;
+    const {isSignedIn, route} = this.state;
     return (
       <div className="App">
         <Particles className='particles'
           options={particleOptions}
         />
-        {/* <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/> */}
-        {/* { route === 'home' 
-        ? <div>
-            <Logo />
-            <Rank />
-            <ListTextBox
-              onInputChange={this.onInputChange}
-              onButtonSubmit={this.onButtonSubmit}
-              onButtonSave={this.onButtonSave}
-              />
-            <PresetCardList presets={presets}/>
-          </div> 
-        
-        : ( route === 'register'
-            ? <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
-            : <SignIn onRouteChange={this.onRouteChange}/>
 
-          ) 
-        } */}
-        {this.getNavBarComponent()}
+        <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} route={route}/>
         {this.getComponent()}
       </div>
     );
