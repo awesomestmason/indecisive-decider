@@ -16,9 +16,10 @@ const PresetCardList = ({presets}) => {
         {presets.map((user, i) => {
             return [
             <PresetCard 
-            key={i} 
-            id={presets[i].id} 
-            name={presets[i].name}
+              key={i} 
+              id={presets[i].id} 
+              name={presets[i].name}
+              items={preset[i].items}
             />];
              })}
       </div>

@@ -51,7 +51,7 @@ export function addCustomList(name, list){
                       'Authorization': "Bearer "+ token},
             body: JSON.stringify({
                 name: name,
-                preset: list
+                items: list.map(string => ({value: string}))
             })
         })
         .then(async response => {
