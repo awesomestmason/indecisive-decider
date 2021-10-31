@@ -3,7 +3,7 @@ import PresetCard from './PresetCard';
 
 const PresetCardList = ({presets, rngPreset}) => {
     return [
-      <div className='ph7 pv2'
+      <div className='ph7 pv2 ma4'
       style={
         {
           display: 'grid',

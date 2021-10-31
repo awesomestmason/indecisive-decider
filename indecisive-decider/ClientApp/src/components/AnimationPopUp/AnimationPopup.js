@@ -1,15 +1,15 @@
 // Popup Base and Reference taken from: https://www.cluemediator.com/create-simple-popup-in-reactjs
 import React from "react";
-import './CustomListPopup.css';
+import './AnimationPopup.css';
 
-const CustomListPopup = ({handleClose, onListNameChange, onListNameSubmit}) => {
+const AnimationPopup = ({handleClose, onListNameChange, onListNameSubmit}) => {
   return (
     <div className="popup-box ">
       <div className="box center">
         <span className="close-icon" onClick={handleClose}><b>x</b></span>
 
         <div className=" center">
-          <b className="white">Give your list a name.</b>
+          {/* <b className="white">Give your list a name.</b>
             <p></p>
             <input 
               className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
@@ -24,7 +24,7 @@ const CustomListPopup = ({handleClose, onListNameChange, onListNameSubmit}) => {
               className="b ph3 pv2 input-reset ba white b--white bg-transparent grow pointer dib"
               onClick={onListNameSubmit}>
               Submit            
-            </button>
+            </button> */}
         </div>
         
       </div>
@@ -32,4 +32,4 @@ const CustomListPopup = ({handleClose, onListNameChange, onListNameSubmit}) => {
   );
 };
  
-export default CustomListPopup;
+export default AnimationPopup;

@@ -1,8 +1,15 @@
 import React from 'react';
 import './ListTextBox.css';
+import { green } from '@mui/material/colors';
+import {
+    FormGroup,
+    FormControlLabel,
+    Checkbox
+  } from '@material-ui/core';
+import { fontFamily } from '@mui/system';
 
 //<input className='f4 pa2 w-70 center' type='tex' onChange={onInputChange}/>
-const ListTextBox = ( {onInputChange, onButtonSubmit, onButtonSave, isSave} ) => {
+const ListTextBox = ( {animationOn, onInputChange, onButtonSubmit, onButtonSave, isSave} ) => {
     return (
         <div>
             <div className=" ">
@@ -10,16 +17,15 @@ const ListTextBox = ( {onInputChange, onButtonSubmit, onButtonSave, isSave} ) =>
                     <div className='center form pa4 br3 shadow-5 d-flex flex-column '>
                         {/* <input className='f4 pa2 w-70 center' type='tex' onChange={onInputChange}/> */}
                         <textarea className="form-control" style={{resize: 'vertical'}} onChange={onInputChange} rows="5" id="userList" ></textarea>
-                        
                         <div>
-                        <p></p>
-                            <button 
+                            <p></p>
+                                <button 
                                 className='w-30 grow f4 link ph3 pv2 dib white bg-red pointer'
                                 style={{userSelect: 'none'}}
                                 onClick={onButtonSubmit} 
-                            >
+                                >
                                 Submit
-                            </button>
+                                </button>
                             <p></p>
 
                              <button 
@@ -31,7 +37,26 @@ const ListTextBox = ( {onInputChange, onButtonSubmit, onButtonSave, isSave} ) =>
                             </button>
 
                         </div>
-
+                        
+                        <div className="center">
+                            <FormGroup style={{userSelect: 'none'}}>
+                                <FormControlLabel
+                                    value="start" 
+                                    control={<Checkbox defaultChecked color="red" />} 
+                                    label="Toggle Animations" 
+                                    size="medium"
+                                    // sx={{
+                                    // color: green[0],
+                                    // '&.Mui-checked': {
+                                    //     color: green[0],
+                                    //     }
+                                    // }}
+                                    />
+                            </FormGroup>
+                        </div>
+                        
+                        
+                    
                     </div>
                 </div>
             </div>

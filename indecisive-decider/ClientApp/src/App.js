@@ -11,6 +11,7 @@ import Register from './components/Register/Register';
 import ListTextBox from './components/ListTextBox/ListTextBox';
 import PresetCardList from './components/PresetCardList/PresetCardList';
 import ResultBox from './components/ResultBox/ResultBox';
+import AnimationPopup from './components/AnimationPopUp/AnimationPopup';
 import {fetchPresets, fetchPresetsDefaults, addCustomList} from './ApiCalls';
 import { createList, returnRandomItem, getRandomNum, getPreset } from './rng';
 
@@ -104,11 +105,12 @@ class App extends Component {
     this.state = {
       presets: [],
       input: '',
-      customList: '',
       nameInput: '',
+      customList: '',
       result: '',
-      box: {},
       route: 'signIn',
+      animationOn: true,
+      isAnim: false,
       isSignedIn: false,
       isSave: false,
       user: {
@@ -152,11 +154,11 @@ class App extends Component {
     
   }
 
-  onListNameSubmit = () => {
+  onListNameSubmit = async() => {
     //let list = createList(this.state.customList);
     //console.log(list);
     //console.log("Name of List:", this.state.nameInput);
-    addCustomList(this.state.nameInput, createList(this.state.customList));
+    await addCustomList(this.state.nameInput, createList(this.state.customList));
     this.saveToggle();
     fetchPresets()
         .then(users => this.setState({ presets: users}));
@@ -184,6 +186,11 @@ class App extends Component {
     this.setState({isSave: !this.state.isSave});
   }
 
+  animToggle = ()  => {
+    this.setState({isAnim: !this.state.isAnim});
+  }
+  
+
   rngPreset= (items) => {
     this.setState({result: getPreset(items)});
   }
@@ -207,7 +214,7 @@ class App extends Component {
 
 
   getComponent(){
-    const {route, presets, isSave, result} = this.state;
+    const {route, presets, isSave, result, animationOn} = this.state;
     switch(route){
       case 'register': 
         return <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>;
@@ -226,36 +233,23 @@ class App extends Component {
                   <ResultBox result={result}/>
                 }
                 <ListTextBox
+                  animationOn={animationOn}
                   onInputChange={this.onInputChange}
                   onButtonSubmit={this.onButtonSubmit}
                   onButtonSave={this.onButtonSave}
                   isSave={isSave}
                   />
                 {this.state.isSave && 
-                  <CustomListPopup 
-                    content={<>
-                      <b className="white">Give your list a name.</b>
-                      <p></p>
-                      <input 
-                        className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                        type="listName" 
-                        name="listName"
-                        id="listName"
-                        onChange={this.onListNameChange}
-                        />
-                      <p></p>
-                      
-                      <button
-                        className="b ph3 pv2 input-reset ba white b--white bg-transparent grow pointer dib"
-                        onClick={this.onListNameSubmit}
-                      >
-                        Submit            
-                      </button>
+                  <CustomListPopup
+                  handleClose={this.saveToggle}
+                  onListNameChange={this.onListNameChange}
+                  onListNameSubmit={this.onListNameSubmit} />
+                }
 
-                    </>}
-                  handleClose={this.saveToggle}>
-
-                  </CustomListPopup>
+                {this.state.animationOn && this.state.isAnim &&
+                  <AnimationPopup 
+                    handleClose={this.animToggle}
+                  />
                 }
                 
                 <PresetCardList presets={presets} rngPreset={this.rngPreset}/>
