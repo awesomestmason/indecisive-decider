@@ -41,8 +41,7 @@ namespace indecisive_decider.Controllers
         ]
         public async Task<IActionResult> Put([FromBody] PresetDto p)
         {
-            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await VerifyUser();
             if (user == null)
             {
                 return BadRequest("Invalid user");
@@ -64,8 +63,7 @@ namespace indecisive_decider.Controllers
         ]
         public async Task<ActionResult<IEnumerable<PresetWithIdDto>>> Get()
         {
-            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await VerifyUser();
             if (user == null)
             {
                 return BadRequest("Invalid user");
@@ -85,8 +83,7 @@ namespace indecisive_decider.Controllers
         ]
         public async Task<ActionResult> Delete(int presetId)
         {
-            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await VerifyUser();
             if (user == null)
             {
                 return BadRequest("Invalid user");
@@ -136,5 +133,12 @@ namespace indecisive_decider.Controllers
             await presetService.RemoveDefaults();
             return Ok();
         }
+
+        private async Task<ApplicationUser> VerifyUser()
+        {
+            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userService.GetUserByIdAsync(id);
+            return user;
+        }        
     }
 }

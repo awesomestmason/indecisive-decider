@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using indecisive_decider.Data;
 using indecisive_decider.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace indecisive_decider.Services
 {
@@ -24,6 +25,11 @@ namespace indecisive_decider.Services
         public async Task<ApplicationUser> GetUserByIdAsync(string id)
         {
             return await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
+        }
+
+        public async Task<IEnumerable<ApplicationUser>> GetUsersByNameOrEmailAsync(string name)
+        {
+            return await _context.Users.Where(user => user.UserName.Contains(name) || user.Email.Contains(name)).ToListAsync();
         }
     }
 }

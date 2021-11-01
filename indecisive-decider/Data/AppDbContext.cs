@@ -17,6 +17,8 @@ namespace indecisive_decider.Data
         public DbSet<PresetItem> PresetItems { get; set; }
         public DbSet<Preset> Presets { get; set; }
 
+        public DbSet<Friendship> Friendships { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
