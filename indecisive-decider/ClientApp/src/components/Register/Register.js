@@ -99,8 +99,9 @@ class Register extends React.Component {
                     
                     { this.state.ErrorMessage &&
                         <div className=".dark-red {color: #E7040F}">
-                           <p>test</p> 
-                           {this.state.ErrorMessage}
+
+                           <p>{this.state.ErrorMessage}</p>
+                                                       
                         </div>
                     }
                 </main>

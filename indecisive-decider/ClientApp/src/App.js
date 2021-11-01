@@ -3,15 +3,17 @@ import Navigation from './components/Navigation/Navigation';
 import Logo from './components/Logo/Logo';
 import Rank from './components/Rank/Rank';
 import Particles from 'react-tsparticles';
+import SettingsView from './components/UserSettings/Settings';
 import './App.css';
 import SignIn from './components/SignIn/SignIn';
+import CustomListPopup from './components/CustomListPopup/CustomListPopup'
 import Register from './components/Register/Register';
 import ListTextBox from './components/ListTextBox/ListTextBox';
 import PresetCardList from './components/PresetCardList/PresetCardList';
-import {fetchPresets} from './ApiCalls';
-import { fetchPresetsDefaults } from './ApiCalls'
-import {addCustomList} from './ApiCalls';
-import { createList } from './rng';
+import ResultBox from './components/ResultBox/ResultBox';
+import AnimationPopup from './components/AnimationPopUp/AnimationPopup';
+import {fetchPresets, fetchPresetsDefaults, addCustomList} from './ApiCalls';
+import { createList, returnRandomItem, getRandomNum, getPreset } from './rng';
 
 //This constant is used for the particle ambience graphics...
 const particleOptions = {
@@ -103,10 +105,14 @@ class App extends Component {
     this.state = {
       presets: [],
       input: '',
+      nameInput: '',
       customList: '',
-      box: {},
+      result: '',
       route: 'signIn',
+      animationOn: true,
+      isAnim: false,
       isSignedIn: false,
+      isSave: false,
       user: {
         id: '',
         name: '',
@@ -142,18 +148,56 @@ class App extends Component {
     //console.log(event.target.value);
   }
 
-  onButtonSubmit = () =>{
-    //console.log('click');
-    this.setState({customList: this.state.input});
-    console.log(this.state.customList);
+  onListNameChange = (event) => {
+    console.log(event.target.value);
+    this.setState({nameInput: event.target.value});
+    
+  }
+
+  onListNameSubmit = async() => {
+    //let list = createList(this.state.customList);
+    //console.log(list);
+    //console.log("Name of List:", this.state.nameInput);
+    await addCustomList(this.state.nameInput, createList(this.state.customList));
+    this.saveToggle();
+    fetchPresets()
+        .then(users => this.setState({ presets: users}));
   }
 
   onButtonSave = () => {
+    this.saveToggle();
     this.setState({customList: this.state.input});
-    //addCustomList(createList(this.state.customList));
+  }
+
+  //Use asynce if lines of code are superceding each other
+  onButtonSubmit = async() =>{
+    //console.log('click');
+    this.setState({customList: this.state.input});
+    //RNG code here:
+      // create list
+      // get random list item
+      let result = await returnRandomItem(createList(this.state.input));
+      this.setState({result: result});
+      console.log(this.state.result);
+      console.log("actual result from let", result);
+  }
+
+  saveToggle = ()  => {
+    this.setState({isSave: !this.state.isSave});
+  }
+
+  animToggle = ()  => {
+    this.setState({isAnim: !this.state.isAnim});
+  }
+  
+
+  rngPreset= (items) => {
+    this.setState({result: getPreset(items)});
   }
 
   onRouteChange = (route) => {
+    //console.log("before OnRouteChange "+ this.state.route);
+    
     if(route === 'signOut'){
       this.setState({isSignedIn:false})
     } 
@@ -164,35 +208,68 @@ class App extends Component {
         .then(users => this.setState({ presets: users}));
     }
 
-    this.setState({route: route});
+    this.setState({route: route});    
+    //console.log("After OnRouteChange "+ this.state.route);
   }
-  
+
+
+  getComponent(){
+    const {route, presets, isSave, result, animationOn} = this.state;
+    switch(route){
+      case 'register': 
+        return <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>;
+        
+      case 'settings': 
+        return <SettingsView />;; 
+
+      case 'friends': 
+        return <div> Friends To be Implemented</div>;
+
+      case 'home': 
+        return <div>
+                <Logo />
+                <Rank />
+                { result !== "" &&
+                  <ResultBox result={result}/>
+                }
+                <ListTextBox
+                  animationOn={animationOn}
+                  onInputChange={this.onInputChange}
+                  onButtonSubmit={this.onButtonSubmit}
+                  onButtonSave={this.onButtonSave}
+                  isSave={isSave}
+                  />
+                {this.state.isSave && 
+                  <CustomListPopup
+                  handleClose={this.saveToggle}
+                  onListNameChange={this.onListNameChange}
+                  onListNameSubmit={this.onListNameSubmit} />
+                }
+
+                {this.state.animationOn && this.state.isAnim &&
+                  <AnimationPopup 
+                    handleClose={this.animToggle}
+                  />
+                }
+                
+                <PresetCardList presets={presets} rngPreset={this.rngPreset}/>
+              </div>;
+
+      // .. etc
+      default: 
+        return <SignIn onRouteChange={this.onRouteChange}/>
+    }
+  }
+
   render(){
-    const {isSignedIn, route, presets} = this.state;
+    const {isSignedIn, route} = this.state;
     return (
-      <div className="App">
+      <div className="App" style={{}}>
         <Particles className='particles'
           options={particleOptions}
         />
-        <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>
-        { route === 'home' 
-        ? <div>
-            <Logo />
-            <Rank />
-            <ListTextBox
-              onInputChange={this.onInputChange}
-              onButtonSubmit={this.onButtonSubmit}
-              onButtonSave={this.onButtonSave}
-              />
-            <PresetCardList presets={presets}/>
-          </div> 
-        
-        : ( route === 'register'
-            ? <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
-            : <SignIn onRouteChange={this.onRouteChange}/>
-
-          ) 
-        }
+        <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} route={route}/>
+        {this.getComponent()}
       </div>
     );
   }

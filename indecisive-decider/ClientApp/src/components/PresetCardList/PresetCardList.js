@@ -1,9 +1,9 @@
 import React from 'react';
 import PresetCard from './PresetCard';
 
-const PresetCardList = ({presets}) => {
+const PresetCardList = ({presets, rngPreset}) => {
     return [
-      <div className='ph7 pv2'
+      <div className='ph7 pv2 ma4'
       style={
         {
           display: 'grid',
@@ -16,9 +16,11 @@ const PresetCardList = ({presets}) => {
         {presets.map((user, i) => {
             return [
             <PresetCard 
-            key={i} 
-            id={presets[i].id} 
-            name={presets[i].name}
+              key={i} 
+              //id={presets[i].id} 
+              name={presets[i].name}
+              items={presets[i].items}
+              rngPreset = {rngPreset}
             />];
              })}
       </div>
