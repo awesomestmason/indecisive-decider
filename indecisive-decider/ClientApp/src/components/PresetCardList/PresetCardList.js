@@ -1,14 +1,16 @@
 import React from 'react';
 import PresetCard from './PresetCard';
-
+//ph7 pv2 ma4
 const PresetCardList = ({presets, rngPreset}) => {
     return [
-      <div className='ph7 pv2 ma4'
+      <div className='dflex pv2 ma4'
       style={
         {
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gridTemplateRows: '2fr', 
+          // display: 'grid',
+          // alignContent: 'center',
+          // justifyContent: 'center',
+          // gridTemplateColumns: 'repeat(3, 1fr)',
+          // gridAutoRows: 'minmax(100px, auto)', 
           
         }
       }>

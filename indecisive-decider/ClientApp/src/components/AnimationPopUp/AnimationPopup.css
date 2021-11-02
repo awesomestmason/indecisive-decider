@@ -1,6 +1,6 @@
 /* Popup Base and Reference taken from: https://www.cluemediator.com/create-simple-popup-in-reactjs */
 /* Popup style */
-.popup-box {
+.animPopup-box {
   position: fixed;
   background: #00000050;
   width: 100%;
@@ -9,13 +9,13 @@
   left: 0;
 }
  
-.box {
+.animBox {
   position: relative;
   width: 45%;
   margin: 0 auto;
-  height: auto;
+  height: 65%;
   max-height: 70vh;
-  margin-top: calc(100vh - 60vh - 20px);
+  margin-top: calc(100vh - 80vh - 20px);
   background: linear-gradient(to right, #261bc2 , #1861ac);
   border-radius: 4px;
   padding: 20px;
@@ -23,13 +23,13 @@
   overflow: auto;
 }
  
-.close-icon {
+.animClose-icon {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   content: 'x';
   cursor: pointer;
   position: fixed;
   right: calc(28.5% - 30px);
-  top: calc(100vh - 60vh - 30px);
+  top: calc(100vh - 80vh - 30px);
   background: #ededed;
   width: 25px;
   height: 25px;

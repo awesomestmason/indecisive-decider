@@ -9,7 +9,7 @@ import {
 import { fontFamily } from '@mui/system';
 
 //<input className='f4 pa2 w-70 center' type='tex' onChange={onInputChange}/>
-const ListTextBox = ( {animationOn, onInputChange, onButtonSubmit, onButtonSave, isSave} ) => {
+const ListTextBox = ( {animCheckBox, onInputChange, onButtonSubmit, onButtonSave, isSave} ) => {
     return (
         <div>
             <div className=" ">
@@ -42,7 +42,7 @@ const ListTextBox = ( {animationOn, onInputChange, onButtonSubmit, onButtonSave,
                             <FormGroup style={{userSelect: 'none'}}>
                                 <FormControlLabel
                                     value="start" 
-                                    control={<Checkbox defaultChecked color="red" />} 
+                                    control={<Checkbox defaultChecked color="red" onClick={animCheckBox}/>} 
                                     label="Toggle Animations" 
                                     size="medium"
                                     // sx={{

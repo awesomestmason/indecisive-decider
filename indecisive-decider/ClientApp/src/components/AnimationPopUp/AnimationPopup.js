@@ -4,9 +4,9 @@ import './AnimationPopup.css';
 
 const AnimationPopup = ({handleClose, onListNameChange, onListNameSubmit}) => {
   return (
-    <div className="popup-box ">
-      <div className="box center">
-        <span className="close-icon" onClick={handleClose}><b>x</b></span>
+    <div className="animPopup-box ">
+      <div className="animBox center">
+        <span className="animClose-icon" onClick={handleClose}><b>x</b></span>
 
         <div className=" center">
           {/* <b className="white">Give your list a name.</b>

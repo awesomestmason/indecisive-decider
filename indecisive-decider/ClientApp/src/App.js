@@ -109,7 +109,7 @@ class App extends Component {
       customList: '',
       result: '',
       route: 'signIn',
-      animationOn: true,
+      animationOn: true, //this is for checkbox
       isAnim: false,
       isSignedIn: false,
       isSave: false,
@@ -178,8 +178,13 @@ class App extends Component {
       // get random list item
       let result = await returnRandomItem(createList(this.state.input));
       this.setState({result: result});
-      console.log(this.state.result);
-      console.log("actual result from let", result);
+      
+      if(this.state.animationOn){
+        this.animToggle();
+      }
+
+      //console.log(this.state.result);
+      //console.log("actual result from let", result);
   }
 
   saveToggle = ()  => {
@@ -189,9 +194,16 @@ class App extends Component {
   animToggle = ()  => {
     this.setState({isAnim: !this.state.isAnim});
   }
+
+  animCheckBox = () => {
+      this.setState({animationOn: !this.state.animationOn})
+  }
   
 
   rngPreset= (items) => {
+    if(this.state.animationOn){
+      this.animToggle();
+    }
     this.setState({result: getPreset(items)});
   }
 
@@ -214,7 +226,7 @@ class App extends Component {
 
 
   getComponent(){
-    const {route, presets, isSave, result, animationOn} = this.state;
+    const {route, presets, isSave, result} = this.state;
     switch(route){
       case 'register': 
         return <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>;
@@ -233,12 +245,15 @@ class App extends Component {
                   <ResultBox result={result}/>
                 }
                 <ListTextBox
-                  animationOn={animationOn}
+                  animCheckBox={this.animCheckBox}
                   onInputChange={this.onInputChange}
                   onButtonSubmit={this.onButtonSubmit}
                   onButtonSave={this.onButtonSave}
                   isSave={isSave}
                   />
+
+                <PresetCardList presets={presets} rngPreset={this.rngPreset}/>
+                
                 {this.state.isSave && 
                   <CustomListPopup
                   handleClose={this.saveToggle}
@@ -252,7 +267,7 @@ class App extends Component {
                   />
                 }
                 
-                <PresetCardList presets={presets} rngPreset={this.rngPreset}/>
+                
               </div>;
 
       // .. etc
