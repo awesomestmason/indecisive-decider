@@ -1,5 +1,5 @@
+import * as React from 'react';
 import { useState } from 'react';
-import { makeStyles } from '@mui/styles';
 import { styled } from '@mui/material/styles';
 import {
   Box,
@@ -9,11 +9,12 @@ import {
   CardHeader,
   Divider,
   TextField
-} from '@material-ui/core';
+} from '@mui/material';
 
 const RootStyle = styled(Card)({
-  // boxShadow: '10px 5px 5px',
-  backgroundColor: 'rgba(255,255,255,0.1)'
+  boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
+  backgroundColor: 'rgba(255,255,255,0)', // transparent
+  // fontFamily: ['Courier New']
 });
 
 const SettingsPassword = (props) => {
@@ -32,60 +33,62 @@ const SettingsPassword = (props) => {
 
   return (
     <form {...props}>
-      <RootStyle>
-        <CardHeader
-          title="Password"
-        />
-        <Divider />
-        <CardContent>
+    <RootStyle>
+    {/* <Card> */}
+      <CardHeader
+        title="Password"
+      />
+      <Divider />
+      <CardContent>
         <TextField
-            fullWidth
-            label="Old password"
-            margin="normal"
-            name="old password"
-            onChange={handleChange}
-            type="password"
-            value={values.oldpassword}
-            variant="outlined"
-          />
-          <TextField
-            fullWidth
-            label="Password"
-            margin="normal"
-            name="password"
-            onChange={handleChange}
-            type="password"
-            value={values.password}
-            variant="outlined"
-          />
-          <TextField
-            fullWidth
-            label="Confirm password"
-            margin="normal"
-            name="confirm"
-            onChange={handleChange}
-            type="password"
-            value={values.confirm}
-            variant="outlined"
-          />
-        </CardContent>
-        <Divider />
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            p: 2
-          }}
+          fullWidth
+          label="Old password"
+          margin="normal"
+          name="oldpassword"
+          onChange={handleChange}
+          type="password"
+          value={values.oldpassword}
+          variant="outlined"
+        />
+        <TextField
+          fullWidth
+          label="Password"
+          margin="normal"
+          name="password"
+          onChange={handleChange}
+          type="password"
+          value={values.password}
+          variant="outlined"
+        />
+        <TextField
+          fullWidth
+          label="Confirm password"
+          margin="normal"
+          name="confirm"
+          onChange={handleChange}
+          type="password"
+          value={values.confirm}
+          variant="outlined"
+        />
+      </CardContent>
+      <Divider />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          p: 2
+        }}
+      >
+        <Button
+          color="inherit"
+          variant="outlined"
         >
-          <Button
-            color="primary"
-            variant="contained"
-          >
-            Update
-          </Button>
-        </Box>
-      </RootStyle>
-    </form>
+          Update
+        </Button>
+      </Box>
+    {/* </Card> */}
+    </RootStyle>
+  </form>
   );
 };
 

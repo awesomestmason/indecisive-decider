@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import {
@@ -8,11 +9,12 @@ import {
   CardHeader,
   Divider,
   TextField
-} from '@material-ui/core';
+} from '@mui/material';
 
 const RootStyle = styled(Card)({
-  // boxShadow: '10px 5px 5px',
-  backgroundColor: 'rgba(255,255,255,0.1)'
+  boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
+  backgroundColor: 'rgba(255,255,255,0)',// transparent background
+  fontFamily: 'times',
 });
 
 const SettingsProfile = (props) => {
@@ -59,7 +61,7 @@ const SettingsProfile = (props) => {
           />
           <p>Profile Pic</p>
           <Button
-            variant="contained"
+            variant="outlined"
             component="label"
           >
             Upload File
@@ -79,7 +81,7 @@ const SettingsProfile = (props) => {
         >
           <Button
             color="primary"
-            variant="contained"
+            variant="outlined"
           >
             Save
           </Button>
