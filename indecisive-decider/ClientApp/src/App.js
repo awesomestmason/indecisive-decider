@@ -15,6 +15,8 @@ import AnimationPopup from './components/AnimationPopUp/AnimationPopup';
 import {fetchPresets, fetchPresetsDefaults, addCustomList} from './ApiCalls';
 import { createList, returnRandomItem, getRandomNum, getPreset } from './rng';
 
+import FriendList from './components/Friends/FriendList';
+
 //This constant is used for the particle ambience graphics...
 const particleOptions = {
   particles: {
@@ -232,10 +234,11 @@ class App extends Component {
         return <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>;
         
       case 'settings': 
-        return <SettingsView />;; 
+        return <SettingsView />;
 
       case 'friends': 
-        return <div> Friends To be Implemented</div>;
+        // return <div> Friends To be Implemented</div>;
+        return <FriendList />;
 
       case 'home': 
         return <div>
