@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { styled } from '@mui/material/styles';
 import {
   Avatar,
   Box,
@@ -16,68 +17,13 @@ import {
 } from '@mui/material';
 import getInitials from './getInitials';
 
-//TODO transparent UI
-//TODO change page
+//TODO text bold
 
-// import {
-//   // Box,
-//   Button,
-//   // Card,
-//   CardContent,
-//   TextField,
-//   InputAdornment,
-//   SvgIcon
-// } from '@mui/material';
-// import { Search as SearchIcon } from 'react-feather';
-
-// const FriendListToolbar = (props) => (
-//   <Box {...props}>
-//     <Box
-//       sx={{
-//         display: 'flex',
-//         justifyContent: 'flex-end'
-//       }}
-//     >
-//       <Button
-//         color="primary"
-//         variant="contained"
-//       >
-//         Add Friend
-//       </Button>
-//       <Button
-//         color="error"
-//         variant="contained"
-//       >
-//         Delete Friend
-//       </Button>
-//     </Box>
-//     <Box sx={{ mt: 3 }}>
-//       <Card>
-//         <CardContent>
-//           <Box sx={{ maxWidth: 500 }}>
-//             <TextField
-//               fullWidth
-//               InputProps={{
-//                 startAdornment: (
-//                   <InputAdornment position="start">
-//                     <SvgIcon
-//                       fontSize="small"
-//                       color="action"
-//                     >
-//                       <SearchIcon />
-//                     </SvgIcon>
-//                   </InputAdornment>
-//                 )
-//               }}
-//               placeholder="Search Friend"
-//               variant="outlined"
-//             />
-//           </Box>
-//         </CardContent>
-//       </Card>
-//     </Box>
-//   </Box>
-// );
+const RootStyle = styled(Card)({
+  boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
+  backgroundColor: 'rgba(255,255,255,0.01)', // transparent
+  minWidth: 1050,
+});
 
 const FriendListResults = ({ Friends, ...rest }) => {
   const [selectedFriendIds, setSelectedFriendIds] = useState([]);
@@ -126,10 +72,12 @@ const FriendListResults = ({ Friends, ...rest }) => {
   };
 
   return (
-    <Card {...rest}>
+    // <Card {...rest}>
+    <RootStyle {...rest}>
       {/* <FriendListToolbar /> */}
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
+        {/* <RootStyle> */}
           <Table>
             <TableHead>
               <TableRow>
@@ -153,7 +101,9 @@ const FriendListResults = ({ Friends, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {Friends.slice(0, limit).map((Friend) => (
+              {Friends
+                .slice(page * limit, page * limit + limit) // slice page
+                  .map((Friend) => (
                 <TableRow
                   hover
                   key={Friend.id}
@@ -205,7 +155,8 @@ const FriendListResults = ({ Friends, ...rest }) => {
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
       />
-    </Card>
+    {/* </Card> */}
+    </RootStyle>
   );
 };
 
