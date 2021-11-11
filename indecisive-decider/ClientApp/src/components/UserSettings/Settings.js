@@ -7,6 +7,15 @@ import SettingsProfile from './SettingsProfile';
 const theme = createTheme({
   typography: {
    fontFamily: '"Courier New"',
+    body1: {
+      fontWeight: 'bold', // or 'bold'
+    },
+    button: {
+      fontWeight: 'bold', // or 'bold'
+    },
+    h5: {
+      fontWeight: 'bold', // or 'bold'
+    },
   }
 });
 
