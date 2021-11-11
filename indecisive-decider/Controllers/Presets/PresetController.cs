@@ -74,7 +74,7 @@ namespace indecisive_decider.Controllers
 
         
         [Authorize]
-        [HttpDelete]
+        [HttpDelete("{presetId:int}")]
         [SwaggerOperation(
             Summary = "Deletes a user preset",
             Description = "Deletes a user preset",
@@ -94,6 +94,31 @@ namespace indecisive_decider.Controllers
                 return BadRequest("You do not own this preset");
             }
             await presetService.RemovePresetAsync(presetId);
+            return Ok();
+        }
+        [Authorize]
+        [HttpPatch("{presetId:int}")]
+        [SwaggerOperation(
+            Summary = "Updates a user preset",
+            Description = "Updates a user preset",
+            OperationId = "preset.update",
+            Tags = new[] { "PresetEndpoints" })
+        ]
+        public async Task<ActionResult> Update(int presetId, PresetDto updatedPreset)
+        {
+            var user = await VerifyUser();
+            if (user == null)
+            {
+                return BadRequest("Invalid user");
+            }
+            var preset = await presetService.GetPreset(presetId);
+            if (preset == null || preset.Owner?.Id != user.Id)
+            {
+                return BadRequest("You do not own this preset");
+            }
+            Preset p = mapper.Map<Preset>(updatedPreset);
+            p.Id = presetId;
+            await presetService.UpdatePresetAsync(p);
             return Ok();
         }
 
