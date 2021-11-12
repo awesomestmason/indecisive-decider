@@ -7,9 +7,14 @@ import {
   InputAdornment,
   SvgIcon
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { Search as SearchIcon } from 'react-feather';
 
-//TODO transparent UI
+const RootStyle = styled(Card)({
+  boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
+  backgroundColor: 'rgba(255,255,255,0.1)', // transparent
+  minWidth: 1050,
+});
 
 const FriendListToolbar = (props) => (
   <Box {...props}>
@@ -28,13 +33,13 @@ const FriendListToolbar = (props) => (
       <Button
         color="error"
         variant="contained"
-        disabled="false" // TODO click checkbox will change to true
+        disabled="false" // TODO click checkbox -> true
       >
         Delete Friend
       </Button>
     </Box>
     <Box sx={{ mt: 3 }}>
-      <Card>
+      <RootStyle>
         <CardContent>
           <Box sx={{ maxWidth: 500 }}>
             <TextField
@@ -56,7 +61,7 @@ const FriendListToolbar = (props) => (
             />
           </Box>
         </CardContent>
-      </Card>
+      </RootStyle>
     </Box>
   </Box>
 );

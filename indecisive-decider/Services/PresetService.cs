@@ -52,6 +52,12 @@ namespace indecisive_decider.Services
             await _context.Presets.AddAsync(preset);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdatePresetAsync(Preset preset) {
+            _context.Presets.Update(preset);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task AddPresetsAsync(IEnumerable<Preset> preset)
         {
             await _context.Presets.AddRangeAsync(preset);

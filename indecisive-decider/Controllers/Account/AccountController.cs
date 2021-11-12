@@ -16,6 +16,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace indecisive_decider.Controllers
 {
@@ -112,8 +114,73 @@ namespace indecisive_decider.Controllers
             return BadRequest(result.Errors.Select(e => e.Description));
         }
 
+        [Authorize]
+        [HttpPatch("settings")]
+        [SwaggerOperation(
+            Summary = "Changes username and email",
+            Description = "Changes user settings and login data in settings",
+            OperationId = "account.settings",
+            Tags = new[] { "AccountEndpoints" })
+        ]
+        public async Task<ActionResult> UpdateUsernameAndEmail(UpdateAccountRequest request)
+        {
+            var user = await VerifyUser();
+            if(user == null){
+                return BadRequest("User not found");
+            }
+            var emailtoken = await _userManager.GenerateChangeEmailTokenAsync(user, request.Email);
+            await _userManager.ChangeEmailAsync(user, request.Email, emailtoken);
 
+            await _userManager.SetUserNameAsync(user, request.Username);
+
+            return Ok();
+            
+        }
+        
+        [Authorize]
+        [HttpPatch("password")]
+        [SwaggerOperation(
+            Summary = "Changes user Password",
+            Description = "Changes user password in settings",
+            OperationId = "account.password",
+            Tags = new[] { "AccountEndpoints" })
+        ]
+        public async Task<ActionResult> UpdateUserPassword(ChangePasswordRequest request)
+        {
+            var user = await VerifyUser();
+            if(user == null){
+                return BadRequest("User not found");
+            }
+
+            if(request.NewPassword == request.ConfirmNewPassword)
+            {
+                await _userService.ChangeUserPassword(user.Id, request.OldPassword, request.NewPassword);
+                return Ok();
+            }
+            else{
+                return BadRequest("New Password does not match with Confirm Password!");
+            }
+
+        }
+
+        [Authorize]
         [HttpGet]
+        [SwaggerOperation(
+            Summary = "Lists all info of current user",
+            Description = "Lists info of current user",
+            OperationId = "account.info",
+            Tags = new[] { "AccountEndpoints" })
+        ]
+        public async Task<ActionResult<UserDto>> GetCurrentUserInfo()
+        {
+            var user = await VerifyUser();
+            if(user == null){
+                return BadRequest("User not found");
+            }
+            return _mapper.Map<UserDto>(user);
+        }
+
+        [HttpGet("all")]
         [SwaggerOperation(
             Summary = "Lists all registered users",
             Description = "Lists all registered users",
@@ -124,5 +191,13 @@ namespace indecisive_decider.Controllers
         {
             return (await _userService.GetUsers()).Select(e => _mapper.Map<UserDto>(e));
         }
+
+        
+        private async Task<ApplicationUser> VerifyUser()
+        {
+            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userService.GetUserByIdAsync(id);
+            return user;
+        }   
     }
 }
