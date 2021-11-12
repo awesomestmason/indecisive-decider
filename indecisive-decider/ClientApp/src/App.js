@@ -179,7 +179,11 @@ class App extends Component {
       // create list
       // get random list item
       let result = await returnRandomItem(createList(this.state.input));
+      //  console.log("This is before result ",result);
       this.setState({result: result});
+      //  console.log("This is after result ",result);
+      
+      
       
       if(this.state.animationOn){
         this.animToggle();
@@ -264,7 +268,7 @@ class App extends Component {
                   onListNameSubmit={this.onListNameSubmit} />
                 }
 
-                {this.state.animationOn && this.state.isAnim &&
+                {result !== '' && this.state.animationOn && this.state.isAnim &&
                   <AnimationPopup 
                     handleClose={this.animToggle}
                   />

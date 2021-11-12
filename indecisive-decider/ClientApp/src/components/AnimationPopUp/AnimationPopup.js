@@ -1,15 +1,16 @@
 // Popup Base and Reference taken from: https://www.cluemediator.com/create-simple-popup-in-reactjs
 import React from "react";
 import './AnimationPopup.css';
+import Deck from "../AnimationDeck/Deck";
 
 const AnimationPopup = ({handleClose, onListNameChange, onListNameSubmit}) => {
   return (
     <div className="animPopup-box ">
-      <div className="animBox center">
+      <div className="animBox">
         <span className="animClose-icon" onClick={handleClose}><b>x</b></span>
-
-        <div className=" center">
-          {/* <b className="white">Give your list a name.</b>
+        <Deck />
+        {/* <div className="">
+          <b className="white">Give your list a name.</b>
             <p></p>
             <input 
               className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
@@ -24,8 +25,9 @@ const AnimationPopup = ({handleClose, onListNameChange, onListNameSubmit}) => {
               className="b ph3 pv2 input-reset ba white b--white bg-transparent grow pointer dib"
               onClick={onListNameSubmit}>
               Submit            
-            </button> */}
-        </div>
+            </button>
+            
+        </div> */}
         
       </div>
     </div>
