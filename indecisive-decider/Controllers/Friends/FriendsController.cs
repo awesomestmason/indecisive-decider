@@ -54,7 +54,7 @@ namespace indecisive_decider.Controllers
             {
                 return BadRequest("Invalid user");
             }
-            var results = await _friendService.GetFriendships(user, FriendshipStatus.Requested);
+            var results = await _friendService.GetFriendshipsAsync(user, FriendshipStatus.Requested);
             return Ok(results.Select(f => new FriendshipDto(){
                 Id = f.Id,
                 User = _mapper.Map<UserDto>(f.FromUser == user ? f.ToUser : f.FromUser),
@@ -99,13 +99,13 @@ namespace indecisive_decider.Controllers
             if(user.Id == userId){
                 return BadRequest("Cannot request yourself");
             }
-            var currentFriends = await _friendService.GetFriendships(user);
+            var currentFriends = await _friendService.GetFriendshipsAsync(user);
             if(currentFriends.Any(f => f.FromUserId == userId || f.ToUserId == userId))
             {
                 return BadRequest("User is already a friend");
             }
             var friend = await _userService.GetUserByIdAsync(userId);
-            await _friendService.AddFriendshipRequest(user, friend);
+            await _friendService.AddFriendshipRequestAsync(user, friend);
             return Ok();
         }
         
@@ -173,7 +173,7 @@ namespace indecisive_decider.Controllers
             {
                 return BadRequest("Invalid user");
             }
-            var results = await _friendService.GetFriendships(user, FriendshipStatus.Accepted);
+            var results = await _friendService.GetFriendshipsAsync(user, FriendshipStatus.Accepted);
             return Ok(results.Select(f => new FriendshipDto(){
                 Id = f.Id,
                 User = _mapper.Map<UserDto>(f.FromUser == user ? f.ToUser : f.FromUser),

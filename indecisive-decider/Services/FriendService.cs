@@ -18,7 +18,7 @@ namespace indecisive_decider.Services
             _context = context;
         }
 
-        public async Task AddFriendshipRequest(ApplicationUser from, ApplicationUser to)
+        public async Task AddFriendshipRequestAsync(ApplicationUser from, ApplicationUser to)
         {
             await _context.Friendships.AddAsync(new Friendship()
             {
@@ -29,7 +29,7 @@ namespace indecisive_decider.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Friendship>> GetFriendships(ApplicationUser user, FriendshipStatus? status = null)
+        public async Task<IEnumerable<Friendship>> GetFriendshipsAsync(ApplicationUser user, FriendshipStatus? status = null)
         {
             return await _context.Friendships
                 .Include(f => f.FromUser)
