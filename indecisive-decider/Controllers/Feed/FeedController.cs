@@ -44,7 +44,7 @@ namespace indecisive_decider.Controllers.Feed
             Summary = "Shares the result of whatever the user got",
             Description = "Shares User result onto the feed",
             OperationId = "friends.share",
-            Tags = new[] { "FriendsEndpoints" })
+            Tags = new[] { "FeedEndpoints" })
         ]
         public async Task<IActionResult> ShareDecision(ShareDecisionRequest request)
         {
@@ -64,7 +64,7 @@ namespace indecisive_decider.Controllers.Feed
             Summary = "Takes the feed and shows the Feed results",
             Description = "Gets the Feed results from friends",
             OperationId = "friends.show",
-            Tags = new[] { "FriendsEndpoints" })
+            Tags = new[] { "FeedEndpoints" })
         ]
         public async Task<ActionResult<IEnumerable<FeedItemDto>>> GetFeedItems()
         {

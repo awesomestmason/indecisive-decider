@@ -40,6 +40,10 @@ namespace indecisive_decider.Services{
             var user = await _userService.GetUserByIdAsync(userId);
             var friends = await _friendService.GetFriendshipsAsync(user, FriendshipStatus.Accepted);
             List<FeedItem> feedItems = new List<FeedItem>();
+
+            var myDecisions = await GetUserDecisionsAsync(userId, limit);
+            feedItems.AddRange(myDecisions);
+
             foreach(var friendship in friends)
             {
                 var friendId = friendship.FromUserId == userId ? friendship.ToUserId : friendship.FromUserId;
@@ -52,7 +56,9 @@ namespace indecisive_decider.Services{
 
         public async Task<List<FeedItem>> GetUserDecisionsAsync(string userId, int limit = 10)
         {
-            var results = await _context.FeedItems.Where(x => x.UserId == userId).OrderByDescending(x => x.Date).Take(limit).ToListAsync();
+            var results = await _context.FeedItems
+                .Include(x => x.Preset)
+                .Where(x => x.UserId == userId).OrderByDescending(x => x.Date).Take(limit).ToListAsync();
             return results;
         }
     }
