@@ -58,8 +58,32 @@ namespace indecisive_decider.Services{
         {
             var results = await _context.FeedItems
                 .Include(x => x.Preset)
+                .Include(x => x.Comments)
                 .Where(x => x.UserId == userId).OrderByDescending(x => x.Date).Take(limit).ToListAsync();
             return results;
+        }
+
+        public async Task PostCommentAsync(string userId, int feedItemId, string comment)
+        {
+            var commentItem = new FeedComment(){
+                FeedItemId = feedItemId,
+                UserId = userId,
+                Comment = comment,
+                CreatedAt = DateTime.Now
+            };
+            await _context.FeedComments.AddAsync(commentItem);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> DeleteCommentAsync(string userId, int commentId)
+        {
+            var comment = await _context.FeedComments.FirstOrDefaultAsync(x => x.Id == commentId && x.UserId == userId);
+            if(comment == null){
+                return false;
+            }
+            _context.Remove(comment);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

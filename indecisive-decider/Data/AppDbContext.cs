@@ -19,6 +19,7 @@ namespace indecisive_decider.Data
         public DbSet<Friendship> Friendships { get; set; }
 
         public DbSet<FeedItem> FeedItems { get; set; }
+        public DbSet<FeedComment> FeedComments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

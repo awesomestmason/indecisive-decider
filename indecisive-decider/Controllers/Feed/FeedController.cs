@@ -76,6 +76,46 @@ namespace indecisive_decider.Controllers.Feed
             var feedItems = await _feedService.GetFeedItemsAsync(user.Id, limit: 10);
             return Ok(feedItems.Select(x => _mapper.Map<FeedItemDto>(x)));
         }
+        [Authorize]
+        [HttpPost("{feedItemId}")]
+        [SwaggerOperation(
+            Summary = "Posts a comment on a feed item",
+            Description = "Posts a comment on a feed item",
+            OperationId = "friends.comment",
+            Tags = new[] { "FeedEndpoints" })
+        ]
+        public async Task<ActionResult> PostComment(int feedItemId, PostCommentRequest request)
+        {
+            var user = await VerifyUser();
+            if(user == null)
+            {
+                return BadRequest("Invalid user");
+            }
+            await _feedService.PostCommentAsync(user.Id, feedItemId, request.Comment);
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpDelete("{commentId}")]
+        [SwaggerOperation(
+            Summary = "Deletes a comment on a feed item",
+            Description = "Deletes a comment on a feed item",
+            OperationId = "friends.commentDelete",
+            Tags = new[] { "FeedEndpoints" })
+        ]
+        public async Task<ActionResult> DeleteComment(int commentId)
+        {
+            var user = await VerifyUser();
+            if(user == null)
+            {
+                return BadRequest("Invalid user");
+            }
+            var result = await _feedService.DeleteCommentAsync(user.Id, commentId);
+            if(!result){
+                return BadRequest("Error: No permission or No comment");
+            }
+            return Ok();
+        }
 
         private async Task<ApplicationUser> VerifyUser()
         {

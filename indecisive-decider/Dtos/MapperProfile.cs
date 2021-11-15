@@ -26,12 +26,11 @@ namespace indecisive_decider.Dtos
                 .ForMember(item => item.Username, e => {
                     e.MapFrom(source => source.User.UserName);
                 })
-                .ForMember(item => item.Date, e => {
-                    e.MapFrom(source => source.Date.ToString("dd.MM.yyyy HH:mm"));
-                })
                 .ForMember(item => item.PresetName, e => {
                     e.MapFrom(source => source.Preset.Name);
                 });
+
+            CreateMap<FeedComment, FeedItemCommentDto>();
 
 
         }

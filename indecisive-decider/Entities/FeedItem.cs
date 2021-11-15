@@ -1,4 +1,6 @@
 ﻿using System; 
+using System.Collections.Generic;
+
 namespace indecisive_decider.Entities
 {
     public class FeedItem
@@ -13,5 +15,7 @@ namespace indecisive_decider.Entities
         public string Result { get; set; }  //Result
 
         public DateTime Date { get; set; }
+
+        public IList<FeedComment> Comments { get; set; }
     }
 }
