@@ -1,0 +1,12 @@
+.front,
+.back {
+  background-size: cover;
+}
+
+.back {
+  background-image: url(https://i.imgur.com/olzEJf9.png);
+}
+
+.front {
+  background-image: url(https://i.imgur.com/iURlRWk.png);
+}

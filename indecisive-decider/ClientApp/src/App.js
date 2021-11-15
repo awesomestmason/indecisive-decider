@@ -257,6 +257,7 @@ class App extends Component {
                   onButtonSubmit={this.onButtonSubmit}
                   onButtonSave={this.onButtonSave}
                   isSave={isSave}
+                  isAnimationOn={this.state.animationOn}
                   />
 
                 <PresetCardList presets={presets} rngPreset={this.rngPreset}/>
@@ -270,6 +271,7 @@ class App extends Component {
 
                 {result !== '' && this.state.animationOn && this.state.isAnim &&
                   <AnimationPopup 
+                    result={result}
                     handleClose={this.animToggle}
                   />
                 }

@@ -1,5 +1,6 @@
-//Built off of code from :https://codesandbox.io/embed/j0y0vpz59
-//Also :https://medium.com/swlh/tinder-card-swipe-feature-using-react-spring-and-react-use-gesture-7236d7abf2db
+// Built off of code from :https://codesandbox.io/embed/j0y0vpz59
+// Also :https://medium.com/swlh/tinder-card-swipe-feature-using-react-spring-and-react-use-gesture-7236d7abf2db
+// Flipping Card Help From: https://codesandbox.io/s/spring-flip-card-g30zr?file=/src/App.tsx
 
 import React, { useState } from "react";
 import { useSprings } from "react-spring";
@@ -9,16 +10,7 @@ import { useDrag } from "react-use-gesture";
 import Card from "./Card";
 //import "./Deck.css";
 
-const cards = [
-    'https://upload.wikimedia.org/wikipedia/en/f/f5/RWS_Tarot_08_Strength.jpg',
-    'https://upload.wikimedia.org/wikipedia/en/5/53/RWS_Tarot_16_Tower.jpg',
-    'https://upload.wikimedia.org/wikipedia/en/9/9b/RWS_Tarot_07_Chariot.jpg',
-    'https://upload.wikimedia.org/wikipedia/en/d/db/RWS_Tarot_06_Lovers.jpg',
-    'https://upload.wikimedia.org/wikipedia/en/thumb/8/88/RWS_Tarot_02_High_Priestess.jpg/690px-RWS_Tarot_02_High_Priestess.jpg',
-    'https://upload.wikimedia.org/wikipedia/en/d/de/RWS_Tarot_01_Magician.jpg'
-  ]
-
-const cardBack = 'https://i.imgur.com/olzEJf9.png'
+const cards = 6;
 
 // used to randomize which sides cards flow in from 
 //on animation start up
@@ -38,44 +30,23 @@ const to = i => ({
   delay: i * 100
 });
 
-// original card stack
-// const to = i => ({
-//   x: 0,
-//   y: i * -4,
-//   scale: 1,
-//   rot: -10 + Math.random() * 30,
-//   delay: i * 100
-// });
-
 const from = i => ({x: randomSide(5,-5), rot: 0, scale: 1.5, y: 0 });
 
-const to_back = i => ( {x: randomSide(5,-5), rot: 0, scale: 1.5, y: 0 });
-
-const from_back = i => ({
-  x: 0,
-  y: i * -4,
-  scale: 1,
-  rot: -10 + Math.random() * 30,
-  delay: i * 1000
-});
+//const [flipped, set] = useState(false)
 
 // This is being used down there in the view, it interpolates rotation and scale into a css transform
 const trans = (r, s) =>
-  `perspective(1500px) rotateX(30deg) rotateY(${r /
-    10}deg) rotateZ(${r}deg) scale(${s})`;
+  `perspective(1500px) rotateX(30deg) rotateY(${r/10}deg) rotateZ(${r}deg) scale(${s})`;
 
-function Deck() {
+const Deck = (props) => {
+  let result = props.result;
+
   const [gone] = useState(() => new Set()); // The set flags all the cards that are flicked out
 
-  let [props, api] = useSprings(cards.length, i => ({ // Create a bunch of springs using the helpers above
+  let [properties, api] = useSprings(cards, i => ({ // Create a bunch of springs using the helpers above
     ...to(i),
     from: from(i)
   }));
-
-  // [props, api] = useSprings(cards.length-1, i => ({ // Create a bunch of springs using the helpers above
-  //   ...to_back(i),
-  //   from: from_back(i)
-  // }));
 
   // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
   const bind = useDrag(({ args: [index], down, movement: [mx], direction: [xDir], velocity }) => {
@@ -99,10 +70,8 @@ function Deck() {
         //   rot,
         //   scale,
         //   delay: undefined,
-         
         };
       }
-
       //const isGone = gone.has(index)
       const x = down ? mx : 0; // When a card is gone it flys out left or right, otherwise goes back to zero
       const rot = mx / 100; // How much the card tilts, flicking it harder makes it rotate faster
@@ -114,44 +83,10 @@ function Deck() {
         delay: undefined,
         config: { friction: 50, tension: 800},
       }
-    })
-    // if (!down && gone.size === cards.length-1)
-    //   console.log("we have the whole deck other than the card in my hadn in gone");
-    //    setTimeout(() => {
-    //      gone.clear()
-    //      }, 600)
-     }
-     );
-
-  // // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
-  // const bind = useDrag(({ args: [index], down, movement: [mx], direction: [xDir], velocity }) => {
-  //   const trigger = velocity > 0.2 // If you flick hard enough it should trigger the card to fly out
-  //   const dir = xDir < 0 ? -1 : 1 // Direction should either point left or right
-  //   if (!down && trigger) gone.add(index) // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
-  //   api.start(i => {
-  //     if (index !== i) return // We're only interested in changing spring-data for the current spring
-  //     const isGone = gone.has(index)
-  //     const x = isGone ? (200 + window.innerWidth) * dir : down ? mx : 0 // When a card is gone it flys out left or right, otherwise goes back to zero
-  //     const rot = mx / 100 + (isGone ? dir * 10 * velocity : 0) // How much the card tilts, flicking it harder makes it rotate faster
-  //     const scale = down ? 1.1 : 1 // Active cards lift up a bit
-  //     return {
-  //       x,
-  //       rot,
-  //       scale,
-  //       delay: undefined,
-  //       config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 },
-  //     }
-  //   })
-  //   if (!down && gone.size === cards.length)
-  //     setTimeout(() => {
-  //       gone.clear()
-  //       api.start(i => to(i))
-  //       }, 600)
-  //   }
-  //   );
+    })});
 
   // Passing in props to card
-  return props.map(({ x, y, rot, scale }, i) => (
+  return properties.map(({ x, y, rot, scale }, i) => (
     <Card
       i={i}
       x={x}
@@ -160,8 +95,8 @@ function Deck() {
       scale={scale}
       trans={trans}
       cards={cards}
-      cardBack={cardBack}
       bind={bind}
+      result={result}
     />
   ));
 }

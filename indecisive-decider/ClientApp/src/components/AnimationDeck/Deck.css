@@ -24,10 +24,11 @@
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center center;
-    width: 364px;
-    max-width: 364px;
-    height: 510px;
-    max-height: 510px;
+    position: absolute;
+    width: 45vh;
+    max-width: 30vh;
+    height: 85vh;
+    max-height: 50vh;
 
     will-change: transform;
     border-radius: 10px;
