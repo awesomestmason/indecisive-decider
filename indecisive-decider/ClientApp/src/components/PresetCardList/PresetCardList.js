@@ -1,9 +1,9 @@
 import React from 'react';
 import PresetCard from './PresetCard';
 //ph7 pv2 ma4
-const PresetCardList = ({presets, rngPreset}) => {
+const PresetCardList = ({presets, rngPreset, delPreset}) => {
     return [
-      <div className='dflex pv2 ma4'
+      <div className='dflex ma4'
       style={
         {
           // display: 'grid',
@@ -19,10 +19,11 @@ const PresetCardList = ({presets, rngPreset}) => {
             return [
             <PresetCard 
               key={i} 
-              //id={presets[i].id} 
+              id={presets[i].id} 
               name={presets[i].name}
               items={presets[i].items}
               rngPreset = {rngPreset}
+              delPreset = {delPreset}
             />];
              })}
       </div>

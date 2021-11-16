@@ -12,7 +12,14 @@ import ListTextBox from './components/ListTextBox/ListTextBox';
 import PresetCardList from './components/PresetCardList/PresetCardList';
 import ResultBox from './components/ResultBox/ResultBox';
 import AnimationPopup from './components/AnimationPopUp/AnimationPopup';
-import {fetchPresets, fetchPresetsDefaults, addCustomList} from './ApiCalls';
+
+import {fetchPresets, 
+        fetchPresetsDefaults, 
+        addCustomList, 
+        deleteCustomList,
+        editCustomList,
+      } from './ApiCalls';
+      
 import { createList, returnRandomItem, getRandomNum, getPreset } from './rng';
 
 import FriendList from './components/Friends/FriendList';
@@ -139,6 +146,7 @@ class App extends Component {
       }})
   }
 
+  //Get default presets from database
   componentDidMount() {
     fetchPresetsDefaults()
       .then(users => this.setState({ presets: users}));
@@ -156,10 +164,8 @@ class App extends Component {
     
   }
 
+
   onListNameSubmit = async() => {
-    //let list = createList(this.state.customList);
-    //console.log(list);
-    //console.log("Name of List:", this.state.nameInput);
     await addCustomList(this.state.nameInput, createList(this.state.customList));
     this.saveToggle();
     fetchPresets()
@@ -205,6 +211,12 @@ class App extends Component {
       this.setState({animationOn: !this.state.animationOn})
   }
   
+  //Deleting Preset Funtion
+  delPreset = async(id) => {
+    await deleteCustomList(id);
+    fetchPresets()
+        .then(users => this.setState({ presets: users}));
+  }
 
   rngPreset= (items) => {
     if(this.state.animationOn){
@@ -260,7 +272,7 @@ class App extends Component {
                   isAnimationOn={this.state.animationOn}
                   />
 
-                <PresetCardList presets={presets} rngPreset={this.rngPreset}/>
+                <PresetCardList presets={presets} rngPreset={this.rngPreset} delPreset={this.delPreset}/>
                 
                 {this.state.isSave && 
                   <CustomListPopup
