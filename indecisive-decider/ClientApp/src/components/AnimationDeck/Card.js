@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { useSpring ,animated , to as interpolate} from "react-spring";
 import './Deck.css'
 import './Card.css'
+import audioFlip from "../../sounds/cardflip.wav";
 
 const Card = ({ i, x, y, rot, scale, trans, bind, result}) => {
   //const {url} = cards[i];
@@ -56,6 +57,8 @@ const Card = ({ i, x, y, rot, scale, trans, bind, result}) => {
           //backgroundImage: `url(${cardBack})`
         }}
       >
+        
+        { flipped && <audio src={audioFlip} autoPlay/>}
       <div className="white center  flex-column" style={{width:"30vh", height:'50vh'}}>
           <p>
             The Result is:
