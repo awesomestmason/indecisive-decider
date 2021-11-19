@@ -14,7 +14,7 @@ const Rank = () => {
 
             <div>
             <p className='glow white f4'>
-                {'Type in a list of decisions or pick one of the presets to get started'}
+                {'Type in a comma seperated list or pick one of the presets to get started'}
             </p>
             </div>
         </div>

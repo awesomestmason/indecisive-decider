@@ -11,7 +11,6 @@ const AnimationPopup = ({handleClose, result}) => {
         <span className="animClose-icon" onClick={handleClose}><b>x</b></span>
         <audio src={audioTest} autoPlay/>
         <Deck result={result}/> {/* //Our Deck of Cards */}
-
       </div>
     </div>
   );

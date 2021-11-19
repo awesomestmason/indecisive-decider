@@ -12,6 +12,7 @@ import ListTextBox from './components/ListTextBox/ListTextBox';
 import PresetCardList from './components/PresetCardList/PresetCardList';
 import ResultBox from './components/ResultBox/ResultBox';
 import AnimationPopup from './components/AnimationPopUp/AnimationPopup';
+import EditListPopup from './components/EditListPopUp/EditListPopUp';
 
 import {fetchPresets, 
         fetchPresetsDefaults, 
@@ -115,6 +116,8 @@ class App extends Component {
       presets: [],
       input: '',
       nameInput: '',
+      editID: 0,
+      editInput: '',
       customList: '',
       result: '',
       route: 'signIn',
@@ -122,6 +125,7 @@ class App extends Component {
       isAnim: false,
       isSignedIn: false,
       isSave: false,
+      isEdit: false,
       user: {
         id: '',
         name: '',
@@ -151,6 +155,11 @@ class App extends Component {
     fetchPresetsDefaults()
       .then(users => this.setState({ presets: users}));
   }
+
+  refreshPreset() {
+    fetchPresets()
+        .then(users => this.setState({ presets: users}));
+  }
   
   onInputChange = (event) => {
     //console.log(event.target.value);
@@ -159,22 +168,49 @@ class App extends Component {
   }
 
   onListNameChange = (event) => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     this.setState({nameInput: event.target.value});
     
   }
 
-
   onListNameSubmit = async() => {
     await addCustomList(this.state.nameInput, createList(this.state.customList));
     this.saveToggle();
-    fetchPresets()
-        .then(users => this.setState({ presets: users}));
+    this.refreshPreset();
+  }
+
+  onEditChange = (event) =>{
+    this.setState({editInput: event.target.value});
+  }
+
+  onEditSubmit = async (id, name) => {
+    await editCustomList(id, name, createList(this.state.editInput));
+    this.editToggle();
+    this.refreshPreset();
   }
 
   onButtonSave = () => {
     this.saveToggle();
     this.setState({customList: this.state.input});
+  }
+
+  onButtonEdit = (id, name, list) => {
+    this.editToggle();
+
+    let stringList = "";
+    for(let i = 0; i < list.length; i++)
+    {
+      if(i === list.length - 1){
+        stringList += list[i].value;
+      } 
+      else {
+        stringList += list[i].value + ", ";
+      }
+    }
+    
+    this.setState({editInput: stringList});
+    this.setState({editID: id});
+    this.setState({editName: name});
   }
 
   //Use asynce if lines of code are superceding each other
@@ -189,14 +225,16 @@ class App extends Component {
       this.setState({result: result});
       //  console.log("This is after result ",result);
       
-      
-      
       if(this.state.animationOn){
         this.animToggle();
       }
 
       //console.log(this.state.result);
       //console.log("actual result from let", result);
+  }
+
+  editToggle = ()  => {
+    this.setState({isEdit: !this.state.isEdit});
   }
 
   saveToggle = ()  => {
@@ -214,8 +252,7 @@ class App extends Component {
   //Deleting Preset Funtion
   delPreset = async(id) => {
     await deleteCustomList(id);
-    fetchPresets()
-        .then(users => this.setState({ presets: users}));
+    this.refreshPreset();
   }
 
   rngPreset= (items) => {
@@ -234,8 +271,7 @@ class App extends Component {
     
     else if(route === 'home'){
       this.setState({isSignedIn: true});
-      fetchPresets()
-        .then(users => this.setState({ presets: users}));
+      this.refreshPreset();
     }
 
     this.setState({route: route});    
@@ -244,7 +280,14 @@ class App extends Component {
 
 
   getComponent(){
-    const {route, presets, isSave, result} = this.state;
+    const {
+      route, 
+      presets, 
+      isSave, isEdit, 
+      result, 
+      editInput, editID, editName
+    } = this.state;
+    
     switch(route){
       case 'register': 
         return <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>;
@@ -263,6 +306,7 @@ class App extends Component {
                 { result !== "" &&
                   <ResultBox result={result}/>
                 }
+                
                 <ListTextBox
                   animCheckBox={this.animCheckBox}
                   onInputChange={this.onInputChange}
@@ -272,9 +316,25 @@ class App extends Component {
                   isAnimationOn={this.state.animationOn}
                   />
 
-                <PresetCardList presets={presets} rngPreset={this.rngPreset} delPreset={this.delPreset}/>
+                <PresetCardList 
+                  presets={presets} 
+                  rngPreset={this.rngPreset} 
+                  delPreset={this.delPreset}
+                  onButtonEdit={this.onButtonEdit}
+                  />
+                  
+                {isEdit &&
+                  <EditListPopup 
+                    onEditChange={this.onEditChange}
+                    onEditSubmit={this.onEditSubmit}
+                    editInput={editInput}
+                    editID={editID}
+                    editName={editName}
+                    handleClose={this.editToggle}
+                  />
+                }
                 
-                {this.state.isSave && 
+                {isSave && 
                   <CustomListPopup
                   handleClose={this.saveToggle}
                   onListNameChange={this.onListNameChange}

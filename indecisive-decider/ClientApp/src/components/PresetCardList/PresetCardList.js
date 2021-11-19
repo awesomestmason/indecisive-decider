@@ -1,9 +1,9 @@
 import React from 'react';
 import PresetCard from './PresetCard';
 //ph7 pv2 ma4
-const PresetCardList = ({presets, rngPreset, delPreset}) => {
+const PresetCardList = ({presets, rngPreset, delPreset, onButtonEdit, isEdit}) => {
     return [
-      <div className='dflex ma4'
+      <div className='dflex ma4 center'
       style={
         {
           // display: 'grid',
@@ -24,6 +24,7 @@ const PresetCardList = ({presets, rngPreset, delPreset}) => {
               items={presets[i].items}
               rngPreset = {rngPreset}
               delPreset = {delPreset}
+              onButtonEdit = {onButtonEdit}
             />];
              })}
       </div>
