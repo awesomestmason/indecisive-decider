@@ -64,6 +64,44 @@ export function addCustomList(name, list){
     );
 }
 
+export function deleteCustomList(id){
+    return(
+        fetch(`api/preset/${id}`, {
+            method: 'delete',
+            headers: {'Content-Type': 'application/json', 
+                      'Authorization': "Bearer "+ token},
+        })
+        .then(async response => {
+            if(response.ok){
+                return response;
+            }
+            let errmsg = await response.text();
+            throw new Error(errmsg);
+        })
+    );
+}
+
+export function editCustomList(id, name, list){
+    return(
+        fetch(`api/preset/${id}`, {
+            method: 'patch',
+            headers: {'Content-Type': 'application/json', 
+                      'Authorization': "Bearer "+ token},
+            body: JSON.stringify({
+                    name: name,
+                    items: list.map(string => ({value: string}))
+                })
+        })
+        .then(async response => {
+            if(response.ok){
+                return response;
+            }
+            let errmsg = await response.text();
+            throw new Error(errmsg);
+        })
+    );
+}
+
 export function fetchPresets(){
     console.log(token);
     return(
