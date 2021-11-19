@@ -1,6 +1,6 @@
 /* Popup Base and Reference taken from: https://www.cluemediator.com/create-simple-popup-in-reactjs */
 /* Popup style */
-.popup-box {
+.editPopup-box {
     position: fixed;
     background: #00000050;
     width: 100%;
@@ -9,7 +9,7 @@
     left: 0;
   }
    
-  .box {
+  .editBox {
     position: relative;
     width: 45%;
     margin: 0 auto;
@@ -23,7 +23,7 @@
     overflow: auto;
   }
    
-  .close-icon {
+  .editClose-icon {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     content: 'x';
     cursor: pointer;
