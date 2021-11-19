@@ -18,7 +18,7 @@ namespace indecisive_decider.Services
 
         public async Task<Preset> GetPreset(int id)
         {
-            return await _context.Presets.FirstOrDefaultAsync(preset => preset.Id == id);
+            return await _context.Presets.AsNoTracking().Include(e => e.Owner).FirstOrDefaultAsync(preset => preset.Id == id);
         }
 
         public async Task<List<Preset>> GetDefaultPresetsAsync()
