@@ -11,9 +11,11 @@ import {
   TextField
 } from '@mui/material';
 
+import { updatePasswordCred } from '../../ApiCalls';
+
 const RootStyle = styled(Card)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
-  backgroundColor: 'rgba(255,255,255,0)', // transparent
+  backgroundColor: 'rgba(255,255,255,.65)', // transparent
 });
 
 const SettingsPassword = (props) => {
@@ -29,6 +31,11 @@ const SettingsPassword = (props) => {
       [event.target.name]: event.target.value
     });
   };
+
+  const onPasswordSubmit = () => {
+    updatePasswordCred(values.oldpassword, values.password, values.confirm);
+    setValues({oldpassword: '',  password: '', confirm: ''});
+  }
 
   return (
     <form {...props}>
@@ -78,8 +85,9 @@ const SettingsPassword = (props) => {
         }}
       >
         <Button
-          color="inherit"
-          variant="outlined"
+          color="primary"
+          variant="contained"
+          onClick={onPasswordSubmit}
         >
           Update
         </Button>

@@ -9,9 +9,9 @@ const Navigation = ({route, onRouteChange, isSignedIn}) => {
             return(
             
             <nav style={{display: 'flex', justifyContent: 'flex-end', position: 'sticky'}}>
-                <p onClick={() => onRouteChange('home')}  className='f3 link dim black underline pa3 pointers'>Home</p>
-                <p onClick={() => onRouteChange('friends')}  className='f3 link dim black underline pa3 pointers'>Friends</p>
-                <p onClick={() => onRouteChange('signOut')}  className='f3 link dim black underline pa3 pointers'>Sign Out</p>
+                <p onClick={() => onRouteChange('home')}  className='f3 link dim white underline pa3 pointers'>Home</p>
+                <p onClick={() => onRouteChange('friends')}  className='f3 link dim white underline pa3 pointers'>Friends</p>
+                <p onClick={() => onRouteChange('signOut')}  className='f3 link dim white underline pa3 pointers'>Sign Out</p>
             </nav>
         );}
         
@@ -19,9 +19,9 @@ const Navigation = ({route, onRouteChange, isSignedIn}) => {
             
             return(
             <nav style={{display: 'flex', justifyContent: 'flex-end', position: 'sticky'}}>
-                <p onClick={() => onRouteChange('home')}  className='f3 link dim black underline pa3 pointers'>Home</p>
-                <p onClick={() => onRouteChange('settings')}  className='f3 link dim black underline pa3 pointers'>Settings</p>
-                <p onClick={() => onRouteChange('signOut')}  className='f3 link dim black underline pa3 pointers'>Sign Out</p>
+                <p onClick={() => onRouteChange('home')}  className='f3 link dim white underline pa3 pointers'>Home</p>
+                <p onClick={() => onRouteChange('settings')}  className='f3 link dim white underline pa3 pointers'>Settings</p>
+                <p onClick={() => onRouteChange('signOut')}  className='f3 link dim white underline pa3 pointers'>Sign Out</p>
             </nav>
         );}
 
@@ -29,9 +29,9 @@ const Navigation = ({route, onRouteChange, isSignedIn}) => {
             
             return(
             <nav style={{display: 'flex', justifyContent: 'flex-end', position: 'sticky'}}>
-                <p onClick={() => onRouteChange('friends')}  className='f3 link dim black underline pa3 pointers'>Friends</p>
-                <p onClick={() => onRouteChange('settings')}  className='f3 link dim black underline pa3 pointers'>Settings</p>
-                <p onClick={() => onRouteChange('signOut')}  className='f3 link dim black underline pa3 pointers'>Sign Out</p>
+                <p onClick={() => onRouteChange('friends')}  className='f3 link dim white underline pa3 pointers'>Friends</p>
+                <p onClick={() => onRouteChange('settings')}  className='f3 link dim white underline pa3 pointers'>Settings</p>
+                <p onClick={() => onRouteChange('signOut')}  className='f3 link dim white underline pa3 pointers'>Sign Out</p>
             </nav>
         );}
         
@@ -40,8 +40,8 @@ const Navigation = ({route, onRouteChange, isSignedIn}) => {
     else{
         return(
             <nav style={{display: 'flex', justifyContent: 'flex-end'}}>
-            <p onClick={() => onRouteChange('signIn')}  className='f3 link dim black underline pa3 pointers'>Sign In</p>
-            <p onClick={() => onRouteChange('register')}  className='f3 link dim black underline pa3 pointers'>Register</p>
+            <p onClick={() => onRouteChange('signIn')}  className='f3 link dim white underline pa3 pointers'>Sign In</p>
+            <p onClick={() => onRouteChange('register')}  className='f3 link dim white underline pa3 pointers'>Register</p>
             </nav>
         );
     }

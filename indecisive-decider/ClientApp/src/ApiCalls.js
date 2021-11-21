@@ -42,7 +42,28 @@ export function fetchLogin(email, password){
     );
 }
 
-//TODO
+export function fetchPresets(){
+    console.log(token);
+    return(
+        fetch('api/preset',{
+            method: 'get',
+            headers: {'Authorization': "Bearer "+ token},
+        })
+        .then(response => response.json())
+    );
+        
+}
+
+export function fetchPresetsDefaults(){
+    
+    return(
+        fetch('api/preset/defaults')
+            .then(response => response.json())
+
+    );
+        
+}
+
 export function addCustomList(name, list){
     return(
         fetch('api/preset', {
@@ -102,25 +123,45 @@ export function editCustomList(id, name, list){
     );
 }
 
-export function fetchPresets(){
-    console.log(token);
+export function updateCred(name, email){
     return(
-        fetch('api/preset',{
-            method: 'get',
-            headers: {'Authorization': "Bearer "+ token},
+        fetch(`api/Account/settings`, {
+            method: 'patch',
+            headers: {'Content-Type': 'application/json', 
+                      'Authorization': "Bearer "+ token},
+            body: JSON.stringify({
+                    name: name,
+                    email: email,
+                })
         })
-        .then(response => response.json())
+        .then(async response => {
+            if(response.ok){
+                return response;
+            }
+            let errmsg = await response.text();
+            throw new Error(errmsg);
+        })
     );
-        
 }
 
-export function fetchPresetsDefaults(){
-    
+export function updatePasswordCred(oldPassword, newPassword, confirmNewPassword){
     return(
-        fetch('api/preset/defaults')
-            .then(response => response.json())
-
+        fetch(`api/Account/password`, {
+            method: 'patch',
+            headers: {'Content-Type': 'application/json', 
+                      'Authorization': "Bearer "+ token},
+            body: JSON.stringify({
+                    oldPassword: oldPassword,
+                    newPassword: newPassword,
+                    confirmNewPassword: confirmNewPassword
+                })
+        })
+        .then(async response => {
+            if(response.ok){
+                return response;
+            }
+            let errmsg = await response.text();
+            throw new Error(errmsg);
+        })
     );
-        
 }
-

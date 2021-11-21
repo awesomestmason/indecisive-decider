@@ -11,16 +11,17 @@ import {
   TextField
 } from '@mui/material';
 
+import { updateCred } from '../../ApiCalls';
+
 const RootStyle = styled(Card)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
-  backgroundColor: 'rgba(255,255,255,0)',// transparent background
+  backgroundColor: 'rgba(255,255,255,.65)', // transparent
 });
 
 const SettingsProfile = (props) => {
   const [values, setValues] = useState({
     name:'',
     email: '',
-    pic: ''
   });
 
   const handleChange = (event) => {
@@ -29,6 +30,11 @@ const SettingsProfile = (props) => {
       [event.target.name]: event.target.value
     });
   };
+
+  const onCredSubmit = () => {
+    updateCred(values.name, values.email);
+    setValues({name:'', email: ''});
+  }
 
   return (
     <form {...props}>
@@ -58,17 +64,6 @@ const SettingsProfile = (props) => {
             value={values.email}
             variant="outlined"
           />
-          <p>Profile Pic</p>
-          <Button
-            variant="outlined"
-            component="label"
-          >
-            Upload File
-          <input
-            type="file"
-            hidden
-          />
-          </Button>
         </CardContent>
         <Divider />
         <Box
@@ -80,7 +75,8 @@ const SettingsProfile = (props) => {
         >
           <Button
             color="primary"
-            variant="outlined"
+            variant="contained"
+            onClick={onCredSubmit}
           >
             Save
           </Button>
