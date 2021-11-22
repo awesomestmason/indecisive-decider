@@ -141,13 +141,10 @@ class App extends Component {
   loadUser = (data) => {
     this.setState({user: {
         id: data.id,
-        name: data.name,
         email: data.email,
-        hash: data.hash,
-        password: data.password,
-        entries: data.entries,
-        joined: data.joined
-      }})
+        name: data.username
+      }});
+    console.log(this.state.user);
   }
 
   //Get default presets from database
@@ -302,7 +299,7 @@ class App extends Component {
       case 'home': 
         return <div>
                 <Logo />
-                <Rank />
+                <Rank username={this.state.user.name}/>
                 { result !== "" &&
                   <ResultBox result={result}/>
                 }
@@ -353,7 +350,7 @@ class App extends Component {
 
       // .. etc
       default: 
-        return <SignIn onRouteChange={this.onRouteChange}/>
+        return <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
     }
   }
 

@@ -1,6 +1,9 @@
+// This file contains all functions used to make request to the backend server 
+
+// Keep track of user token, used to authenticate users
 let token = "";
 
-
+// Register a new account
 export function fetchRegister(name, email, password){ 
     return fetch('api/account/register', {
         method: 'post',
@@ -23,6 +26,7 @@ export function fetchRegister(name, email, password){
     });
 }
 
+// Login request from a user
 export function fetchLogin(email, password){
     return (
         fetch('api/account/login', {
@@ -42,6 +46,7 @@ export function fetchLogin(email, password){
     );
 }
 
+// Fetch Presets for logged in user
 export function fetchPresets(){
     console.log(token);
     return(
@@ -54,6 +59,8 @@ export function fetchPresets(){
         
 }
 
+// get preset defaults for guests
+// to be used if guest funtionality is implemented
 export function fetchPresetsDefaults(){
     
     return(
@@ -64,6 +71,7 @@ export function fetchPresetsDefaults(){
         
 }
 
+//Add customized lists request for logged in accounts
 export function addCustomList(name, list){
     return(
         fetch('api/preset', {
@@ -85,6 +93,7 @@ export function addCustomList(name, list){
     );
 }
 
+//Delete customized lists for logged in users
 export function deleteCustomList(id){
     return(
         fetch(`api/preset/${id}`, {
@@ -102,6 +111,7 @@ export function deleteCustomList(id){
     );
 }
 
+//Edit customized list for logged in users
 export function editCustomList(id, name, list){
     return(
         fetch(`api/preset/${id}`, {
@@ -123,6 +133,7 @@ export function editCustomList(id, name, list){
     );
 }
 
+//Update credentials for logged in users
 export function updateCred(name, email){
     return(
         fetch(`api/Account/settings`, {
@@ -144,6 +155,7 @@ export function updateCred(name, email){
     );
 }
 
+//Update password for logged in users
 export function updatePasswordCred(oldPassword, newPassword, confirmNewPassword){
     return(
         fetch(`api/Account/password`, {
@@ -164,4 +176,168 @@ export function updatePasswordCred(oldPassword, newPassword, confirmNewPassword)
             throw new Error(errmsg);
         })
     );
+}
+
+/*
+* This section contains all API Calls related to the friends list
+*/
+
+// Gets all Friend Requests
+export function fetchFriendRequests(){
+    return(
+        fetch('api/Friends/request',{
+            method: 'get',
+            headers: {'Authorization': "Bearer "+ token},
+        })
+        .then(response => response.json())
+    );       
+}
+
+// Searches for a friend by username/email
+export function fetchFriendSearch(query){
+    return(
+        fetch(`api/Friends/search/${query}`,{
+            method: 'get',
+            headers: {'Authorization': "Bearer "+ token},
+        })
+        .then(response => response.json())
+    );       
+}
+
+// Make a friend request to another user
+export function fetchRequestFriend(userId){
+    return(
+        fetch(`api/Friends/search/${userId}`,{
+            method: 'get',
+            headers: {'Authorization': "Bearer "+ token},
+        })
+        .then(response => response.json())
+    );       
+}
+
+//Decline a friend request from another user
+export function fetchDeclineFriend(friendshipId){
+    return(
+        fetch(`api/Friends/request/${friendshipId}/decline`,{
+            method: 'get',
+            headers: {'Authorization': "Bearer "+ token},
+        })
+        .then(response => response.json())
+    );       
+}
+
+// Accept the friend request from another user
+export function fetchAcceptFriend(friendshipId){
+    return(
+        fetch(`api/Friends/request/${friendshipId}/accept`,{
+            method: 'get',
+            headers: {'Authorization': "Bearer "+ token},
+        })
+        .then(response => response.json())
+    );       
+}
+
+//Get all friends of the user
+export function fetchFriends(){
+    return(
+        fetch(`api/Friends`,{
+            method: 'get',
+            headers: {'Authorization': "Bearer "+ token},
+        })
+        .then(response => response.json())
+    );       
+}
+
+//Delete a friend that is connected to user
+export function fetchDeleteFriend(friendshipId){
+    return(
+        fetch(`api/Friends/${friendshipId}`,{
+            method: 'delete',
+            headers: {'Authorization': "Bearer "+ token},
+        })
+        .then(async response => {
+            if(response.ok){
+                return response;
+            }
+            let errmsg = await response.text();
+            throw new Error(errmsg);
+        })
+    );
+        
+}
+
+/*
+* This section contains all API Calls related to the Notification Feed
+*/
+
+// Share a result to notification feed
+export function FetchShareToFeed(result, presetId){
+    return(
+        fetch('api/Feed', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json', 
+                      'Authorization': "Bearer "+ token},
+            body: JSON.stringify({
+                result: result,
+                presetId: presetId
+            })
+        })
+        .then(async response => {
+            if(response.ok){
+                return response;
+            }
+            let errmsg = await response.text();
+            throw new Error(errmsg);
+        })
+    );
+}
+
+// Fetch feed results from friends
+export function fetchFeed(){
+    return(
+        fetch(`api/Feed`,{
+            method: 'get',
+            headers: {'Authorization': "Bearer "+ token},
+        })
+        .then(response => response.json())
+    );       
+}
+
+//Fetches all the posted comments on a feed item
+export function fetchPostComment(feedItemId, comment){
+    return(
+        fetch(`api/Friends/${feedItemId}`,{
+            method: 'post',
+            headers: {'Authorization': "Bearer "+ token},
+            body: JSON.stringify({
+                comment: comment
+            })
+        })
+        .then(async response => {
+            if(response.ok){
+                return response;
+            }
+            let errmsg = await response.text();
+            throw new Error(errmsg);
+        })
+    );
+        
+}
+
+//Deletes a comment from the feed item
+export function fetchDeleteComment(commentId){
+    return(
+        fetch(`api/Feed/${commentId}`,{
+            method: 'delete',
+            headers: {'Authorization': "Bearer "+ token},
+        })
+        .then(async response => {
+            if(response.ok){
+                return response;
+            }
+            let errmsg = await response.text();
+            throw new Error(errmsg);
+        })
+    );
+        
 }

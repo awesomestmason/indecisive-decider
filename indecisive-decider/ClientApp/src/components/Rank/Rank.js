@@ -1,11 +1,12 @@
 import React from 'react';
 import './Rank.css';
 
-const Rank = () => {
+
+const Rank = ({username}) => {
     return (
         <div className='glow'>
             <div className='white f1'>
-                {'Welcome to the Indecisive Decider'}
+                {'Welcome to the Indecisive Decider ' + username + '!'}
             </div>
             
             <div className='white f1'>

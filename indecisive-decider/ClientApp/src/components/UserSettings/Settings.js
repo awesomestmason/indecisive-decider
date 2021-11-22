@@ -37,12 +37,12 @@ const SettingsView = () => (
         <SettingsPicture />
       </Box>
 
-      <Box sx={{ pt: 3 }}>
+      {/* <Box sx={{ pt: 3 }}>
         <Button variant="contained" color="error">
           Delete Account
         </Button>
         
-      </Box>
+      </Box> */}
     </Container>
   </ThemeProvider>
 );
