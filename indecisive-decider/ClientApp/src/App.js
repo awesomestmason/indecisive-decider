@@ -293,7 +293,6 @@ class App extends Component {
         return <SettingsView />;
 
       case 'friends': 
-        // return <div> Friends To be Implemented</div>;
         return <FriendList />;
 
       case 'home': 

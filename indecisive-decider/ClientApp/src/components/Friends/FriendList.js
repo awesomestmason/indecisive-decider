@@ -3,6 +3,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import FriendListResults from '../Friends/FriendListResults';
 import FriendListToolbar from '../Friends/FriendListToolbar';
 import Friends from '../Friends/friends';
+//TODO get friend list from backend by API
 
 const theme = createTheme({
   typography: {

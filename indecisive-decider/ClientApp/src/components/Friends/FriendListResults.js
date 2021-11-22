@@ -21,7 +21,11 @@ import getInitials from './getInitials';
 
 const RootStyle = styled(Card)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
-  backgroundColor: 'rgba(255,255,255,0.75)', // transparent
+<<<<<<< HEAD
+  backgroundColor: 'rgba(255,255,255,0.65)', // transparent
+=======
+  backgroundColor: 'rgba(255,255,255,0.65)', // transparent
+>>>>>>> c6265a6162d95f086c689fa2b490bbe4c68b005d
   minWidth: 1050,
 });
 
@@ -72,12 +76,9 @@ const FriendListResults = ({ Friends, ...rest }) => {
   };
 
   return (
-    // <Card {...rest}>
     <RootStyle {...rest}>
-      {/* <FriendListToolbar /> */}
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
-        {/* <RootStyle> */}
           <Table>
             <TableHead>
               <TableRow>
@@ -93,7 +94,7 @@ const FriendListResults = ({ Friends, ...rest }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Name
+                  username
                 </TableCell>
                 <TableCell>
                   Email
@@ -124,16 +125,16 @@ const FriendListResults = ({ Friends, ...rest }) => {
                       }}
                     >
                       <Avatar
-                        src={Friend.avatarUrl}
+                        src={Friend.avatarUrl} //TODO need avatar url api
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(Friend.name)}
+                        {getInitials(Friend.username)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {Friend.name}
+                        {Friend.username}
                       </Typography>
                     </Box>
                   </TableCell>
@@ -155,7 +156,6 @@ const FriendListResults = ({ Friends, ...rest }) => {
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
       />
-    {/* </Card> */}
     </RootStyle>
   );
 };

@@ -48,7 +48,7 @@ export function fetchLogin(email, password){
 
 // Fetch Presets for logged in user
 export function fetchPresets(){
-    console.log(token);
+    //console.log(token);
     return(
         fetch('api/preset',{
             method: 'get',

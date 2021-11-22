@@ -12,7 +12,11 @@ import { Search as SearchIcon } from 'react-feather';
 
 const RootStyle = styled(Card)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
-  backgroundColor: 'rgba(255,255,255,0.75)', // transparent
+<<<<<<< HEAD
+  backgroundColor: 'rgba(255,255,255,0.65)', // transparent
+=======
+  backgroundColor: 'rgba(255,255,255,0.65)', // transparent
+>>>>>>> c6265a6162d95f086c689fa2b490bbe4c68b005d
   minWidth: 1050,
 });
 
