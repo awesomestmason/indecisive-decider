@@ -88,6 +88,7 @@ const SettingsPassword = (props) => {
           color="primary"
           variant="contained"
           onClick={onPasswordSubmit}
+          // onClick{() => onButtonEdit(id, name, items)}
         >
           Update
         </Button>

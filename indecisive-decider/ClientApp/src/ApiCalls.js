@@ -43,7 +43,7 @@ export function fetchLogin(email, password){
 }
 
 export function fetchPresets(){
-    console.log(token);
+    //console.log(token);
     return(
         fetch('api/preset',{
             method: 'get',

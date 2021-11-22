@@ -48,7 +48,7 @@ const SettingsProfile = (props) => {
             fullWidth
             label="Name"
             margin="normal"
-            name="Name"
+            name="name"
             onChange={handleChange}
             type="text"
             value={values.name}
@@ -58,7 +58,7 @@ const SettingsProfile = (props) => {
             fullWidth
             label="E-mail"
             margin="normal"
-            name="E-mail"
+            name="email"
             onChange={handleChange}
             type="email"
             value={values.email}

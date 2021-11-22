@@ -29,8 +29,11 @@ const SettingsView = () => (
       maxWidth="sm"
       >
       <SettingsProfile />
+      {/* <SettingsPassword /> */}
       <Box sx={{ pt: 3 }}>
-        <SettingsPassword />
+        <SettingsPassword 
+          // onButtonEdit
+        />
       </Box>
 
       <Box sx={{ pt: 3 }}>
