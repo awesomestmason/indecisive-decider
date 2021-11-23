@@ -13,10 +13,11 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
+  Typography, Button,
+
 } from '@mui/material';
 import getInitials from './getInitials';
-import { fetchFriends } from '../../ApiCalls';
+
 //TODO text bold
 
 const RootStyle = styled(Card)({
@@ -25,42 +26,42 @@ const RootStyle = styled(Card)({
   minWidth: 1050,
 });
 
-const FriendListResults = ({ Friends, ...rest }) => {
-  const [selectedFriendIds, setSelectedFriendIds] = useState([]);
+const PendingFriendRequest = ({ Requests, ...rest }) => {
+  const [selectedRequestIds, setSelectedRequestIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
   const handleSelectAll = (event) => {
-    let newSelectedFriendIds;
+    let newSelectedRequestIds;
 
     if (event.target.checked) {
-      newSelectedFriendIds = Friends.map((Friend) => Friend.id);
+      newSelectedRequestIds = Requests.map((Request) => Request.id);
     } else {
-      newSelectedFriendIds = [];
+      newSelectedRequestIds = [];
     }
 
-    setSelectedFriendIds(newSelectedFriendIds);
+    setSelectedRequestIds(newSelectedRequestIds);
   };
 
   const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedFriendIds.indexOf(id);
-    let newSelectedFriendIds = [];
+    const selectedIndex = selectedRequestIds.indexOf(id);
+    let newSelectedRequestIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedFriendIds = newSelectedFriendIds.concat(selectedFriendIds, id);
+      newSelectedRequestIds = newSelectedRequestIds.concat(selectedRequestIds, id);
     } else if (selectedIndex === 0) {
-      newSelectedFriendIds = newSelectedFriendIds.concat(selectedFriendIds.slice(1));
-    } else if (selectedIndex === selectedFriendIds.length - 1) {
-      newSelectedFriendIds = newSelectedFriendIds.concat(selectedFriendIds.slice(0, -1));
+      newSelectedRequestIds = newSelectedRequestIds.concat(selectedRequestIds.slice(1));
+    } else if (selectedIndex === selectedRequestIds.length - 1) {
+      newSelectedRequestIds = newSelectedRequestIds.concat(selectedRequestIds.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelectedFriendIds = newSelectedFriendIds.concat(
-        selectedFriendIds.slice(0, selectedIndex),
-        selectedFriendIds.slice(selectedIndex + 1)
+      newSelectedRequestIds = newSelectedRequestIds.concat(
+        selectedRequestIds.slice(0, selectedIndex),
+        selectedRequestIds.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedFriendIds(newSelectedFriendIds);
-    // setDelfriend("true");
+    setSelectedRequestIds(newSelectedRequestIds);
+    // setDelRequest("true");
   };
 
   const handleLimitChange = (event) => {
@@ -80,11 +81,11 @@ const FriendListResults = ({ Friends, ...rest }) => {
               <TableRow>
               <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedFriendIds.length === Friends.length}
+                    checked={selectedRequestIds.length === Requests.length}
                     color="primary"
                     indeterminate={
-                      selectedFriendIds.length > 0
-                      && selectedFriendIds.length < Friends.length
+                      selectedRequestIds.length > 0
+                      && selectedRequestIds.length < Requests.length
                     }
                     onChange={handleSelectAll}
                   />
@@ -98,18 +99,18 @@ const FriendListResults = ({ Friends, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {Friends
+              {Requests
                 .slice(page * limit, page * limit + limit) // slice page
-                  .map((Friend) => (
+                  .map((Request) => (
                 <TableRow
                   hover
-                  key={Friend.id}
-                  selected={selectedFriendIds.indexOf(Friend.id) !== -1}
+                  key={Request.id}
+                  selected={selectedRequestIds.indexOf(Request.id) !== -1}
                 >
                 <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedFriendIds.indexOf(Friend.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, Friend.id)}
+                      checked={selectedRequestIds.indexOf(Request.id) !== -1}
+                      onChange={(event) => handleSelectOne(event, Request.id)}
                       value="true"
                     />
                 </TableCell>
@@ -121,21 +122,35 @@ const FriendListResults = ({ Friends, ...rest }) => {
                       }}
                     >
                       <Avatar
-                        src={Friend.user.avatarUrl} //TODO need avatar url api
+                        src={Request.avatarUrl} //TODO need avatar url api
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(Friend.user.username)}
+                        {getInitials(Request.user.username)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {Friend.user.username}
+                        {Request.user.username}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {Friend.user.email}
+                    {Request.user.email}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                    color="primary"
+                    variant="contained"
+                    >
+                    Accept Friend
+                    </Button>
+                    <Button
+                    color="error"
+                    variant="contained"
+                    >
+                    Decline Friend
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -145,7 +160,7 @@ const FriendListResults = ({ Friends, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={Friends.length}
+        count={Requests.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -156,8 +171,8 @@ const FriendListResults = ({ Friends, ...rest }) => {
   );
 };
 
-FriendListResults.propTypes = {
-  Friends: PropTypes.array.isRequired
+PendingFriendRequest.propTypes = {
+  Requests: PropTypes.array.isRequired
 };
 
-export default FriendListResults;
+export default PendingFriendRequest;

@@ -44,7 +44,7 @@ const ListTextBox = ( {animCheckBox, onInputChange, onButtonSubmit, onButtonSave
                             <FormGroup style={{userSelect: 'none'}}>
                                 <FormControlLabel
                                     value="start" 
-                                    control={<Checkbox defaultChecked color="red" onClick={animCheckBox}/>} 
+                                    control={<Checkbox defaultChecked color="primary" onClick={animCheckBox}/>} 
                                     label="Toggle Animations" 
                                     size="medium"
                                     />

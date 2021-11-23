@@ -338,6 +338,9 @@ export function fetchDeleteComment(commentId){
             let errmsg = await response.text();
             throw new Error(errmsg);
         })
-    );
-        
+    ); 
+}
+
+export function resetToken(){
+    token = "";
 }

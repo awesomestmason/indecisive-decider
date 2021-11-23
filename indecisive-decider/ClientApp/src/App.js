@@ -19,6 +19,7 @@ import {fetchPresets,
         addCustomList, 
         deleteCustomList,
         editCustomList,
+        resetToken,
       } from './ApiCalls';
       
 import { createList, returnRandomItem, getRandomNum, getPreset } from './rng';
@@ -263,7 +264,18 @@ class App extends Component {
     //console.log("before OnRouteChange "+ this.state.route);
     
     if(route === 'signOut'){
-      this.setState({isSignedIn:false})
+      this.setState({isSignedIn:false});
+      this.setState({user: {
+        id: '',
+        name: '',
+        email: '',
+        hash: '',
+        password: '',
+        entries: 0,
+        joined: new Date()
+      }});
+      resetToken();
+
     } 
     
     else if(route === 'home'){
