@@ -133,17 +133,20 @@ class App extends Component {
         email: '',
         hash: '',
         password: '',
+        avatarUrl: '',
         entries: 0,
         joined: new Date()
       }
     }
   }
 
-  loadUser = (data) => {
-    this.setState({user: {
+  loadUser = async(data) => {
+    console.log("Load User data ", data);
+    await this.setState({user: {
         id: data.id,
         email: data.email,
-        name: data.username
+        name: data.username,
+        avatarUrl: data.avatarUrl,
       }});
     console.log(this.state.user);
   }
@@ -309,7 +312,7 @@ class App extends Component {
 
       case 'home': 
         return <div>
-                <Logo />
+                <Logo avatarUrl={this.state.user.avatarUrl}/>
                 <Rank username={this.state.user.name}/>
                 { result !== "" &&
                   <ResultBox result={result}/>

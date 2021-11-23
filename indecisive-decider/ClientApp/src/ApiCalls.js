@@ -329,7 +329,7 @@ export function fetchDeleteComment(commentId){
     return(
         fetch(`api/Feed/${commentId}`,{
             method: 'delete',
-            headers: {'Authorization': "Bearer "+ token},
+            headers: {'Authorization': "Bearer " + token},
         })
         .then(async response => {
             if(response.ok){
@@ -339,6 +339,23 @@ export function fetchDeleteComment(commentId){
             throw new Error(errmsg);
         })
     ); 
+}
+
+export function fetchImageUpload (formData) {
+    return(
+        fetch(`api/ProfilePicture/upload`,{
+            method: 'post',
+            headers: {'Authorization': "Bearer " + token},
+            body: formData,
+        })
+        .then(async data => {
+            if(data.ok){
+                return data;
+            }
+            let errmsg = await data.text();
+            throw new Error(data);
+        }) 
+    );
 }
 
 export function resetToken(){

@@ -20,7 +20,8 @@ namespace indecisive_decider.Dtos
                 });
             CreateMap<PresetItem, PresetItemWithIdDto>();
 
-            CreateMap<ApplicationUser, UserDto>();
+            CreateMap<ApplicationUser, UserDto>()
+                .ForMember(u => u.AvatarUrl, e => e.MapFrom(source => $"api/profilepicture/{source.Id}"));
 
             CreateMap<FeedItem, FeedItemDto>()
                 .ForMember(item => item.Username, e => {
@@ -31,6 +32,7 @@ namespace indecisive_decider.Dtos
                 });
 
             CreateMap<FeedComment, FeedItemCommentDto>();
+
 
 
         }
