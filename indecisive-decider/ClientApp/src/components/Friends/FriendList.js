@@ -1,7 +1,7 @@
 import { Box, Container } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
-import { fetchFriends, fetchFriendRequests } from '../../ApiCalls';
+import { fetchFriends, fetchFriendRequests, fetchFriendSearch } from '../../ApiCalls';
 import FriendListResults from '../Friends/FriendListResults';
 import FriendListToolbar from '../Friends/FriendListToolbar';
 import PendingFriendRequest from '../Friends/PendingFriendRequest';
@@ -37,14 +37,18 @@ const FriendList = () => {
   const [Friends, setFriends] = useState([]);
   const [Requests, setFriendsRequests] = useState([]);
   const [route, setRoute] = useState([]);
+  const [queryResults, setQueryResults] = useState([]);
 
+
+  const onSearchSubmit = (query) => {
+    fetchFriendSearch(query)
+      .then(list => {setQueryResults(list)})
+  };
   
-
   useEffect(() => {
 
     // setRoute('friendsList');
     onRouteChange('friendsList', setRoute);
-
     fetchFriends().then(list => {
       //console.log(list)
       setFriends(list)
@@ -53,6 +57,8 @@ const FriendList = () => {
     fetchFriendRequests().then(list => {
       setFriendsRequests(list);
     });
+
+    setQueryResults([]);
   }, [])
 
   return (
@@ -66,7 +72,12 @@ const FriendList = () => {
           }}
         >
           <Container maxWidth={false}>
-            <FriendListToolbar route={route} onRouteChange={onRouteChange} setRoute={setRoute}/>
+            <FriendListToolbar 
+              route={route} 
+              onRouteChange={onRouteChange} 
+              setRoute={setRoute} 
+              onSearchSubmit={onSearchSubmit}
+              />
             <Box sx={{ 
               pt: 3,
               fontWeight: 500,
@@ -81,7 +92,7 @@ const FriendList = () => {
               }
 
               {route === 'searchFriends' &&
-                <SearchFriendsResults Requests={Requests}/>
+                <SearchFriendsResults queryResults={queryResults}/>
               }
               
 

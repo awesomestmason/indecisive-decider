@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -7,9 +8,9 @@ import {
   InputAdornment,
   SvgIcon
 } from '@mui/material';
-import { green } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 import { Search as SearchIcon } from 'react-feather';
+import { fetchFriendSearch, fetchSendFriendRequest } from '../../ApiCalls';
 
 const RootStyle = styled(Card)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
@@ -17,7 +18,26 @@ const RootStyle = styled(Card)({
   minWidth: 1050,
 });
 
-const FriendListToolbar = ({route, onRouteChange, setRoute}) => {
+
+
+const FriendListToolbar = ({route, onRouteChange, setRoute, onSearchSubmit}) => {
+
+  const [values, setValues] = useState({
+    searchField:'',
+  });
+
+  const handleChange = (event) => {
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value
+    });
+  };
+
+  const onSubmit = () =>{
+    onSearchSubmit(values.searchField);
+    console.log("values.searchField");
+  }
+
   let returnArray = []; //The combination of all things needed to be added as the toolbar
   //console.log(route);
 
@@ -51,18 +71,6 @@ if(route === "friendsList") {
           >
             Add Friends
           </Button>
-          {/* <Button
-            color="primary"
-            variant="contained"
-          >
-            Add Friend
-          </Button> */}
-          {/* <Button
-            color="error"
-            variant="contained"
-          >
-            Delete Friend
-          </Button> */}
         </Box>
         <Box
         sx={{
@@ -111,18 +119,6 @@ else if(route === "pendingFriends") {
         >
           Add Friends
         </Button>
-        {/* <Button
-          color="primary"
-          variant="contained"
-        >
-          Add Friend
-        </Button>
-        <Button
-          color="error"
-          variant="contained"
-        >
-          Delete Friend
-        </Button> */}
       </Box>
       <Box
         sx={{
@@ -186,19 +182,20 @@ else if(route === "searchFriends") {
         >
           Add Friends
         </Button>
-        {/* <Button
-          color="primary"
-          variant="contained"
-        >
-          Add Friend
-        </Button>
-        <Button
-          color="error"
-          variant="contained"
-        >
-          Delete Friend
-        </Button> */}
       </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          mt: "2vh",
+        }}>
+          <Button
+              color="primary"
+              variant="contained"
+            >
+              Send Friend Request
+          </Button>
+        </Box>
     </Box>
   );
 }
@@ -211,6 +208,9 @@ if(route === "searchFriends"){
           <Box sx={{ maxWidth: 500 }}>
             <TextField
               fullWidth
+              name='searchField'
+              onChange={handleChange}
+              values={values.searchField}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -227,6 +227,21 @@ if(route === "searchFriends"){
               variant="outlined"
             />
           </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex',
+              mt: "2vh",
+            }}>
+          <Button
+              color="primary"
+              variant="contained"
+              //onClick={onSearchSubmit(values.searchField)}
+              onClick={onSubmit}
+            >
+              Search Friend
+          </Button>
+        </Box>
         </CardContent>
       </RootStyle>
     </Box>);

@@ -26,42 +26,42 @@ const RootStyle = styled(Card)({
   minWidth: 1050,
 });
 
-const SearchFriendsResults = ({ Requests, ...rest }) => {
-  const [selectedRequestIds, setSelectedRequestIds] = useState([]);
+const SearchFriendsResults = ({ queryResults, ...rest }) => {
+  const [selectedqueryResultIds, setSelectedqueryResultIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
   const handleSelectAll = (event) => {
-    let newSelectedRequestIds;
+    let newSelectedqueryResultIds;
 
     if (event.target.checked) {
-      newSelectedRequestIds = Requests.map((Request) => Request.id);
+      newSelectedqueryResultIds = queryResults.map((queryResult) => queryResult.id);
     } else {
-      newSelectedRequestIds = [];
+      newSelectedqueryResultIds = [];
     }
 
-    setSelectedRequestIds(newSelectedRequestIds);
+    setSelectedqueryResultIds(newSelectedqueryResultIds);
   };
 
   const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedRequestIds.indexOf(id);
-    let newSelectedRequestIds = [];
+    const selectedIndex = selectedqueryResultIds.indexOf(id);
+    let newSelectedqueryResultIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedRequestIds = newSelectedRequestIds.concat(selectedRequestIds, id);
+      newSelectedqueryResultIds = newSelectedqueryResultIds.concat(selectedqueryResultIds, id);
     } else if (selectedIndex === 0) {
-      newSelectedRequestIds = newSelectedRequestIds.concat(selectedRequestIds.slice(1));
-    } else if (selectedIndex === selectedRequestIds.length - 1) {
-      newSelectedRequestIds = newSelectedRequestIds.concat(selectedRequestIds.slice(0, -1));
+      newSelectedqueryResultIds = newSelectedqueryResultIds.concat(selectedqueryResultIds.slice(1));
+    } else if (selectedIndex === selectedqueryResultIds.length - 1) {
+      newSelectedqueryResultIds = newSelectedqueryResultIds.concat(selectedqueryResultIds.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelectedRequestIds = newSelectedRequestIds.concat(
-        selectedRequestIds.slice(0, selectedIndex),
-        selectedRequestIds.slice(selectedIndex + 1)
+      newSelectedqueryResultIds = newSelectedqueryResultIds.concat(
+        selectedqueryResultIds.slice(0, selectedIndex),
+        selectedqueryResultIds.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedRequestIds(newSelectedRequestIds);
-    // setDelRequest("true");
+    setSelectedqueryResultIds(newSelectedqueryResultIds);
+    // setDelqueryResult("true");
   };
 
   const handleLimitChange = (event) => {
@@ -81,11 +81,11 @@ const SearchFriendsResults = ({ Requests, ...rest }) => {
               <TableRow>
               <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedRequestIds.length === Requests.length}
+                    checked={selectedqueryResultIds.length === queryResults.length}
                     color="primary"
                     indeterminate={
-                      selectedRequestIds.length > 0
-                      && selectedRequestIds.length < Requests.length
+                      selectedqueryResultIds.length > 0
+                      && selectedqueryResultIds.length < queryResults.length
                     }
                     onChange={handleSelectAll}
                   />
@@ -99,18 +99,18 @@ const SearchFriendsResults = ({ Requests, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {Requests
+              {queryResults
                 .slice(page * limit, page * limit + limit) // slice page
-                  .map((Request) => (
+                  .map((queryResult) => (
                 <TableRow
                   hover
-                  key={Request.id}
-                  selected={selectedRequestIds.indexOf(Request.id) !== -1}
+                  key={queryResult.id}
+                  selected={selectedqueryResultIds.indexOf(queryResult.id) !== -1}
                 >
                 <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedRequestIds.indexOf(Request.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, Request.id)}
+                      checked={selectedqueryResultIds.indexOf(queryResult.id) !== -1}
+                      onChange={(event) => handleSelectOne(event, queryResult.id)}
                       value="true"
                     />
                 </TableCell>
@@ -122,24 +122,24 @@ const SearchFriendsResults = ({ Requests, ...rest }) => {
                       }}
                     >
                       <Avatar
-                        src={Request.avatarUrl} //TODO need avatar url api
+                        src={queryResult.avatarUrl} //TODO need avatar url api
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(Request.user.username)}
+                        {getInitials(queryResult.username)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {Request.user.username}
+                        {queryResult.username}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {Request.user.email}
+                    {queryResult.email}
                   </TableCell>
                   <TableCell>
-                    <Button
+                    {/* <Button
                     color="primary"
                     variant="contained"
                     >
@@ -150,7 +150,7 @@ const SearchFriendsResults = ({ Requests, ...rest }) => {
                     variant="contained"
                     >
                     Decline Friend
-                    </Button>
+                    </Button> */}
                   </TableCell>
                 </TableRow>
               ))}
@@ -160,7 +160,7 @@ const SearchFriendsResults = ({ Requests, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={Requests.length}
+        count={queryResults.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -172,7 +172,7 @@ const SearchFriendsResults = ({ Requests, ...rest }) => {
 };
 
 SearchFriendsResults.propTypes = {
-  Requests: PropTypes.array.isRequired
+  queryResults: PropTypes.array.isRequired
 };
 
 export default SearchFriendsResults;

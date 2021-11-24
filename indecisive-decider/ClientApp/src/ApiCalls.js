@@ -205,7 +205,7 @@ export function fetchFriendSearch(query){
 }
 
 // Make a friend request to another user
-export function fetchRequestFriend(userId){
+export function fetchSendFriendRequest(userId){
     return(
         fetch(`api/Friends/search/${userId}`,{
             method: 'get',
