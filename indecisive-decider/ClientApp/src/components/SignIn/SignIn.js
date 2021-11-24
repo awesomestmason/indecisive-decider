@@ -22,6 +22,7 @@ class SignIn extends React.Component {
         //console.log(this.state);
         fetchLogin(this.state.signInEmail, this.state.signInPassword)
         .then(data => {
+            //console.log(data);
             this.props.loadUser(data.user);
             this.props.onRouteChange('home');
             
