@@ -41,13 +41,14 @@ namespace indecisive_decider.Services
 
         public async Task DeclineRequestAsync(int id){
             var friendship = await _context.Friendships.FindAsync(id);
+            if(friendship.Status != FriendshipStatus.Requested){
+                return;
+            }
             if(friendship == null)
             {
                 throw new ArgumentException("Invalid id");
             }
-            friendship.Status = FriendshipStatus.Declined;
-            _context.Friendships.Update(friendship);
-            await _context.SaveChangesAsync();
+            await DeleteFriendshipAsync(id);
         }
 
         public async Task AcceptRequestAsync(int id)
@@ -57,6 +58,9 @@ namespace indecisive_decider.Services
             if(friendship == null)
             {
                 throw new ArgumentException("Invalid id");
+            }
+            if(friendship.Status != FriendshipStatus.Requested){
+                return;
             }
             friendship.Status = FriendshipStatus.Accepted;
             _context.Friendships.Update(friendship);

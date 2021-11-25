@@ -25,11 +25,11 @@ const RootStyle = styled(Card)({
   minWidth: 1050,
 });
 
-const FriendListResults = ({ Friends, ...rest }) => {
+const FriendListResults = ({ Friends, setIdResults, ...rest }) => {
   const [selectedFriendIds, setSelectedFriendIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-
+  
   const handleSelectAll = (event) => {
     let newSelectedFriendIds;
 
@@ -121,7 +121,7 @@ const FriendListResults = ({ Friends, ...rest }) => {
                       }}
                     >
                       <Avatar
-                        src={Friend.user.avatarUrl} //TODO need avatar url api
+                        src={Friend.user.avatarUrl}
                         sx={{ mr: 2 }}
                       >
                         {getInitials(Friend.user.username)}

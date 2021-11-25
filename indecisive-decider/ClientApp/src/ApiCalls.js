@@ -185,7 +185,7 @@ export function updatePasswordCred(oldPassword, newPassword, confirmNewPassword)
 // Gets all Friend Requests
 export function fetchFriendRequests(){
     return(
-        fetch('api/Friends/request',{
+        fetch('api/Friends/requests',{
             method: 'get',
             headers: {'Authorization': "Bearer "+ token},
         })
@@ -207,11 +207,18 @@ export function fetchFriendSearch(query){
 // Make a friend request to another user
 export function fetchSendFriendRequest(userId){
     return(
-        fetch(`api/Friends/search/${userId}`,{
+        fetch(`api/Friends/request/${userId}`,{
             method: 'get',
             headers: {'Authorization': "Bearer "+ token},
         })
-        .then(response => response.json())
+        //.then(response => response.json())
+        // .then(async response => {
+        //     if(response.ok){
+        //         return response;
+        //     }
+        //     let errmsg = await response.text();
+        //     throw new Error(errmsg);
+        // })
     );       
 }
 
@@ -222,7 +229,7 @@ export function fetchDeclineFriend(friendshipId){
             method: 'get',
             headers: {'Authorization': "Bearer "+ token},
         })
-        .then(response => response.json())
+        //.then(response => response.json())
     );       
 }
 
@@ -233,7 +240,7 @@ export function fetchAcceptFriend(friendshipId){
             method: 'get',
             headers: {'Authorization': "Bearer "+ token},
         })
-        .then(response => response.json())
+        //.then(response => response.json())
     );       
 }
 

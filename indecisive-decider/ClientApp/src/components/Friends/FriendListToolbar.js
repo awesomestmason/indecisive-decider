@@ -10,7 +10,11 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Search as SearchIcon } from 'react-feather';
-import { fetchFriendSearch, fetchSendFriendRequest } from '../../ApiCalls';
+import { 
+  fetchSendFriendRequest,
+  fetchAcceptFriend,
+  fetchDeclineFriend
+} from '../../ApiCalls';
 
 const RootStyle = styled(Card)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
@@ -18,9 +22,43 @@ const RootStyle = styled(Card)({
   minWidth: 1050,
 });
 
+function removeRequestItem(id, apiCall, Requests){
+  console.log(`Removing ${id} from requests`)
+  apiCall(Requests.filter(req => req.id !== id));
+}
+
+// API for making friend requests
+function makeRequests(results)
+{
+  console.log("Inside makeRequests: ", results);
+  for(let i = 0; i < results.length; i++){
+    fetchSendFriendRequest(results[i]);
+    console.log("HI! This is inside the results:", results[i]);
+  }
+}
+
+function acceptRequests(results, list)
+{
+  console.log("Inside makeRequests: ", results);
+  for(let i = 0; i < results.length; i++){
+    fetchAcceptFriend(results[i]);
+    //removeRequestItem(results[i], fetchAcceptFriend, list);
+    console.log("HI! This is inside the results:", results[i]);
+  }
+}
+
+function declineRequests(results, list)
+{
+  console.log("Inside makeRequests: ", results);
+  for(let i = 0; i < results.length; i++){
+    fetchDeclineFriend(results[i]);
+    //removeRequestItem(results[i], fetchDeclineFriend, list);
+    console.log("HI! This is inside the results:", results[i]);
+  }
+}
 
 
-const FriendListToolbar = ({route, onRouteChange, setRoute, onSearchSubmit}) => {
+const FriendListToolbar = ({route, onRouteChange, setRoute, onSearchSubmit, IdResults, Requests}) => {
 
   const [values, setValues] = useState({
     searchField:'',
@@ -131,8 +169,8 @@ else if(route === "pendingFriends") {
             margin: "1vh",
             //boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )'
           }}
-          color="success"
-          
+          color="primary"
+          onClick={acceptRequests(IdResults, Request)}
           variant="contained"
         >
           Accept Friend
@@ -143,6 +181,7 @@ else if(route === "pendingFriends") {
           //boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )'
         }}
           color="error"
+          onClick={declineRequests(IdResults, Request)}
           variant="contained"
         >
           Decline Friend
@@ -153,6 +192,7 @@ else if(route === "pendingFriends") {
 }
 
 else if(route === "searchFriends") {
+
   returnArray.push(
     <Box >
       <Box
@@ -192,6 +232,7 @@ else if(route === "searchFriends") {
           <Button
               color="primary"
               variant="contained"
+              onClick={() => makeRequests(IdResults)}
             >
               Send Friend Request
           </Button>

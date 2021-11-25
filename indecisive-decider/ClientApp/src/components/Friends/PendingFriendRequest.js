@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { styled } from '@mui/material/styles';
@@ -17,6 +17,7 @@ import {
 
 } from '@mui/material';
 import getInitials from './getInitials';
+import { fetchAcceptFriend, fetchDeclineFriend } from '../../ApiCalls';
 
 //TODO text bold
 
@@ -26,10 +27,14 @@ const RootStyle = styled(Card)({
   minWidth: 1050,
 });
 
-const PendingFriendRequest = ({ Requests, ...rest }) => {
+const PendingFriendRequest = ({ Requests, removeItem, setIdResults, ...rest }) => {
   const [selectedRequestIds, setSelectedRequestIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+
+  useEffect(() => {
+    setIdResults([]);
+  }, [])
 
   const handleSelectAll = (event) => {
     let newSelectedRequestIds;
@@ -41,6 +46,7 @@ const PendingFriendRequest = ({ Requests, ...rest }) => {
     }
 
     setSelectedRequestIds(newSelectedRequestIds);
+    setIdResults(newSelectedRequestIds);
   };
 
   const handleSelectOne = (event, id) => {
@@ -61,6 +67,7 @@ const PendingFriendRequest = ({ Requests, ...rest }) => {
     }
 
     setSelectedRequestIds(newSelectedRequestIds);
+    setIdResults(newSelectedRequestIds);
     // setDelRequest("true");
   };
 
@@ -95,6 +102,9 @@ const PendingFriendRequest = ({ Requests, ...rest }) => {
                 </TableCell>
                 <TableCell>
                   Email
+                </TableCell>
+                <TableCell>
+                  Actions
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -142,12 +152,22 @@ const PendingFriendRequest = ({ Requests, ...rest }) => {
                     <Button
                     color="primary"
                     variant="contained"
+                    onClick={async (e) => {
+                      await fetchAcceptFriend(Request.id);
+                      removeItem(Request.id);
+                      console.log(`Accepting: ${Request.id}`)}
+                    }
                     >
                     Accept Friend
                     </Button>
                     <Button
                     color="error"
                     variant="contained"
+                    onClick={async (e) => {
+                      await fetchDeclineFriend(Request.id);
+                      removeItem(Request.id);
+                      console.log(`Declining: ${Request.id}`)}
+                    }
                     >
                     Decline Friend
                     </Button>

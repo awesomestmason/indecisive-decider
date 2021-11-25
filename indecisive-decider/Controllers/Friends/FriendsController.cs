@@ -55,7 +55,7 @@ namespace indecisive_decider.Controllers
                 return BadRequest("Invalid user");
             }
             var results = await _friendService.GetFriendshipsAsync(user, FriendshipStatus.Requested);
-            return Ok(results.Select(f => new FriendshipDto(){
+            return Ok(results.Where(f => f.ToUserId == user.Id).Select(f => new FriendshipDto(){
                 Id = f.Id,
                 User = _mapper.Map<UserDto>(f.FromUser == user ? f.ToUser : f.FromUser),
             }));

@@ -7,7 +7,7 @@ import FriendListToolbar from '../Friends/FriendListToolbar';
 import PendingFriendRequest from '../Friends/PendingFriendRequest';
 import SearchFriendsResults from './SearchFriendsResults';
 //import Friends from '../Friends/friends';
-
+import Feed from '../Feed/Feed'
 //TODO get friend list from backend by API
 
 const theme = createTheme({
@@ -39,6 +39,8 @@ const FriendList = () => {
   const [route, setRoute] = useState([]);
   const [queryResults, setQueryResults] = useState([]);
 
+  //sending arrays for checkbox
+  const [IdResults, setIdResults] = useState([]);
 
   const onSearchSubmit = (query) => {
     fetchFriendSearch(query)
@@ -49,14 +51,15 @@ const FriendList = () => {
 
     // setRoute('friendsList');
     onRouteChange('friendsList', setRoute);
+
     fetchFriends().then(list => {
       //console.log(list)
       setFriends(list)
-    });
+    })
 
     fetchFriendRequests().then(list => {
       setFriendsRequests(list);
-    });
+    })
 
     setQueryResults([]);
   }, [])
@@ -77,6 +80,10 @@ const FriendList = () => {
               onRouteChange={onRouteChange} 
               setRoute={setRoute} 
               onSearchSubmit={onSearchSubmit}
+              IdResults={IdResults}
+              Friends={Friends}
+              Requests={Requests}
+              queryResults={queryResults}
               />
             <Box sx={{ 
               pt: 3,
@@ -84,18 +91,29 @@ const FriendList = () => {
               }}>
 
               {route === 'friendsList' &&
-                <FriendListResults Friends={Friends}/>
+                <FriendListResults Friends={Friends} setIdResults={setIdResults} removeItem={(id) => {
+                  console.log(`Removing ${id} from Friends List`)
+                  setFriends(Friends.filter(req => req.id !== id));
+                }}/>
               }
               
               {route === 'pendingFriends' &&
-                <PendingFriendRequest Requests={Requests}/>
+                <PendingFriendRequest Requests={Requests} setIdResults={setIdResults} removeItem={(id) => {
+                  console.log(`Removing ${id} from pending requests`)
+                  setFriendsRequests(Requests.filter(req => req.id !== id));
+                }}/>
               }
 
               {route === 'searchFriends' &&
-                <SearchFriendsResults queryResults={queryResults}/>
+                <SearchFriendsResults queryResults={queryResults} setIdResults={setIdResults} removeItem={(id) => {
+                  console.log(`Removing ${id} from query results`)
+                  setQueryResults(queryResults.filter(req => req.id !== id));
+                }}/>
               }
               
-
+            </Box>
+            <Box>
+              <Feed />
             </Box>
           </Container>
         </Box>
