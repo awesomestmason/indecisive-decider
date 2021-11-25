@@ -158,7 +158,7 @@ else if(route === "pendingFriends") {
           Add Friends
         </Button>
       </Box>
-      <Box
+      {/* <Box
         sx={{
           display: 'flex',
           justifyContent: 'flex-end',
@@ -186,7 +186,7 @@ else if(route === "pendingFriends") {
         >
           Decline Friend
         </Button>
-        </Box>
+        </Box> */}
     </Box>
   );
 }

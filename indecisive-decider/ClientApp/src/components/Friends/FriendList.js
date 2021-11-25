@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material';
+import { Box, Container, Tab, Table, TableBody, TableCell } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
 import { fetchFriends, fetchFriendRequests, fetchFriendSearch } from '../../ApiCalls';
@@ -85,36 +85,45 @@ const FriendList = () => {
               Requests={Requests}
               queryResults={queryResults}
               />
-            <Box sx={{ 
-              pt: 3,
-              fontWeight: 500,
-              }}>
+            <Table>
+              <TableCell>
+              <Box sx={{ 
+                pt: 3,
+                fontWeight: 500,
+                }}>
 
-              {route === 'friendsList' &&
-                <FriendListResults Friends={Friends} setIdResults={setIdResults} removeItem={(id) => {
-                  console.log(`Removing ${id} from Friends List`)
-                  setFriends(Friends.filter(req => req.id !== id));
-                }}/>
-              }
-              
-              {route === 'pendingFriends' &&
-                <PendingFriendRequest Requests={Requests} setIdResults={setIdResults} removeItem={(id) => {
-                  console.log(`Removing ${id} from pending requests`)
-                  setFriendsRequests(Requests.filter(req => req.id !== id));
-                }}/>
-              }
+                {route === 'friendsList' &&
+                  <FriendListResults Friends={Friends} setIdResults={setIdResults} removeItem={(id) => {
+                    console.log(`Removing ${id} from Friends List`)
+                    setFriends(Friends.filter(req => req.id !== id));
+                  }}/>
+                }
+                
+                {route === 'pendingFriends' &&
+                  <PendingFriendRequest Requests={Requests} setIdResults={setIdResults} removeItem={(id) => {
+                    console.log(`Removing ${id} from pending requests`)
+                    setFriendsRequests(Requests.filter(req => req.id !== id));
+                  }}/>
+                }
 
-              {route === 'searchFriends' &&
-                <SearchFriendsResults queryResults={queryResults} setIdResults={setIdResults} removeItem={(id) => {
-                  console.log(`Removing ${id} from query results`)
-                  setQueryResults(queryResults.filter(req => req.id !== id));
-                }}/>
-              }
-              
-            </Box>
-            <Box>
-              <Feed />
-            </Box>
+                {route === 'searchFriends' &&
+                  <SearchFriendsResults queryResults={queryResults} setIdResults={setIdResults} removeItem={(id) => {
+                    console.log(`Removing ${id} from query results`)
+                    setQueryResults(queryResults.filter(req => req.id !== id));
+                  }}/>
+                }
+              </Box>
+              </TableCell>
+              <TableCell>
+                <Box>
+                  <Feed />
+                </Box>
+              </TableCell>
+            
+
+
+            </Table>
+            
           </Container>
         </Box>
         </ThemeProvider>
