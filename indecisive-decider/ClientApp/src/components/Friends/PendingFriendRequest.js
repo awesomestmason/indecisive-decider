@@ -24,7 +24,7 @@ import { fetchAcceptFriend, fetchDeclineFriend } from '../../ApiCalls';
 const RootStyle = styled(Card)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
   backgroundColor: 'rgba(255,255,255,0.65)', // transparent
-  minWidth: 1050,
+  // minWidth: 1050,
 });
 
 const PendingFriendRequest = ({ Requests, removeItem, setIdResults, ...rest }) => {

@@ -1,4 +1,4 @@
-import { Box, Container, Tab, Table, TableBody, TableCell } from '@mui/material';
+import { Box, Container, Tab, Grid } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
 import { fetchFriends, fetchFriendRequests, fetchFriendSearch } from '../../ApiCalls';
@@ -86,9 +86,9 @@ const FriendList = () => {
               queryResults={queryResults}
               setFriends={setFriends}
               />
-            <Table>
-              <TableCell>
-              <Box sx={{ 
+          <Grid container spacing={2} sx={{mt: "2vh"}}>
+            <Grid item xs={8}>
+            <Box sx={{ 
                 pt: 3,
                 fontWeight: 500,
                 }}>
@@ -113,17 +113,19 @@ const FriendList = () => {
                     setQueryResults(queryResults.filter(req => req.id !== id));
                   }}/>
                 }
-              </Box>
-              </TableCell>
-              <TableCell>
-                <Box>
+              </Box>  
+            </Grid> 
+            <Grid item xs={4}>
+              <Box>
                   <Feed />
                 </Box>
-              </TableCell>
+            </Grid>  
+                
+          </Grid>   
             
 
 
-            </Table>
+          
             
           </Container>
         </Box>

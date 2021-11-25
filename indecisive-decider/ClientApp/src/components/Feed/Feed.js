@@ -38,6 +38,12 @@ const theme = createTheme({
     }
 });  
 
+const RootStyle = styled(Card)({
+  // boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
+  backgroundColor: 'rgba(255,255,255,0.65)', // transparent
+  // minWidth: 1050,
+});
+
 const ExpandMore = styled((props) => {
   //create a style called ExpandMore
   const { expand, ...other } = props;
@@ -61,7 +67,7 @@ export default function RecipeReviewCard() {
   };
 
   return data.map(({ id, result, presetName, username, date, comments }) => (
-    <Card sx={false}>
+    <RootStyle sx={false}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -108,6 +114,6 @@ export default function RecipeReviewCard() {
           ))}
         </CardContent>
       </Collapse>
-    </Card>
+    </RootStyle>
   ));
 }
