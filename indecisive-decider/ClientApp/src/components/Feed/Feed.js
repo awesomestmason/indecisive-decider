@@ -13,9 +13,10 @@ import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Divider from "@mui/material/Divider";
 
 import SendComment from "./SendComment";
-import Comment from "./Comment";
+import CommentContent from "./CommentContent";
 import data from "../Feed/data";
 
 // const { id, result, presetName, username, date, comments } = data[1];
@@ -60,7 +61,6 @@ export default function RecipeReviewCard() {
   };
 
   return data.map(({ id, result, presetName, username, date, comments }) => (
-    // data.map
     <Card sx={false}>
       <CardHeader
         avatar={
@@ -100,12 +100,12 @@ export default function RecipeReviewCard() {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <SendComment />
-          {/* {comments.map((comment, i) => (
-            <div key={comment._id}>
+          {comments.map((commentContent, i) => (
+            <div key={commentContent.id}>
               <Divider />
-              <Comment comment={comment} />
+              <CommentContent commentContent={commentContent} />
             </div>
-          ))} */}
+          ))}
         </CardContent>
       </Collapse>
     </Card>
