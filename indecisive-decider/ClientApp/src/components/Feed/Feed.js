@@ -59,7 +59,7 @@ export default function RecipeReviewCard() {
     setExpanded(!expanded);
   };
 
-  return [].map(({ id, result, presetName, username, date, comments }) => (
+  return data.map(({ id, result, presetName, username, date, comments }) => (
     // data.map
     <Card sx={false}>
       <CardHeader
