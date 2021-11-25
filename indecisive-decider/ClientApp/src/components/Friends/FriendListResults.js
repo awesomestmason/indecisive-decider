@@ -61,6 +61,7 @@ const FriendListResults = ({ Friends, setIdResults, ...rest }) => {
 
     setSelectedFriendIds(newSelectedFriendIds);
     // setDelfriend("true");
+    setIdResults(newSelectedFriendIds);
   };
 
   const handleLimitChange = (event) => {
@@ -79,7 +80,7 @@ const FriendListResults = ({ Friends, setIdResults, ...rest }) => {
             <TableHead>
               <TableRow>
               <TableCell padding="checkbox">
-                  <Checkbox
+                  {/* <Checkbox
                     checked={selectedFriendIds.length === Friends.length}
                     color="primary"
                     indeterminate={
@@ -87,7 +88,7 @@ const FriendListResults = ({ Friends, setIdResults, ...rest }) => {
                       && selectedFriendIds.length < Friends.length
                     }
                     onChange={handleSelectAll}
-                  />
+                  /> */}
                 </TableCell>
                 <TableCell>
                   Username

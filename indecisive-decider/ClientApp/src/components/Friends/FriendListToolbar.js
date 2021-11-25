@@ -13,7 +13,8 @@ import { Search as SearchIcon } from 'react-feather';
 import { 
   fetchSendFriendRequest,
   fetchAcceptFriend,
-  fetchDeclineFriend
+  fetchDeclineFriend,
+  fetchDeleteFriend
 } from '../../ApiCalls';
 
 const RootStyle = styled(Card)({
@@ -25,6 +26,15 @@ const RootStyle = styled(Card)({
 function removeRequestItem(id, apiCall, Requests){
   console.log(`Removing ${id} from requests`)
   apiCall(Requests.filter(req => req.id !== id));
+}
+
+function removeFriends(idResults, apiCall, Friends){
+  console.log(`Removing ${idResults} from requests`)
+  for(let i = 0; i < idResults.length; i++)
+  {
+    apiCall(Friends.filter(req => req.id !== idResults[i]));
+    fetchDeleteFriend(idResults[i]);
+  }
 }
 
 // API for making friend requests
@@ -58,7 +68,7 @@ function declineRequests(results, list)
 }
 
 
-const FriendListToolbar = ({route, onRouteChange, setRoute, onSearchSubmit, IdResults, Requests}) => {
+const FriendListToolbar = ({route, onRouteChange, setRoute, onSearchSubmit, IdResults, Requests, Friends, setFriends}) => {
 
   const [values, setValues] = useState({
     searchField:'',
@@ -119,6 +129,10 @@ if(route === "friendsList") {
           <Button
               color="error"
               variant="contained"
+              onClick={async event => {
+                //console.log("Sending friend request to user " + queryResult.id);
+                await removeFriends(IdResults, setFriends, Friends);
+              }}
             >
               Delete Friend
           </Button>

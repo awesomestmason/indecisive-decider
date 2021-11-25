@@ -84,6 +84,7 @@ const FriendList = () => {
               Friends={Friends}
               Requests={Requests}
               queryResults={queryResults}
+              setFriends={setFriends}
               />
             <Table>
               <TableCell>
