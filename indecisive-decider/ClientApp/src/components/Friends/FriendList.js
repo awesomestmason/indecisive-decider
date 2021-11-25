@@ -115,7 +115,7 @@ const FriendList = () => {
                 }
               </Box>  
             </Grid> 
-            <Grid item xs={4}>
+            <Grid item xs={4} sx={{mt: "2.5vh"}}>
               <Box>
                   <Feed />
                 </Box>
