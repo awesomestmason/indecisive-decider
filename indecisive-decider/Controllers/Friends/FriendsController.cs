@@ -125,11 +125,10 @@ namespace indecisive_decider.Controllers
                 return BadRequest("Invalid user");
             }
             try{
-                await _friendService.AcceptRequestAsync(friendRequestId);
+                await _friendService.DeclineRequestAsync(friendRequestId);
             }catch(ArgumentException e){
                 return BadRequest(e.Message);
             }
-            await _friendService.DeclineRequestAsync(friendRequestId);
             return Ok();
         }
 
