@@ -212,11 +212,12 @@ export function fetchSendFriendRequest(userId){
             headers: {'Authorization': "Bearer "+ token},
         })
         //.then(response => response.json())
-        // .then(async response => {
-        //     if(response.ok){
-        //         return response;
-        //     }
-        //     let errmsg = await response.text();
+        .then(async response => {
+             if(response.ok){
+                 return response;
+             }
+             let errmsg = await response.text();
+             alert(errmsg)})
         //     throw new Error(errmsg);
         // })
     );       

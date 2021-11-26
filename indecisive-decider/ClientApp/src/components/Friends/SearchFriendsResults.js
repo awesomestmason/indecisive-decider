@@ -99,7 +99,7 @@ const SearchFriendsResults = ({ queryResults, removeItem, setIdResults, ...rest 
             <TableHead>
               <TableRow>
               <TableCell padding="checkbox">
-                  <Checkbox
+                  {/* <Checkbox
                     checked={selectedQueryResultIds.length === queryResults.length}
                     color="primary"
                     indeterminate={
@@ -107,7 +107,7 @@ const SearchFriendsResults = ({ queryResults, removeItem, setIdResults, ...rest 
                       && selectedQueryResultIds.length < queryResults.length
                     }
                     onChange={handleSelectAll}
-                  />
+                  /> */}
                 </TableCell>
                 <TableCell>
                   Username
@@ -130,12 +130,12 @@ const SearchFriendsResults = ({ queryResults, removeItem, setIdResults, ...rest 
                   selected={selectedQueryResultIds.indexOf(queryResult.id) !== -1}
                 >
                 <TableCell padding="checkbox">
-                    <Checkbox
+                    {/* <Checkbox
                       //checked={(event) => checkedBox(event, queryResult.id)}
                       checked={(selectedQueryResultIds.indexOf(queryResult.id) !== -1)}
                       onChange={(event) => handleSelectOne(event, queryResult.id)}
                       value="true"
-                    />
+                    /> */}
                 </TableCell>
                   <TableCell>
                     <Box

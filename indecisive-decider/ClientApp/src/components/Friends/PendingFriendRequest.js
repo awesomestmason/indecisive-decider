@@ -17,7 +17,7 @@ import {
 
 } from '@mui/material';
 import getInitials from './getInitials';
-import { fetchAcceptFriend, fetchDeclineFriend } from '../../ApiCalls';
+import { fetchAcceptFriend, fetchDeclineFriend, fetchFriendRequests } from '../../ApiCalls';
 
 //TODO text bold
 
@@ -27,12 +27,20 @@ const RootStyle = styled(Card)({
   // minWidth: 1050,
 });
 
-const PendingFriendRequest = ({ Requests, removeItem, setIdResults, ...rest }) => {
+const PendingFriendRequest = ({removeItem, setIdResults, ...rest }) => {
   const [selectedRequestIds, setSelectedRequestIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [Requests, setFriendsRequests] = useState([]);
+
+  function refreshRequests(){
+    fetchFriendRequests().then(list => {
+      setFriendsRequests(list);
+    });
+  }
 
   useEffect(() => {
+    refreshRequests();
     setIdResults([]);
   }, [])
 
@@ -87,7 +95,7 @@ const PendingFriendRequest = ({ Requests, removeItem, setIdResults, ...rest }) =
             <TableHead>
               <TableRow>
               <TableCell padding="checkbox">
-                  <Checkbox
+                  {/* <Checkbox
                     checked={selectedRequestIds.length === Requests.length}
                     color="primary"
                     indeterminate={
@@ -95,7 +103,7 @@ const PendingFriendRequest = ({ Requests, removeItem, setIdResults, ...rest }) =
                       && selectedRequestIds.length < Requests.length
                     }
                     onChange={handleSelectAll}
-                  />
+                  /> */}
                 </TableCell>
                 <TableCell>
                   Username
@@ -118,11 +126,11 @@ const PendingFriendRequest = ({ Requests, removeItem, setIdResults, ...rest }) =
                   selected={selectedRequestIds.indexOf(Request.id) !== -1}
                 >
                 <TableCell padding="checkbox">
-                    <Checkbox
+                    {/* <Checkbox
                       checked={selectedRequestIds.indexOf(Request.id) !== -1}
                       onChange={(event) => handleSelectOne(event, Request.id)}
                       value="true"
-                    />
+                    /> */}
                 </TableCell>
                   <TableCell>
                     <Box
@@ -155,6 +163,7 @@ const PendingFriendRequest = ({ Requests, removeItem, setIdResults, ...rest }) =
                     onClick={async (e) => {
                       await fetchAcceptFriend(Request.id);
                       removeItem(Request.id);
+                      refreshRequests();
                       console.log(`Accepting: ${Request.id}`)}
                     }
                     >

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { styled } from '@mui/material/styles';
@@ -13,10 +13,10 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
+  Typography, Button
 } from '@mui/material';
 import getInitials from './getInitials';
-import { fetchFriends } from '../../ApiCalls';
+import { fetchDeleteFriend, fetchFriends} from '../../ApiCalls';
 //TODO text bold
 
 const RootStyle = styled(Card)({
@@ -25,11 +25,23 @@ const RootStyle = styled(Card)({
   // minWidth: 1050,
 });
 
-const FriendListResults = ({ Friends, setIdResults, ...rest }) => {
+const FriendListResults = ({setIdResults, removeItem, ...rest }) => {
+  const [Friends, setFriends] = useState([]);
   const [selectedFriendIds, setSelectedFriendIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   
+  function refreshFriends(){
+    fetchFriends().then(list => {
+      setFriends(list)
+    });
+  }
+
+  useEffect(() => {
+    refreshFriends();
+    setIdResults([]);
+  }, [])
+
   const handleSelectAll = (event) => {
     let newSelectedFriendIds;
 
@@ -96,6 +108,9 @@ const FriendListResults = ({ Friends, setIdResults, ...rest }) => {
                 <TableCell>
                   Email
                 </TableCell>
+                <TableCell>
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -108,11 +123,11 @@ const FriendListResults = ({ Friends, setIdResults, ...rest }) => {
                   selected={selectedFriendIds.indexOf(Friend.id) !== -1}
                 >
                 <TableCell padding="checkbox">
-                    <Checkbox
+                    {/* <Checkbox
                       checked={selectedFriendIds.indexOf(Friend.id) !== -1}
                       onChange={(event) => handleSelectOne(event, Friend.id)}
                       value="true"
-                    />
+                    /> */}
                 </TableCell>
                   <TableCell>
                     <Box
@@ -137,7 +152,23 @@ const FriendListResults = ({ Friends, setIdResults, ...rest }) => {
                   </TableCell>
                   <TableCell>
                     {Friend.user.email}
-                  </TableCell>
+                  </TableCell>   
+                  <TableCell>
+                    <Button
+                      color="error"
+                      variant="contained"
+                      onClick={async (e) => {
+                        await fetchDeleteFriend(Friend.id);
+                        
+                        removeItem(Friend.id);
+                        console.log(`Accepting: ${Friend.id}`)
+                        refreshFriends();
+                        }
+                      }
+                      >
+                      Delete
+                      </Button>
+                    </TableCell>
                 </TableRow>
               ))}
             </TableBody>

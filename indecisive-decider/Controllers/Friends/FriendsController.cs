@@ -104,6 +104,7 @@ namespace indecisive_decider.Controllers
             {
                 return BadRequest("User is already a friend");
             }
+            //calls badrequest even when they are not officially friends
             var friend = await _userService.GetUserByIdAsync(userId);
             await _friendService.AddFriendshipRequestAsync(user, friend);
             return Ok();

@@ -28,22 +28,23 @@ function removeRequestItem(id, apiCall, Requests){
   apiCall(Requests.filter(req => req.id !== id));
 }
 
-function removeFriends(idResults, apiCall, Friends){
+async function removeFriends(idResults, apiCall, Friends){
   console.log(`Removing ${idResults} from requests`)
   for(let i = 0; i < idResults.length; i++)
   {
+    await fetchDeleteFriend(idResults[i]);
     apiCall(Friends.filter(req => req.id !== idResults[i]));
-    fetchDeleteFriend(idResults[i]);
   }
 }
 
 // API for making friend requests
-function makeRequests(results)
+async function makeRequests(idResults, apiCall, queryResults)
 {
-  console.log("Inside makeRequests: ", results);
-  for(let i = 0; i < results.length; i++){
-    fetchSendFriendRequest(results[i]);
-    console.log("HI! This is inside the results:", results[i]);
+  console.log("Inside makeRequests: ", idResults);
+  for(let i = 0; i < idResults.length; i++){
+    await fetchSendFriendRequest(idResults[i]);
+    apiCall(queryResults.filter(req => req.id !== idResults[i]));
+    //console.log("HI! This is inside the results:", results[i]);
   }
 }
 
@@ -68,7 +69,19 @@ function declineRequests(results, list)
 }
 
 
-const FriendListToolbar = ({route, onRouteChange, setRoute, onSearchSubmit, IdResults, Requests, Friends, setFriends}) => {
+const FriendListToolbar = ({
+    route, 
+    onRouteChange, 
+    setRoute, 
+    onSearchSubmit, 
+    IdResults, 
+    Requests, 
+    setFriendsRequests, 
+    Friends, 
+    setFriends, 
+    queryResults,
+    setQueryResults
+  }) => {
 
   const [values, setValues] = useState({
     searchField:'',
@@ -126,7 +139,7 @@ if(route === "friendsList") {
           justifyContent: 'flex-end',
           mt: "2vh",
         }}>
-          <Button
+          {/* <Button
               color="error"
               variant="contained"
               onClick={async event => {
@@ -135,7 +148,7 @@ if(route === "friendsList") {
               }}
             >
               Delete Friend
-          </Button>
+          </Button> */}
         </Box>
       </Box>
     );
@@ -243,13 +256,13 @@ else if(route === "searchFriends") {
           justifyContent: 'flex-end',
           mt: "2vh",
         }}>
-          <Button
+          {/* <Button
               color="primary"
               variant="contained"
-              onClick={() => makeRequests(IdResults)}
+              onClick={() => makeRequests(IdResults, setQueryResults, queryResults)}
             >
               Send Friend Request
-          </Button>
+          </Button> */}
         </Box>
     </Box>
   );

@@ -52,14 +52,14 @@ const FriendList = () => {
     // setRoute('friendsList');
     onRouteChange('friendsList', setRoute);
 
-    fetchFriends().then(list => {
-      //console.log(list)
-      setFriends(list)
-    })
+    // fetchFriends().then(list => {
+    //   //console.log(list)
+    //   setFriends(list)
+    // })
 
-    fetchFriendRequests().then(list => {
-      setFriendsRequests(list);
-    })
+    // fetchFriendRequests().then(list => {
+    //   setFriendsRequests(list);
+    // })
 
     setQueryResults([]);
   }, [])
@@ -82,9 +82,11 @@ const FriendList = () => {
               onSearchSubmit={onSearchSubmit}
               IdResults={IdResults}
               Friends={Friends}
-              Requests={Requests}
-              queryResults={queryResults}
               setFriends={setFriends}
+              Requests={Requests}
+              setFriendsRequests={setFriendsRequests}
+              queryResults={queryResults}
+              setQueryResults={setQueryResults}
               />
           <Grid container spacing={2} sx={{mt: "2vh"}}>
             <Grid item xs={8}>
@@ -94,14 +96,16 @@ const FriendList = () => {
                 }}>
 
                 {route === 'friendsList' &&
-                  <FriendListResults Friends={Friends} setIdResults={setIdResults} removeItem={(id) => {
+                  //<FriendListResults Friends={Friends} setIdResults={setIdResults} removeItem={(id) => {
+                  <FriendListResults setIdResults={setIdResults} removeItem={(id) => {
                     console.log(`Removing ${id} from Friends List`)
                     setFriends(Friends.filter(req => req.id !== id));
                   }}/>
                 }
                 
                 {route === 'pendingFriends' &&
-                  <PendingFriendRequest Requests={Requests} setIdResults={setIdResults} removeItem={(id) => {
+                  //<PendingFriendRequest Requests={Requests} setIdResults={setIdResults} removeItem={(id) => {
+                  <PendingFriendRequest setIdResults={setIdResults} removeItem={(id) => {
                     console.log(`Removing ${id} from pending requests`)
                     setFriendsRequests(Requests.filter(req => req.id !== id));
                   }}/>
