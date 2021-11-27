@@ -31,7 +31,7 @@ namespace indecisive_decider.Util
 
         private static List<Claim> GetValidClaims(ApplicationUser user)
         {
-            var expiry = (int)(DateTime.UtcNow.AddMinutes(60) - DateTime.UnixEpoch).TotalSeconds;
+            var expiry = (int)(DateTime.UtcNow.AddDays(7) - DateTime.UnixEpoch).TotalSeconds;
             IdentityOptions _options = new IdentityOptions();
             var claims = new List<Claim>
             {
