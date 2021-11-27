@@ -23,12 +23,23 @@ class ResultBox extends React.Component {
         return [
         <div>
             <div className=" ">
-                <div disabled={shared} className='center b ph3 mb4 mt2 pa4 pv2 br3 input-reset ba b--black bg-transparent dib' style={{backgroundColor: 'rgba(255, 255, 255, 0.8)'}}> 
+                <div 
+                    disabled={shared} 
+                    className='center b ph3 mb4 mt2 pa4 pv2 br3 input-reset ba b--black bg-transparent dib' 
+                    style={{backgroundColor: 'rgba(255, 255, 255, 0.8)'}
+                }> 
                     <p>{'The result for your list is:'}</p>
                     <p className="b f3">{result}</p>
-                    {canShare && <button disabled={shared} onClick={this.shareDecision} className={shared ? 'b ph3 pv2 input-reset ba b--black bg-grey black' : 'b ph3 pv2 input-reset ba b--black bg-blue white grow pointer dib'}>
-                        Share Your Result!
-                    </button>}
+                    {canShare && 
+                        <button 
+                            disabled={shared} 
+                            onClick={this.shareDecision} 
+                            className= {shared 
+                                ? 'b ph3 pv2 input-reset ba b--black bg-grey black' 
+                                : 'b ph3 pv2 input-reset ba b--black bg-blue white grow pointer dib'
+                            }>
+                            Share Your Result!
+                        </button>}
                 </div>
             </div>  
         </div>
