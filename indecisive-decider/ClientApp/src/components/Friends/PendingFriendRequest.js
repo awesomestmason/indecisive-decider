@@ -175,6 +175,7 @@ const PendingFriendRequest = ({removeItem, setIdResults, ...rest }) => {
                     onClick={async (e) => {
                       await fetchDeclineFriend(Request.id);
                       removeItem(Request.id);
+                      refreshRequests();
                       console.log(`Declining: ${Request.id}`)}
                     }
                     >

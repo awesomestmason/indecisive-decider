@@ -20,11 +20,13 @@ import {fetchPresets,
         deleteCustomList,
         editCustomList,
         resetToken,
+        setToken
       } from './ApiCalls';
       
-import { createList, returnRandomItem, getRandomNum, getPreset } from './rng';
+import { createList, returnRandomItem, getPreset } from './rng';
 
 import FriendList from './components/Friends/FriendList';
+import { hasSavedUser, getSavedUser, deleteUser } from './util/localStorageUtil';
 
 //This constant is used for the particle ambience graphics...
 const particleOptions = {
@@ -140,6 +142,7 @@ class App extends Component {
     }
   }
 
+
   loadUser = async(data) => {
     console.log("Load User data ", data);
     await this.setState({user: {
@@ -151,10 +154,25 @@ class App extends Component {
     console.log(this.state.user);
   }
 
+  signInFromLocal = () => {
+    if(this.state.isSignedIn){
+      return;
+    }
+    if(!hasSavedUser()){
+        return;
+    }
+    var loginResponse = getSavedUser();
+    setToken(loginResponse.jwtToken);
+    this.loadUser(loginResponse.user);
+    console.log(loginResponse);
+    this.onRouteChange("home");
+  }
   //Get default presets from database
   componentDidMount() {
     fetchPresetsDefaults()
       .then(users => this.setState({ presets: users}));
+    this.signInFromLocal();
+
   }
 
   refreshPreset() {
@@ -278,8 +296,8 @@ class App extends Component {
         joined: new Date()
       }});
       resetToken();
-
-    } 
+      deleteUser();
+    }   
     
     else if(route === 'home'){
       this.setState({isSignedIn: true});
@@ -312,6 +330,7 @@ class App extends Component {
 
       case 'home': 
         return <div>
+                
                 <Logo avatarUrl={this.state.user.avatarUrl}/>
                 <Rank username={this.state.user.name}/>
                 { result !== "" &&

@@ -1,7 +1,13 @@
+import { saveUser } from './util/localStorageUtil'
+
 // This file contains all functions used to make request to the backend server 
 
 // Keep track of user token, used to authenticate users
 let token = "";
+
+export function setToken(jwtToken){
+    token = jwtToken;
+}
 
 // Register a new account
 export function fetchRegister(name, email, password){ 
@@ -41,6 +47,7 @@ export function fetchLogin(email, password){
         .then(response => {
             console.log(response);
             token = response.jwtToken;
+            saveUser(response);
             return response;
         })
     );

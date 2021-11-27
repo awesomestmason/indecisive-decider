@@ -74,13 +74,6 @@ const FriendListToolbar = ({
     onRouteChange, 
     setRoute, 
     onSearchSubmit, 
-    IdResults, 
-    Requests, 
-    setFriendsRequests, 
-    Friends, 
-    setFriends, 
-    queryResults,
-    setQueryResults
   }) => {
 
   const [values, setValues] = useState({

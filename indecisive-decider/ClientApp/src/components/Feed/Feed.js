@@ -48,7 +48,7 @@ const ExpandMore = styled((props) => {
   //create a style called ExpandMore
   const { expand, ...other } = props;
   //... is for other props
-  console.log(other);
+  //console.log(other);
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",

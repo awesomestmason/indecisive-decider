@@ -4,10 +4,7 @@ import './Logo.css';
 //import gundam from './icons8-mobile-suit-gundam-90.png'
 //import gura from './Gura Galaxy Brain.jpg'
 
-
-
 const Logo = ({avatarUrl}) => {
-    console.log(avatarUrl);
     return (
         <div className='ma4 mt0'>
         <Tilt className="Tilt br2 shadow-2" options={{ max : 55 }} style={{ height: 200, width: 200 }} >

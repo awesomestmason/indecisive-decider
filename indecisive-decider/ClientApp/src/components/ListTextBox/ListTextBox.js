@@ -22,7 +22,7 @@ const ListTextBox = ( {animCheckBox, onInputChange, onButtonSubmit, onButtonSave
                         <div>
                             <p></p>
                                 <button 
-                                className='w-30 grow f4 link ph3 pv2 dib white bg-red pointer'
+                                className='b ph3 pv2 input-reset ba b--black bg-blue white grow pointer dib'
                                 style={{userSelect: 'none'}}
                                 onClick={onButtonSubmit} 
                                 >
@@ -31,8 +31,8 @@ const ListTextBox = ( {animCheckBox, onInputChange, onButtonSubmit, onButtonSave
                             <p></p>
 
                              <button 
-                                className='w-30 grow f4 link ph3 pv2 dib white bg-blue pointer'
-                                style={{userSelect: 'none'}}
+                                className='b ph3 pv2 input-reset ba b--black white grow pointer dib'
+                                style={{userSelect: 'none', backgroundColor: 'rgb(11, 158, 43)'}}
                                 onClick={onButtonSave}
                              >
                                 Save List
