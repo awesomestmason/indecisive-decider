@@ -8,7 +8,7 @@ class Register extends React.Component {
             Email: '',
             Password: '',
             Name: '',
-            ErrorMessage: ''
+            ErrorMessage: []
         }
     }
     
@@ -32,9 +32,8 @@ class Register extends React.Component {
                 this.props.onRouteChange('signIn');
             }
         }).catch(error => {
-            //alert(error);
-            console.log(error);
-            this.setState({ErrorMessage: error.toString()});
+            console.log(error.message);
+            this.setState({ErrorMessage: JSON.parse(error.message) });
         })
     };
 
@@ -91,19 +90,12 @@ class Register extends React.Component {
                         <div>
                             <p></p>
                         </div>
-                        <div className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer dib">
-                            <p onClick={() => this.props.onRouteChange('home')} className="f5 link dim black db pointer" > Continue As Guest </p>
+                        <div className="red">
+                            {this.state.ErrorMessage.map(msg => <p>{msg}</p>)}
                         </div>
-
                     </div>
                     
-                    { this.state.ErrorMessage &&
-                        <div className=".dark-red {color: #E7040F}">
 
-                           <p>{this.state.ErrorMessage}</p>
-                                                       
-                        </div>
-                    }
                 </main>
             </article>
         );

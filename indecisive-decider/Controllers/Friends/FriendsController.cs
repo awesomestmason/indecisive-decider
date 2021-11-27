@@ -102,7 +102,7 @@ namespace indecisive_decider.Controllers
             var currentFriends = await _friendService.GetFriendshipsAsync(user);
             if(currentFriends.Any(f => f.FromUserId == userId || f.ToUserId == userId))
             {
-                return BadRequest("User is already a friend");
+                return BadRequest("User is already a friend or you have already sent a request to that user");
             }
             //calls badrequest even when they are not officially friends
             var friend = await _userService.GetUserByIdAsync(userId);

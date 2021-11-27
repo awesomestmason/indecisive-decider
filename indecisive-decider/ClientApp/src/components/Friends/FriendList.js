@@ -46,6 +46,7 @@ const FriendList = () => {
     fetchFriendSearch(query)
       .then(list => {setQueryResults(list)})
   };
+
   
   useEffect(() => {
 
@@ -75,26 +76,36 @@ const FriendList = () => {
           }}
         >
           <Container maxWidth={false}>
-            <FriendListToolbar 
-              route={route} 
-              onRouteChange={onRouteChange} 
-              setRoute={setRoute} 
-              onSearchSubmit={onSearchSubmit}
-              IdResults={IdResults}
-              Friends={Friends}
-              setFriends={setFriends}
-              Requests={Requests}
-              setFriendsRequests={setFriendsRequests}
-              queryResults={queryResults}
-              setQueryResults={setQueryResults}
-              />
+          {/* Original Tool Bar Placement */}
+          <FriendListToolbar 
+                      route={route} 
+                      onRouteChange={onRouteChange} 
+                      setRoute={setRoute} 
+                      onSearchSubmit={onSearchSubmit}
+                      IdResults={IdResults}
+                      Friends={Friends}
+                      setFriends={setFriends}
+                      Requests={Requests}
+                      setFriendsRequests={setFriendsRequests}
+                      queryResults={queryResults}
+                      setQueryResults={setQueryResults}
+                />
           <Grid container spacing={2} sx={{mt: "2vh"}}>
+            <Grid item xs={4} sx={{mt: "2.5vh"}}>
+                <div style={{overflowX:'hidden'}}>
+                <Box>
+                  <div className="glow white f1">Feed</div>
+                  <Feed />
+                </Box>
+                </div>
+            </Grid>
+            
             <Grid item xs={8}>
             <Box sx={{ 
                 pt: 3,
                 fontWeight: 500,
                 }}>
-
+                <div className="glow white f1">Friends</div>
                 {route === 'friendsList' &&
                   //<FriendListResults Friends={Friends} setIdResults={setIdResults} removeItem={(id) => {
                   <FriendListResults setIdResults={setIdResults} removeItem={(id) => {
@@ -112,18 +123,15 @@ const FriendList = () => {
                 }
 
                 {route === 'searchFriends' &&
-                  <SearchFriendsResults queryResults={queryResults} setIdResults={setIdResults} removeItem={(id) => {
-                    console.log(`Removing ${id} from query results`)
-                    setQueryResults(queryResults.filter(req => req.id !== id));
-                  }}/>
+                      
+                      <SearchFriendsResults queryResults={queryResults} setIdResults={setIdResults} removeItem={(id) => {
+                      console.log(`Removing ${id} from query results`)
+                      setQueryResults(queryResults.filter(req => req.id !== id));
+                    }}/>
+
                 }
               </Box>  
-            </Grid> 
-            <Grid item xs={4} sx={{mt: "2.5vh"}}>
-              <Box>
-                  <Feed />
-                </Box>
-            </Grid>  
+            </Grid>   
                 
           </Grid>   
             

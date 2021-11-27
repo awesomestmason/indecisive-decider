@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
-
+import { fetchPostComment } from "../../ApiCalls";
 const useStyles = makeStyles((theme) => ({
   root: {
     // backgroundColor: "yellow",
@@ -31,22 +31,23 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SendComment() {
+export default function SendComment({feedId, onCommentAdd}) {
   const classes = useStyles();
-
   const [value, setValue] = useState("");
 
   const handleOnChange = (e) => {
     setValue(e.target.value);
   };
 
-  const handleClick = (e) => {
-    console.log("SEND MESSAGE");
+  const handleClick = () => {
+    fetchPostComment(feedId, value);
+    onCommentAdd(value);
+    setValue("");
+    console.log("SEND COMMENT"); // do something
   };
 
   return (
     <div id="comment-send" className={classes.root}>
-      {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" /> */}
       <Paper className={classes.paper}>
         <TextField
           value={value}

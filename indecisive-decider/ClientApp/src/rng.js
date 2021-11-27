@@ -18,7 +18,7 @@ export function returnRandomItem(userList)
 //just a getting random function from a min and max value
 export function getRandomNum(min, max)
 {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    return Math.floor(Math.random() * (parseInt(max) - parseInt(min) + 1) + parseInt(min));
 }
 
 //function for the presets
