@@ -286,7 +286,8 @@ export function fetchDeleteFriend(friendshipId){
 */
 
 // Share a result to notification feed
-export function FetchShareToFeed(result, presetId){
+export function fetchShareToFeed(result, presetId){
+    console.log(`posting feed: ${result} id: ${presetId}`)
     return(
         fetch('api/Feed', {
             method: 'post',
@@ -321,9 +322,9 @@ export function fetchFeed(){
 //Fetches all the posted comments on a feed item
 export function fetchPostComment(feedItemId, comment){
     return(
-        fetch(`api/Friends/${feedItemId}`,{
+        fetch(`api/Feed/${feedItemId}`,{
             method: 'post',
-            headers: {'Authorization': "Bearer "+ token},
+            headers: {'Content-Type': 'application/json', 'Authorization': "Bearer "+ token},
             body: JSON.stringify({
                 comment: comment
             })

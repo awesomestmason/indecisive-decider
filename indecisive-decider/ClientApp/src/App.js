@@ -23,7 +23,7 @@ import {fetchPresets,
         setToken
       } from './ApiCalls';
       
-import { createList, returnRandomItem, getPreset } from './rng';
+import { createList, returnRandomItem, getPreset, getRandomNum } from './rng';
 
 import FriendList from './components/Friends/FriendList';
 import { hasSavedUser, getSavedUser, deleteUser } from './util/localStorageUtil';
@@ -123,6 +123,7 @@ class App extends Component {
       editInput: '',
       customList: '',
       result: '',
+      presetId: 0,
       route: 'signIn',
       animationOn: true, //this is for checkbox
       isAnim: false,
@@ -241,7 +242,7 @@ class App extends Component {
       // get random list item
       let result = await returnRandomItem(createList(this.state.input));
       //  console.log("This is before result ",result);
-      this.setState({result: result});
+      this.setState({result: result, canShare: false});
       //  console.log("This is after result ",result);
       
       if(this.state.animationOn){
@@ -274,11 +275,30 @@ class App extends Component {
     this.refreshPreset();
   }
 
-  rngPreset= (items) => {
+  rngPreset = (id, items) => {
     if(this.state.animationOn){
       this.animToggle();
     }
-    this.setState({result: getPreset(items)});
+    this.setState({result: getPreset(items), presetId: id, canShare: true});
+  }
+
+  rngNumber = (id,min,max) => {
+    console.log("This the the min and max: ", min, " ",max);
+    if(min === NaN && max === NaN){
+      this.setState({result: "There is no min and max..."});
+      return;
+    }
+    if(min === NaN || max === NaN){
+      this.setState({result: "There is no min or max..."});
+      return;
+    }
+    //console.log("BRO HERE IT IS");
+    if(this.state.animationOn){
+      //console.log("BRO HERE's THE TOGGLE");
+      this.animToggle();
+    }
+    this.setState({result: ""+getRandomNum(min,max), presetId: id, canShare: true});
+    console.log("getRandomNum is: ", getRandomNum(min,max));
   }
 
   onRouteChange = (route) => {
@@ -314,7 +334,9 @@ class App extends Component {
       route, 
       presets, 
       isSave, isEdit, 
-      result, 
+      result,
+      presetId,
+      canShare,
       editInput, editID, editName
     } = this.state;
     
@@ -334,7 +356,7 @@ class App extends Component {
                 <Logo avatarUrl={this.state.user.avatarUrl}/>
                 <Rank username={this.state.user.name}/>
                 { result !== "" &&
-                  <ResultBox result={result}/>
+                  <ResultBox result={result} presetId={presetId} canShare={canShare}/>
                 }
                 
                 <ListTextBox
@@ -349,6 +371,7 @@ class App extends Component {
                 <PresetCardList 
                   presets={presets} 
                   rngPreset={this.rngPreset} 
+                  rngNumber={this.rngNumber} 
                   delPreset={this.delPreset}
                   onButtonEdit={this.onButtonEdit}
                   />

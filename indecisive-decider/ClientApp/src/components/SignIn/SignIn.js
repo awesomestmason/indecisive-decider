@@ -5,6 +5,7 @@ class SignIn extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            error: 0,
             signInEmail: '',
             signInPassword: ''
         }
@@ -28,7 +29,7 @@ class SignIn extends React.Component {
             
         })
         .catch(error => {
-            alert("bad login credentials");
+            this.setState({error: 1});
         })
     };
     
@@ -71,10 +72,13 @@ class SignIn extends React.Component {
                         <div className="lh-copy mt3">
                             <p onClick={() => onRouteChange('register')} className="f6 link dim black db pointer" > Register </p>
                         </div>
-
-                        <div className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer dib">
+                        {!!this.state.error && <div className="red">
+                            <p> Incorrect Login! </p>
+                        </div>}
+                        
+                        {/* <div className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer dib">
                             <p onClick={() => onRouteChange('home')} className="f5 link dim black db pointer" > Continue As Guest </p>
-                        </div>
+                        </div> */}
 
                     </div>
                 </main>

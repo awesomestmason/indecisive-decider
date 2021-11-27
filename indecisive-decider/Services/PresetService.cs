@@ -10,7 +10,12 @@ namespace indecisive_decider.Services
     public class PresetService
     {
         private readonly AppDbContext _context;
-
+        private static Preset numberPresetStatic = new Preset(){
+            Name = "Numbers",
+            Id = 0,
+            Items = new List<PresetItem>(),
+            Owner = null
+        };
         public PresetService(AppDbContext context)
         {
             _context = context;

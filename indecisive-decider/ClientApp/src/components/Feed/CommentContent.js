@@ -4,25 +4,26 @@ import { makeStyles } from "@mui/styles";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import moment from "moment";
+import { textAlign } from "@mui/system";
 
-moment.updateLocale("en", {
+moment.updateLocale("en", { //format the time
   relativeTime: {
     past: function (input) {
       return input === "now" ? input : input + " ago";
     },
-    s: "now",
-    future: "in %s",
-    ss: "%d seconds",
-    m: "1 minute",
-    mm: "%d minutes",
-    h: "1 hour",
-    hh: "%d hours",
-    d: "1 day",
-    dd: "%d days",
-    M: "1 month",
-    MM: "%d month",
-    y: "1 year",
-    yy: "%d years"
+    s: " now",
+    future: " in %s",
+    ss: " %d seconds",
+    m: " 1 minute",
+    mm: " %d minutes",
+    h: " 1 hour",
+    hh: " %d hours",
+    d: " 1 day",
+    dd: " %d days",
+    M: " 1 month",
+    MM: " %d month",
+    y: " 1 year",
+    yy: " %d years"
   }
 });
 
@@ -40,33 +41,36 @@ const useStyles = makeStyles({
     backgroundColor: "#F4F6F8"
   },
   commentAuthor: {
-    display: "flex",
+    display: "flex-wrap",
+    textAlign: "left",
     // alignItems: "center",
     marginBottom: 16
   },
   commentTime: {
-    marginLeft: "auto"
+    display: "flex-wrap",
+    // marginLeft: "auto",
+    textAlign: "right",
+    align: "right",
+    fontSize: "10px",
   }
 });
 
 export default function CommentContent({ commentContent }) {
-  console.log(commentContent);
-
   const { id, user, avatar, comment, createdAt } = commentContent;
-  console.log(id);
 
   const classes = useStyles();
 
   return (
     <>
       <div className={classes.comment}>
-        <Avatar alt={avatar} src={avatar} />
+        <Avatar alt={avatar} src={user.avatarUrl} />
         <div className={classes.commentText}>
-          <div className={classes.commentAuthor}>
+          <div className={classes.commentAuthor} >
             <Typography variant="body2" component="p">
               {user.username}
             </Typography>
             <Typography
+              align="right"
               variant="body2"
               component="p"
               className={classes.commentTime}
@@ -74,7 +78,7 @@ export default function CommentContent({ commentContent }) {
               {moment(createdAt).fromNow()}
             </Typography>
           </div>
-          <Typography variant="body2" component="p">
+          <Typography variant="body2" className="" component="p">
             {comment}
           </Typography>
         </div>

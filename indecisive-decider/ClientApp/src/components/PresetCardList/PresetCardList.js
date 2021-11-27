@@ -1,7 +1,10 @@
 import React from 'react';
 import PresetCard from './PresetCard';
+import {firstBy} from "thenby";
+
+
 //ph7 pv2 ma4
-const PresetCardList = ({presets, rngPreset, delPreset, onButtonEdit, isEdit}) => {
+const PresetCardList = ({presets, rngPreset, rngNumber, delPreset, onButtonEdit, isEdit}) => {
     return [
       <div className='dflex ma4 center'
       style={
@@ -15,14 +18,16 @@ const PresetCardList = ({presets, rngPreset, delPreset, onButtonEdit, isEdit}) =
         }
       }>
         
-        {presets.map((user, i) => {
+        {presets.sort(firstBy(e => !e.isDefault).thenBy(e => e.id)).map((user, i) => {
             return [
             <PresetCard 
               key={i} 
               id={presets[i].id} 
               name={presets[i].name}
               items={presets[i].items}
+              isDefault={presets[i].isDefault}
               rngPreset = {rngPreset}
+              rngNumber = {rngNumber}
               delPreset = {delPreset}
               onButtonEdit = {onButtonEdit}
             />];

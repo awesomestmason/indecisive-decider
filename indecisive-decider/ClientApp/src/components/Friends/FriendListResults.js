@@ -5,9 +5,8 @@ import { styled } from '@mui/material/styles';
 import {
   Avatar,
   Box,
-  Card,
-  Checkbox,
   Table,
+  TableContainer,
   TableBody,
   TableCell,
   TableHead,
@@ -19,7 +18,7 @@ import getInitials from './getInitials';
 import { fetchDeleteFriend, fetchFriends} from '../../ApiCalls';
 //TODO text bold
 
-const RootStyle = styled(Card)({
+const RootStyle = styled(TableContainer)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
   backgroundColor: 'rgba(255,255,255,0.65)', // transparent
   // minWidth: 1050,
@@ -85,9 +84,11 @@ const FriendListResults = ({setIdResults, removeItem, ...rest }) => {
   };
 
   return (
-    <RootStyle {...rest}>
+    <RootStyle>
+      {/* <RootStyle> */}
       <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
+        {/* <Box sx={{ minWidth: 1050 }}> */}
+        <Box>
           <Table>
             <TableHead>
               <TableRow>
