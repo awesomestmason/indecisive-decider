@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using indecisive_decider.Interfaces;
 
 namespace indecisive_decider.Controllers
 {
@@ -26,19 +27,18 @@ namespace indecisive_decider.Controllers
     public class FriendsController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly FriendService _friendService;
-        private readonly UserService _userService;
+        private readonly IFriendService _friendService;
+        private readonly IUserService _userService;
         public FriendsController(
             IMapper mapper,
-            UserService userService,
-            FriendService friendService)
+            IUserService userService,
+            IFriendService friendService)
         {
             _friendService = friendService;
             _mapper = mapper;
             _userService = userService;
         }
 
-        //Gets all the 
         [Authorize]
         [HttpGet("requests")]
         [SwaggerOperation(
@@ -47,9 +47,13 @@ namespace indecisive_decider.Controllers
             OperationId = "friends.requests",
             Tags = new[] { "FriendsEndpoints" })
         ]
+        /// <summary>
+        /// Allows the user to see all friend request sent to them.
+        /// </summary>
+        /// <returns>Path to who made the friend request</returns>
         public async Task<ActionResult<IEnumerable<FriendshipDto>>> GetFriendRequests()
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if (user == null)
             {
                 return BadRequest("Invalid user");
@@ -70,9 +74,14 @@ namespace indecisive_decider.Controllers
             OperationId = "friends.search",
             Tags = new[] { "FriendsEndpoints" })
         ]
+        /// <summary>
+        /// Let user be able to search for a friend within the query.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns>The location of the searched friend ID</returns>
         public async Task<ActionResult<IEnumerable<UserDto>>> FriendSearch(string query)
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if (user == null)
             {
                 return BadRequest("Invalid user");
@@ -90,8 +99,13 @@ namespace indecisive_decider.Controllers
             OperationId = "friends.request",
             Tags = new[] { "FriendsEndpoints" })
         ]
+        /// <summary>
+        /// Enables user to be able to request another user to be their friend.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Badrequest or OK</returns>
         public async Task<ActionResult> RequestFriend(string userId){
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if (user == null)
             {
                 return BadRequest("Invalid user");
@@ -119,8 +133,13 @@ namespace indecisive_decider.Controllers
             OperationId = "friends.decline",
             Tags = new[] { "FriendsEndpoints" })
         ]
+        /// <summary>
+        /// Allows user to decline a friend request
+        /// </summary>
+        /// <param name="friendRequestId"></param>
+        /// <returns>bad request or OK</returns>
         public async Task<ActionResult> DeclineFriend(int friendRequestId){
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if (user == null)
             {
                 return BadRequest("Invalid user");
@@ -142,9 +161,14 @@ namespace indecisive_decider.Controllers
             OperationId = "friends.accept",
             Tags = new[] { "FriendsEndpoints" })
         ]
+        /// <summary>
+        /// Allows user to accept a friend request
+        /// </summary>
+        /// <param name="friendRequestId"></param>
+        /// <returns>Bad request or OK</returns>
         public async Task<ActionResult> AcceptFriend(int friendRequestId)
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if (user == null)
             {
                 return BadRequest("Invalid user");
@@ -166,9 +190,13 @@ namespace indecisive_decider.Controllers
             OperationId = "friends.get",
             Tags = new[] { "FriendsEndpoints" })
         ]
+        /// <summary>
+        /// Gets all connected friends to user.
+        /// </summary>
+        /// <returns>Location and value of all friends to user</returns>
         public async Task<ActionResult<IEnumerable<UserDto>>> GetFriends()
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if (user == null)
             {
                 return BadRequest("Invalid user");
@@ -189,9 +217,14 @@ namespace indecisive_decider.Controllers
             OperationId = "friends.delete",
             Tags = new[] { "FriendsEndpoints" })
         ]
+        /// <summary>
+        /// Deletes a Friend connected to user
+        /// </summary>
+        /// <param name="friendshipId"></param>
+        /// <returns>Bad request or OK</returns>
         public async Task<ActionResult> DeleteFriend(int friendshipId)
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if (user == null)
             {
                 return BadRequest("Invalid user");
@@ -203,15 +236,7 @@ namespace indecisive_decider.Controllers
             }
             await _friendService.DeleteFriendshipAsync(friendshipId);
             return Ok();
-        }
-
-
-        private async Task<ApplicationUser> VerifyUser()
-        {
-            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userService.GetUserByIdAsync(id);
-            return user;
-        }      
+        } 
         
 
     }

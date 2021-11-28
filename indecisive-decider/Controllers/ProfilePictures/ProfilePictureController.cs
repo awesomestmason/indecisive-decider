@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using indecisive_decider.Interfaces;
 
 namespace indecisive_decider.Controllers
 {
@@ -32,13 +33,13 @@ namespace indecisive_decider.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
         private readonly IWebHostEnvironment _hostingEnvironment;
         public ProfilePictureController(
             IWebHostEnvironment env,
             IConfiguration configuration,
             IMapper mapper,
-            UserService userService)
+            IUserService userService)
         {
 
             _hostingEnvironment = env;
@@ -54,9 +55,14 @@ namespace indecisive_decider.Controllers
             OperationId = "profilepicture.upload",
             Tags = new[] { "ProfilePictureEndpoints" })
         ]
+        /// <summary>
+        /// Uploads an image (png) for the users profile picture
+        /// </summary>
+        /// <param name="myfile">Form containing the file</param>
+        /// <returns></returns>
         public async Task<ActionResult> UploadImage([FromForm] IFormFile myfile)
         {   
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if(user == null)
             {
                 return BadRequest("Invalid user");
@@ -79,6 +85,11 @@ namespace indecisive_decider.Controllers
             OperationId = "profilepicture.get",
             Tags = new[] { "ProfilePictureEndpoints" })
         ]
+        /// <summary>
+        /// Gets the profile picture of a user
+        /// </summary>
+        /// <param name="userId">Id of the user</param>
+        /// <returns></returns>
         public async Task<ActionResult> GetUserImage(string userId){
             string uploadsFolder = Path.Combine(_hostingEnvironment.ContentRootPath, "images");  
             var uniqueFileName = userId;
@@ -92,12 +103,6 @@ namespace indecisive_decider.Controllers
                 .TryGetContentType(fileName, out string contentType);
             return File(content, contentType, fileName);
         }
-        
-        private async Task<ApplicationUser> VerifyUser()
-        {
-            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userService.GetUserByIdAsync(id);
-            return user;
-        }   
+         
     }
 }

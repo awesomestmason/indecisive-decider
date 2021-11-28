@@ -1,26 +1,25 @@
-import { Box, Container, Tab, Grid } from '@mui/material';
+import { Box, Container, Grid } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
-import { fetchFriends, fetchFriendRequests, fetchFriendSearch } from '../../ApiCalls';
+import { fetchFriendSearch } from '../../ApiCalls';
 import FriendListResults from '../Friends/FriendListResults';
 import FriendListToolbar from '../Friends/FriendListToolbar';
 import PendingFriendRequest from '../Friends/PendingFriendRequest';
 import SearchFriendsResults from './SearchFriendsResults';
 //import Friends from '../Friends/friends';
 import Feed from '../Feed/Feed'
-//TODO get friend list from backend by API
 
 const theme = createTheme({
   typography: {
    fontFamily: '"Courier New"', // set font
     body1: {
-      fontWeight: 'bold', // or 'bold'
+      fontWeight: 'bold',
     },
     button: {
-      fontWeight: 'bold', // or 'bold'
+      fontWeight: 'bold',
     },
     root: {
-      fontWeight: 'bold', // or 'bold'
+      fontWeight: 'bold',
     },
   }
 });
@@ -49,19 +48,7 @@ const FriendList = () => {
 
   
   useEffect(() => {
-
-    // setRoute('friendsList');
     onRouteChange('friendsList', setRoute);
-
-    // fetchFriends().then(list => {
-    //   //console.log(list)
-    //   setFriends(list)
-    // })
-
-    // fetchFriendRequests().then(list => {
-    //   setFriendsRequests(list);
-    // })
-
     setQueryResults([]);
   }, [])
 
@@ -132,13 +119,7 @@ const FriendList = () => {
                 }
               </Box>  
             </Grid>   
-                
-          </Grid>   
-            
-
-
-          
-            
+          </Grid>          
           </Container>
         </Box>
         </ThemeProvider>

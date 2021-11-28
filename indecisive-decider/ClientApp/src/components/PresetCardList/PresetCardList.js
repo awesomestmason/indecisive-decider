@@ -6,7 +6,7 @@ import {firstBy} from "thenby";
 //ph7 pv2 ma4
 const PresetCardList = ({presets, rngPreset, rngNumber, delPreset, onButtonEdit, isEdit}) => {
     return [
-      <div className='dflex ma4 center'
+      <div key={"key"} className='dflex ma4 center'
       style={
         {
           // display: 'grid',
@@ -17,11 +17,10 @@ const PresetCardList = ({presets, rngPreset, rngNumber, delPreset, onButtonEdit,
           
         }
       }>
-        
         {presets.sort(firstBy(e => !e.isDefault).thenBy(e => e.id)).map((user, i) => {
-            return [
-            <PresetCard 
-              key={i} 
+            return ( 
+            <PresetCard
+              key={i.toString()}
               id={presets[i].id} 
               name={presets[i].name}
               items={presets[i].items}
@@ -30,10 +29,11 @@ const PresetCardList = ({presets, rngPreset, rngNumber, delPreset, onButtonEdit,
               rngNumber = {rngNumber}
               delPreset = {delPreset}
               onButtonEdit = {onButtonEdit}
-            />];
+            />)
              })}
       </div>
-    ];
+      ];
+
 }
 
 export default PresetCardList;

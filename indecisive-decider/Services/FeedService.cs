@@ -6,22 +6,22 @@ using indecisive_decider.Data;
 using indecisive_decider.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using indecisive_decider.Interfaces;
 
 namespace indecisive_decider.Services{
-    public class FeedService
+    public class FeedService : IFeedService
     {
         private readonly AppDbContext _context;
-        private readonly PresetService _presetService;
-        private readonly FriendService _friendService;
-        private readonly UserService _userService;
-        public FeedService(AppDbContext context, PresetService presetService, FriendService friendService, UserService userService)
+        private readonly IPresetService _presetService;
+        private readonly IFriendService _friendService;
+        private readonly IUserService _userService;
+        public FeedService(AppDbContext context, IPresetService presetService, IFriendService friendService, IUserService userService)
         {
             _context = context;
             _presetService = presetService;
             _friendService = friendService;
             _userService = userService;
         }   
-
         public async Task ShareDecisionAsync(string userId, int presetId, string result)
         {
             var preset = await _presetService.GetPreset(presetId);
@@ -34,7 +34,6 @@ namespace indecisive_decider.Services{
             _context.FeedItems.Add(feedItem);
             _context.SaveChanges();
         }
-
         public async Task<List<FeedItem>> GetFeedItemsAsync(string userId, int limit = 10)
         {
             var user = await _userService.GetUserByIdAsync(userId);
@@ -53,7 +52,6 @@ namespace indecisive_decider.Services{
             feedItems.Sort((x, y) => y.Date.CompareTo(x.Date));
             return feedItems.Take(limit).ToList();
         }
-
         public async Task<List<FeedItem>> GetUserDecisionsAsync(string userId, int limit = 10)
         {
             var results = await _context.FeedItems
@@ -62,7 +60,6 @@ namespace indecisive_decider.Services{
                 .Where(x => x.UserId == userId).OrderByDescending(x => x.Date).Take(limit).ToListAsync();
             return results;
         }
-
         public async Task PostCommentAsync(string userId, int feedItemId, string comment)
         {
             var commentItem = new FeedComment(){
@@ -74,7 +71,6 @@ namespace indecisive_decider.Services{
             await _context.FeedComments.AddAsync(commentItem);
             await _context.SaveChangesAsync();
         }
-
         public async Task<bool> DeleteCommentAsync(string userId, int commentId)
         {
             var comment = await _context.FeedComments.FirstOrDefaultAsync(x => x.Id == commentId && x.UserId == userId);

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Container, Button} from '@mui/material';
+import { Box, Container} from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import SettingsPassword from './SettingsPassword';
 import SettingsProfile from './SettingsProfile';
@@ -29,10 +29,8 @@ const SettingsView = () => (
       maxWidth="sm"
       >
       <SettingsProfile />
-      {/* <SettingsPassword /> */}
       <Box sx={{ pt: 3 }}>
         <SettingsPassword 
-          // onButtonEdit
         />
       </Box>
 
@@ -40,12 +38,6 @@ const SettingsView = () => (
         <SettingsPicture />
       </Box>
 
-      {/* <Box sx={{ pt: 3 }}>
-        <Button variant="contained" color="error">
-          Delete Account
-        </Button>
-        
-      </Box> */}
     </Container>
   </ThemeProvider>
 );

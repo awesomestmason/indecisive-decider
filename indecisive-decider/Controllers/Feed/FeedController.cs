@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using indecisive_decider.Interfaces;
 
 namespace indecisive_decider.Controllers.Feed
 {
@@ -25,11 +26,11 @@ namespace indecisive_decider.Controllers.Feed
     [ApiController]
     public class FeedController : ControllerBase
     {
-        private readonly FeedService _feedService;
-        private readonly FriendService _friendService;
-        private readonly UserService _userService;
+        private readonly IFeedService _feedService;
+        private readonly IFriendService _friendService;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        public FeedController(FeedService feedService, FriendService friendService, IMapper mapper, UserService userService)
+        public FeedController(IFeedService feedService, IFriendService friendService, IMapper mapper, IUserService userService)
         {
             _feedService = feedService;
             _friendService = friendService;
@@ -46,9 +47,14 @@ namespace indecisive_decider.Controllers.Feed
             OperationId = "friends.share",
             Tags = new[] { "FeedEndpoints" })
         ]
+        /// <summary>
+        /// Allows the user to be able to share their decision to friends.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>OK</returns>
         public async Task<IActionResult> ShareDecision(ShareDecisionRequest request)
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if(user == null)
             {
                 return BadRequest("Invalid user");
@@ -66,9 +72,13 @@ namespace indecisive_decider.Controllers.Feed
             OperationId = "friends.show",
             Tags = new[] { "FeedEndpoints" })
         ]
+        /// <summary>
+        /// Returns the feeditems of the logged in User
+        /// </summary>
+        /// <returns>OK of the selected feeditem</returns>
         public async Task<ActionResult<IEnumerable<FeedItemDto>>> GetFeedItems()
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if(user == null)
             {
                 return BadRequest("Invalid user");
@@ -84,9 +94,15 @@ namespace indecisive_decider.Controllers.Feed
             OperationId = "friends.comment",
             Tags = new[] { "FeedEndpoints" })
         ]
+        /// <summary>
+        /// Allows the user to post a comment to a feed item.
+        /// </summary>
+        /// <param name="feedItemId"></param>
+        /// <param name="request"></param>
+        /// <returns>OK</returns>
         public async Task<ActionResult> PostComment(int feedItemId, PostCommentRequest request)
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if(user == null)
             {
                 return BadRequest("Invalid user");
@@ -103,9 +119,14 @@ namespace indecisive_decider.Controllers.Feed
             OperationId = "friends.commentDelete",
             Tags = new[] { "FeedEndpoints" })
         ]
+        /// <summary>
+        /// Deletes any unwanted comments on a feed item.
+        /// </summary>
+        /// <param name="commentId"></param>
+        /// <returns>BadRequest or OK</returns>
         public async Task<ActionResult> DeleteComment(int commentId)
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if(user == null)
             {
                 return BadRequest("Invalid user");
@@ -116,13 +137,6 @@ namespace indecisive_decider.Controllers.Feed
             }
             return Ok();
         }
-
-        private async Task<ApplicationUser> VerifyUser()
-        {
-            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userService.GetUserByIdAsync(id);
-            return user;
-        }     
 
     }
 }

@@ -1,12 +1,17 @@
+/**
+ * credit:
+ * https://codesandbox.io/s/dm-blog-post-comments-isdgm
+ */
+
 import React from "react";
 
 import { makeStyles } from "@mui/styles";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import moment from "moment";
-import { textAlign } from "@mui/system";
 
-moment.updateLocale("en", { //format the time
+// Using moment update local so we get a certain time
+moment.updateLocale("en", {
   relativeTime: {
     past: function (input) {
       return input === "now" ? input : input + " ago";
@@ -27,10 +32,10 @@ moment.updateLocale("en", { //format the time
   }
 });
 
+//Create the style of the comment.
 const useStyles = makeStyles({
   comment: {
     display: "flex",
-    // alignItems: "center",
     margin: 16
   },
   commentText: {
@@ -43,20 +48,19 @@ const useStyles = makeStyles({
   commentAuthor: {
     display: "flex-wrap",
     textAlign: "left",
-    // alignItems: "center",
     marginBottom: 16
   },
   commentTime: {
     display: "flex-wrap",
-    // marginLeft: "auto",
     textAlign: "right",
     align: "right",
     fontSize: "10px",
   }
 });
 
+//Create the actual comment content.
 export default function CommentContent({ commentContent }) {
-  const { id, user, avatar, comment, createdAt } = commentContent;
+  const { user, avatar, comment, createdAt } = commentContent;
 
   const classes = useStyles();
 

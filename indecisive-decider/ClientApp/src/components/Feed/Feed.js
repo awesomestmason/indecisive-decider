@@ -1,29 +1,29 @@
+/**
+ * credit
+ * https://codesandbox.io/s/fb-comment-logger-xzppb
+ */
+
 import * as React from "react";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Divider from "@mui/material/Divider";
 
 import SendComment from "./SendComment";
 import CommentContent from "./CommentContent";
-import data from "../Feed/data";
 import { fetchFeed } from "../../ApiCalls";
 import moment from "moment";
 
 import {firstBy} from "thenby";
 
-
+//Using moment update local so we get a certain time
 moment.updateLocale("en", {
   relativeTime: {
     past: function (input) {
@@ -44,37 +44,18 @@ moment.updateLocale("en", {
     yy: "%d years"
   }
 });
-
-// const { id, result, presetName, username, date, comments } = data[1];
-// console.log(data[1]);
-// console.log(comments);
-
-const theme = createTheme({
-   typography: {
-     fontFamily: '"Courier New"', // set font
-      body1: {
-        fontWeight: 'bold', // or 'bold'
-      },
-      button: {
-        fontWeight: 'bold', // or 'bold'
-      },
-      root: {
-        fontWeight: 'bold', // or 'bold'
-      },
-    }
-});  
-
+ 
+//setting the card design
 const RootStyle = styled(Card)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
   backgroundColor: 'rgba(255,255,255,0.65)', // transparent
-  // minWidth: 1050,
 });
 
+//be able to expand the feed to see comments.
 const ExpandMore = styled((props) => {
   //create a style called ExpandMore
   const { expand, ...other } = props;
   //... is for other props
-  //console.log(other);
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
@@ -85,6 +66,7 @@ const ExpandMore = styled((props) => {
   })
 }));
 
+// be able to see the feed data and return the user information of whoever made that post.
 export default function RecipeReviewCard() {
   const [expanded, setExpanded] = React.useState(null);
 
@@ -92,26 +74,21 @@ export default function RecipeReviewCard() {
   React.useEffect( ()=> {
     fetchFeed().then(feedData => {
       setFeed(feedData);
+
     });
   }, []);
-  // console.log('id: ');
-  // console.log(id);
 
   const handleExpandClick = id => () => {
     setExpanded(!expanded);
     // setExpanded(expanded ? id: null);
     // console.log('id: '+id); 
     // console.log('expanded: '+expanded);
+    // TODO BUG
   };
 
   return feed.map(({ id, result, presetName, username, date, comments }) => (
     <RootStyle sx={false}>
       <CardHeader
-        // avatar={
-        //   <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-        //     U
-        //   </Avatar>
-        // }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
@@ -129,9 +106,9 @@ export default function RecipeReviewCard() {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="like">
+        {/* <IconButton aria-label="like">
           <FavoriteIcon />
-        </IconButton>
+        </IconButton> */}
         <ExpandMore
           key={id}
           expand={expanded}
@@ -150,7 +127,7 @@ export default function RecipeReviewCard() {
               setFeed(feedData);
             });
           }}/>
-          {comments.sort(firstBy(e => e.createdAt)).reverse().map((commentContent, id) => (
+          {comments.sort(firstBy(e => e.createdAt)).reverse().map((commentContent) => (
             <div key={commentContent.id}>
               <Divider />
               <CommentContent commentContent={commentContent} />

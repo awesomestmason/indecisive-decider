@@ -6,7 +6,6 @@ import {
   Avatar,
   Box,
   Card,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -19,16 +18,12 @@ import {
 import getInitials from './getInitials';
 import { fetchAcceptFriend, fetchDeclineFriend, fetchFriendRequests } from '../../ApiCalls';
 
-//TODO text bold
-
 const RootStyle = styled(Card)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
   backgroundColor: 'rgba(255,255,255,0.65)', // transparent
-  // minWidth: 1050,
 });
 
 const PendingFriendRequest = ({removeItem, setIdResults, ...rest }) => {
-  const [selectedRequestIds, setSelectedRequestIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [Requests, setFriendsRequests] = useState([]);
@@ -42,42 +37,7 @@ const PendingFriendRequest = ({removeItem, setIdResults, ...rest }) => {
   useEffect(() => {
     refreshRequests();
     setIdResults([]);
-  }, [])
-
-  const handleSelectAll = (event) => {
-    let newSelectedRequestIds;
-
-    if (event.target.checked) {
-      newSelectedRequestIds = Requests.map((Request) => Request.id);
-    } else {
-      newSelectedRequestIds = [];
-    }
-
-    setSelectedRequestIds(newSelectedRequestIds);
-    setIdResults(newSelectedRequestIds);
-  };
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedRequestIds.indexOf(id);
-    let newSelectedRequestIds = [];
-
-    if (selectedIndex === -1) {
-      newSelectedRequestIds = newSelectedRequestIds.concat(selectedRequestIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedRequestIds = newSelectedRequestIds.concat(selectedRequestIds.slice(1));
-    } else if (selectedIndex === selectedRequestIds.length - 1) {
-      newSelectedRequestIds = newSelectedRequestIds.concat(selectedRequestIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedRequestIds = newSelectedRequestIds.concat(
-        selectedRequestIds.slice(0, selectedIndex),
-        selectedRequestIds.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedRequestIds(newSelectedRequestIds);
-    setIdResults(newSelectedRequestIds);
-    // setDelRequest("true");
-  };
+  }, [setIdResults])
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -94,16 +54,7 @@ const PendingFriendRequest = ({removeItem, setIdResults, ...rest }) => {
           <Table>
             <TableHead>
               <TableRow>
-              <TableCell padding="checkbox">
-                  {/* <Checkbox
-                    checked={selectedRequestIds.length === Requests.length}
-                    color="primary"
-                    indeterminate={
-                      selectedRequestIds.length > 0
-                      && selectedRequestIds.length < Requests.length
-                    }
-                    onChange={handleSelectAll}
-                  /> */}
+              <TableCell>
                 </TableCell>
                 <TableCell>
                   Username
@@ -123,14 +74,8 @@ const PendingFriendRequest = ({removeItem, setIdResults, ...rest }) => {
                 <TableRow
                   hover
                   key={Request.id}
-                  selected={selectedRequestIds.indexOf(Request.id) !== -1}
                 >
-                <TableCell padding="checkbox">
-                    {/* <Checkbox
-                      checked={selectedRequestIds.indexOf(Request.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, Request.id)}
-                      value="true"
-                    /> */}
+                <TableCell>
                 </TableCell>
                   <TableCell>
                     <Box

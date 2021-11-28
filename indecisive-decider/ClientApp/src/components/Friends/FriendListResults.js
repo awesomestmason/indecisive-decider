@@ -16,17 +16,14 @@ import {
 } from '@mui/material';
 import getInitials from './getInitials';
 import { fetchDeleteFriend, fetchFriends} from '../../ApiCalls';
-//TODO text bold
 
 const RootStyle = styled(TableContainer)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
   backgroundColor: 'rgba(255,255,255,0.65)', // transparent
-  // minWidth: 1050,
 });
 
-const FriendListResults = ({setIdResults, removeItem, ...rest }) => {
+const FriendListResults = ({setIdResults, removeItem}) => {
   const [Friends, setFriends] = useState([]);
-  const [selectedFriendIds, setSelectedFriendIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   
@@ -39,41 +36,7 @@ const FriendListResults = ({setIdResults, removeItem, ...rest }) => {
   useEffect(() => {
     refreshFriends();
     setIdResults([]);
-  }, [])
-
-  const handleSelectAll = (event) => {
-    let newSelectedFriendIds;
-
-    if (event.target.checked) {
-      newSelectedFriendIds = Friends.map((Friend) => Friend.id);
-    } else {
-      newSelectedFriendIds = [];
-    }
-
-    setSelectedFriendIds(newSelectedFriendIds);
-  };
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedFriendIds.indexOf(id);
-    let newSelectedFriendIds = [];
-
-    if (selectedIndex === -1) {
-      newSelectedFriendIds = newSelectedFriendIds.concat(selectedFriendIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedFriendIds = newSelectedFriendIds.concat(selectedFriendIds.slice(1));
-    } else if (selectedIndex === selectedFriendIds.length - 1) {
-      newSelectedFriendIds = newSelectedFriendIds.concat(selectedFriendIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedFriendIds = newSelectedFriendIds.concat(
-        selectedFriendIds.slice(0, selectedIndex),
-        selectedFriendIds.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedFriendIds(newSelectedFriendIds);
-    // setDelfriend("true");
-    setIdResults(newSelectedFriendIds);
-  };
+  }, [setIdResults])
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -85,23 +48,12 @@ const FriendListResults = ({setIdResults, removeItem, ...rest }) => {
 
   return (
     <RootStyle>
-      {/* <RootStyle> */}
       <PerfectScrollbar>
-        {/* <Box sx={{ minWidth: 1050 }}> */}
         <Box>
           <Table>
             <TableHead>
               <TableRow>
-              <TableCell padding="checkbox">
-                  {/* <Checkbox
-                    checked={selectedFriendIds.length === Friends.length}
-                    color="primary"
-                    indeterminate={
-                      selectedFriendIds.length > 0
-                      && selectedFriendIds.length < Friends.length
-                    }
-                    onChange={handleSelectAll}
-                  /> */}
+              <TableCell>
                 </TableCell>
                 <TableCell>
                   Username
@@ -121,14 +73,8 @@ const FriendListResults = ({setIdResults, removeItem, ...rest }) => {
                 <TableRow
                   hover
                   key={Friend.id}
-                  selected={selectedFriendIds.indexOf(Friend.id) !== -1}
                 >
-                <TableCell padding="checkbox">
-                    {/* <Checkbox
-                      checked={selectedFriendIds.indexOf(Friend.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, Friend.id)}
-                      value="true"
-                    /> */}
+                <TableCell>
                 </TableCell>
                   <TableCell>
                     <Box

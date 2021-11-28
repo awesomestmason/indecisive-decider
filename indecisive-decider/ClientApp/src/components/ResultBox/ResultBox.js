@@ -18,7 +18,7 @@ class ResultBox extends React.Component {
     }
 
     render(){
-        const {result, presetId, canShare} = this.props;
+        const {result, canShare} = this.props;
         const {shared} = this.state
         return [
         <div>

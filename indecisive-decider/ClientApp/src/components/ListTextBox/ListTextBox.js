@@ -1,12 +1,10 @@
 import React from 'react';
 import './ListTextBox.css';
-import { green } from '@mui/material/colors';
 import {
     FormGroup,
     FormControlLabel,
     Checkbox
-  } from '@material-ui/core';
-import { fontFamily } from '@mui/system';
+  } from '@mui/material';
 
 //<input className='f4 pa2 w-70 center' type='tex' onChange={onInputChange}/>
 const ListTextBox = ( {animCheckBox, onInputChange, onButtonSubmit, onButtonSave, isSave, isAnimationOn} ) => {

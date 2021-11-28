@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using indecisive_decider.Dtos;
 using indecisive_decider.Entities;
 
+//be able to get and set preset or result ID/values in order to share to other users.
 namespace indecisive_decider.Controllers.Feed {
     public class ShareDecisionRequest
     {

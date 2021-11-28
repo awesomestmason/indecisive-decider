@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using indecisive_decider.Interfaces;
 
 namespace indecisive_decider
 {
@@ -33,13 +34,13 @@ namespace indecisive_decider
         public void ConfigureServices(IServiceCollection services)
         {
 
-
+            //Set up Sqlite database
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
-
+            //Show exceptions
             services.AddDatabaseDeveloperPageExceptionFilter();
-
+            //Add Identity
             services.AddDefaultIdentity<ApplicationUser>(options =>
                 {
                     options.User.RequireUniqueEmail = true;
@@ -47,7 +48,7 @@ namespace indecisive_decider
                 })
                 .AddEntityFrameworkStores<AppDbContext>();
 
-
+            //Add Authentication service
             services.AddAuthentication(auth =>
                 {
                     auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -66,6 +67,7 @@ namespace indecisive_decider
                         IssuerSigningKey = JwtHelper.GetKey()
                     };
                 });
+            //Add controllers
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -74,12 +76,14 @@ namespace indecisive_decider
                 configuration.RootPath = "ClientApp/build";
             });
 
+            //Add various services
             services.AddAutoMapper(typeof(MapperProfile));
-            services.AddScoped<PresetService>();
-            services.AddScoped<UserService>();
-            services.AddScoped<FeedService>();
-            services.AddScoped<FriendService>();
+            services.AddScoped<IPresetService,PresetService>();
+            services.AddScoped<IUserService,UserService>();
+            services.AddScoped<IFeedService,FeedService>();
+            services.AddScoped<IFriendService,FriendService>();
 
+            //Add swagger API docs
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });

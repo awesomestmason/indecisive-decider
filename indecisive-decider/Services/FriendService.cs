@@ -6,10 +6,11 @@ using indecisive_decider.Data;
 using indecisive_decider.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using indecisive_decider.Interfaces;
 
 namespace indecisive_decider.Services
 {
-    public class FriendService
+    public class FriendService : IFriendService
     {
         private readonly AppDbContext _context;
 
@@ -17,7 +18,6 @@ namespace indecisive_decider.Services
         {
             _context = context;
         }
-
         public async Task AddFriendshipRequestAsync(ApplicationUser from, ApplicationUser to)
         {
             await _context.Friendships.AddAsync(new Friendship()
@@ -28,7 +28,6 @@ namespace indecisive_decider.Services
             });
             await _context.SaveChangesAsync();
         }
-
         public async Task<IEnumerable<Friendship>> GetFriendshipsAsync(ApplicationUser user, FriendshipStatus? status = null)
         {
             return await _context.Friendships
@@ -38,7 +37,6 @@ namespace indecisive_decider.Services
                 .Where(friendship => status == null || friendship.Status == status)
                 .ToListAsync();
         }
-
         public async Task DeclineRequestAsync(int id){
             var friendship = await _context.Friendships.FindAsync(id);
             if(friendship.Status != FriendshipStatus.Requested){
@@ -50,7 +48,6 @@ namespace indecisive_decider.Services
             }
             await DeleteFriendshipAsync(id);
         }
-
         public async Task AcceptRequestAsync(int id)
         {
             var friendship = await _context.Friendships.FindAsync(id);
@@ -66,14 +63,12 @@ namespace indecisive_decider.Services
             _context.Friendships.Update(friendship);
             await _context.SaveChangesAsync();
         }
-
         public async Task DeleteFriendshipAsync(int id)
         {
             var friendship = await _context.Friendships.FindAsync(id);
             _context.Friendships.Remove(friendship);
             await _context.SaveChangesAsync();
         }
-
         public async Task<Friendship> GetFriendshipByIdAsync(int id){
             var friendship = await _context.Friendships
                 .Include(f => f.FromUser)

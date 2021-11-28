@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using indecisive_decider.Dtos;
 using indecisive_decider.Entities;
 
+/// <summary>
+/// File for getting and setting new password for the user.
+/// </summary>
 namespace indecisive_decider.Controllers.Account
 {
     public class ChangePasswordRequest

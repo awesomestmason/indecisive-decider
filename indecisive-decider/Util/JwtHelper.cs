@@ -18,7 +18,11 @@ namespace indecisive_decider.Util
         {
             return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SigningKey));
         }
-
+        /// <summary>
+        /// Generates a Jwt Token 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public static JwtSecurityToken GenerateToken(ApplicationUser user)
         {
             //https://jwt.io/

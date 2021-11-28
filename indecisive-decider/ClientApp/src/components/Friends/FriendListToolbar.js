@@ -10,63 +10,11 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Search as SearchIcon } from 'react-feather';
-import { 
-  fetchSendFriendRequest,
-  fetchAcceptFriend,
-  fetchDeclineFriend,
-  fetchDeleteFriend
-} from '../../ApiCalls';
 
 const RootStyle = styled(Card)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
   backgroundColor: 'rgba(255,255,255,0.65)', // transparent
-  // minWidth: 1050,
 });
-
-function removeRequestItem(id, apiCall, Requests){
-  console.log(`Removing ${id} from requests`)
-  apiCall(Requests.filter(req => req.id !== id));
-}
-
-async function removeFriends(idResults, apiCall, Friends){
-  console.log(`Removing ${idResults} from requests`)
-  for(let i = 0; i < idResults.length; i++)
-  {
-    await fetchDeleteFriend(idResults[i]);
-    apiCall(Friends.filter(req => req.id !== idResults[i]));
-  }
-}
-
-// API for making friend requests
-async function makeRequests(idResults, apiCall, queryResults)
-{
-  console.log("Inside makeRequests: ", idResults);
-  for(let i = 0; i < idResults.length; i++){
-    await fetchSendFriendRequest(idResults[i]);
-    apiCall(queryResults.filter(req => req.id !== idResults[i]));
-    //console.log("HI! This is inside the results:", results[i]);
-  }
-}
-
-function acceptRequests(results, list)
-{
-  console.log("Inside makeRequests: ", results);
-  for(let i = 0; i < results.length; i++){
-    fetchAcceptFriend(results[i]);
-    //removeRequestItem(results[i], fetchAcceptFriend, list);
-    console.log("HI! This is inside the results:", results[i]);
-  }
-}
-
-function declineRequests(results, list)
-{
-  console.log("Inside makeRequests: ", results);
-  for(let i = 0; i < results.length; i++){
-    fetchDeclineFriend(results[i]);
-    //removeRequestItem(results[i], fetchDeclineFriend, list);
-    console.log("HI! This is inside the results:", results[i]);
-  }
-}
 
 
 const FriendListToolbar = ({
@@ -297,7 +245,6 @@ if(route === "searchFriends"){
           <Button
               color="primary"
               variant="contained"
-              //onClick={onSearchSubmit(values.searchField)}
               onClick={onSubmit}
             >
               Search Friend

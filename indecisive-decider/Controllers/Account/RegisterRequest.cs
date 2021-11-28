@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using indecisive_decider.Dtos;
 using indecisive_decider.Entities;
 
+/// <summary>
+/// Makes sure the user has password and confirms correct password.
+/// </summary>
 namespace indecisive_decider.Controllers.Account
 {
     public class RegisterRequest

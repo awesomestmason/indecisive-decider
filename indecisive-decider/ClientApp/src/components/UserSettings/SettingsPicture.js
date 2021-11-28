@@ -42,17 +42,7 @@ function handleImageUpload (event) {
 }
 
 const SettingsProfile = (props) => {
-  const [values, setValues] = useState({
-    pic: ''
-  });
   const [uploading, setUploading] = useState(false);
-  // const handleChange = (event) => {
-  //   setValues({
-  //     ...values,
-  //     [event.target.name]: event.target.value
-  //   });
-  // };
-
 
   return (
     <form {...props}>

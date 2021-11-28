@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using indecisive_decider.Dtos;
 using indecisive_decider.Entities;
 
+/// <summary>
+/// be able to get and set with the comment string item.
+/// </summary>
 namespace indecisive_decider.Controllers.Feed {
     public class PostCommentRequest
     {

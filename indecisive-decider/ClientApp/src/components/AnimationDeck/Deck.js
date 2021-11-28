@@ -51,13 +51,13 @@ const Deck = (props) => {
   // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
   const bind = useDrag(({ args: [index], down, movement: [mx], direction: [xDir], velocity }) => {
     const trigger = velocity > 0.2 // If you flick hard enough it should trigger the card to fly out
-    const dir = xDir < 0 ? -1 : 1 // Direction should either point left or right
+    //const dir = xDir < 0 ? -1 : 1 // Direction should either point left or right
     if (!down && trigger) gone.add(index) // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
     api.start(i => {
       if (index !== i) // We want to make them fly. We're only interested in changing spring-data for the current spring
       {
-        console.log("Checking out index ", index);
-        console.log("Checking out i ", i);
+        //console.log("Checking out index ", index);
+        //console.log("Checking out i ", i);
         gone.add(i);
         // const direc = randomSide(2,-2) < 0 ? -1 : 1
         // const vel = randomSide(20,-20) / 100;
@@ -88,6 +88,7 @@ const Deck = (props) => {
   // Passing in props to card
   return properties.map(({ x, y, rot, scale }, i) => (
     <Card
+      key={i.toString()}
       i={i}
       x={x}
       y={y}

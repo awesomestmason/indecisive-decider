@@ -18,7 +18,10 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-
+using indecisive_decider.Interfaces;
+/// <summary>
+/// Space for readonly items within public class.
+/// </summary>
 namespace indecisive_decider.Controllers
 {
     [Route("api/[controller]")]
@@ -30,7 +33,7 @@ namespace indecisive_decider.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IMapper _mapper;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
         public AccountController(
             IConfiguration configuration,
@@ -38,7 +41,7 @@ namespace indecisive_decider.Controllers
             SignInManager<ApplicationUser> signInManager,
             ILogger<AccountController> logger, 
             IMapper mapper,
-            UserService userService)
+            IUserService userService)
         {
             _configuration = configuration;
             _userManager = userManager;
@@ -55,6 +58,11 @@ namespace indecisive_decider.Controllers
             OperationId = "account.login",
             Tags = new[] { "AccountEndpoints" })
         ]
+        /// <summary>
+        /// Gets a Jwt token authenticating the user
+        /// </summary>
+        /// <param name="loginRequest">Login request data</param>
+        /// <returns>Jwt Token and user data</returns>
         public async Task<ActionResult<LoginResponse>> GetAuthToken(LoginRequest loginRequest)
         {   
             var user = await _userManager.FindByEmailAsync(loginRequest.Email);
@@ -89,6 +97,12 @@ namespace indecisive_decider.Controllers
             OperationId = "account.register",
             Tags = new[] { "AccountEndpoints" })
         ]
+        /// <summary>
+        /// This shoud register a user with account information
+        /// within the backend.
+        /// </summary>
+        /// <param name="registerRequest"></param>
+        /// <returns>Log in Response or badrequest</returns>
         public async Task<ActionResult<LoginResponse>> RegisterUser(RegisterRequest registerRequest)
         {
             ApplicationUser tempUser = new ApplicationUser
@@ -122,9 +136,15 @@ namespace indecisive_decider.Controllers
             OperationId = "account.settings",
             Tags = new[] { "AccountEndpoints" })
         ]
+        /// <summary>
+        /// Makes sure to verify the user and then allow the user to change
+        /// and input a new username and email.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>OK</returns>
         public async Task<ActionResult> UpdateUsernameAndEmail(UpdateAccountRequest request)
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if(user == null){
                 return BadRequest("User not found");
             }
@@ -145,9 +165,15 @@ namespace indecisive_decider.Controllers
             OperationId = "account.password",
             Tags = new[] { "AccountEndpoints" })
         ]
+        /// <summary>
+        /// Must verify user and be able to update the user's password
+        /// Must confirm old password and new passwords.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>OK or bad request</returns>
         public async Task<ActionResult> UpdateUserPassword(ChangePasswordRequest request)
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if(user == null){
                 return BadRequest("User not found");
             }
@@ -171,9 +197,13 @@ namespace indecisive_decider.Controllers
             OperationId = "account.info",
             Tags = new[] { "AccountEndpoints" })
         ]
+        /// <summary>
+        /// Gets the current users information or the map to the DTO
+        /// </summary>
+        /// <returns>mapper.Map user dto info</returns>
         public async Task<ActionResult<UserDto>> GetCurrentUserInfo()
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if(user == null){
                 return BadRequest("User not found");
             }
@@ -187,17 +217,15 @@ namespace indecisive_decider.Controllers
             OperationId = "account.list",
             Tags = new[] { "AccountEndpoints" })
         ]
+        /// <summary>
+        /// Lists all users that are registered to backend.
+        /// </summary>
+        /// <returns>userService result of Get</returns>
         public async Task<IEnumerable<UserDto>> ListUsers()
         {
             return (await _userService.GetUsers()).Select(e => _mapper.Map<UserDto>(e));
         }
 
-        
-        private async Task<ApplicationUser> VerifyUser()
-        {
-            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userService.GetUserByIdAsync(id);
-            return user;
-        }   
+    
     }
 }

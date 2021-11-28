@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-
+using indecisive_decider.Interfaces;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -21,10 +21,10 @@ namespace indecisive_decider.Controllers
     {
 
         private readonly IMapper mapper;
-        private readonly PresetService presetService;
-        private readonly UserService _userService;
+        private readonly IPresetService presetService;
+        private readonly IUserService _userService;
 
-        public PresetController(IMapper mapper, PresetService presetService, UserService userService)
+        public PresetController(IMapper mapper, IPresetService presetService, IUserService userService)
         {
             this.mapper = mapper;
             this.presetService = presetService;
@@ -39,9 +39,14 @@ namespace indecisive_decider.Controllers
             OperationId = "preset.add",
             Tags = new[] { "PresetEndpoints" })
         ]
+        /// <summary>
+        /// Adds a user custom preset into the preset lists.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns>bad Request or OK</returns>
         public async Task<IActionResult> Put([FromBody] PresetDto p)
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if (user == null)
             {
                 return BadRequest("Invalid user");
@@ -61,9 +66,13 @@ namespace indecisive_decider.Controllers
             OperationId = "preset.get",
             Tags = new[] { "PresetEndpoints" })
         ]
+        /// <summary>
+        /// Gets all the user presets, even defaults, and presents them.
+        /// </summary>
+        /// <returns>Return bad Request or OK</returns>
         public async Task<ActionResult<IEnumerable<PresetWithIdDto>>> Get()
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if (user == null)
             {
                 return BadRequest("Invalid user");
@@ -81,9 +90,14 @@ namespace indecisive_decider.Controllers
             OperationId = "preset.delete",
             Tags = new[] { "PresetEndpoints" })
         ]
+        /// <summary>
+        /// Deletes a preset made by the user.
+        /// </summary>
+        /// <param name="presetId"></param>
+        /// <returns>Bad request or OK</returns>
         public async Task<ActionResult> Delete(int presetId)
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if (user == null)
             {
                 return BadRequest("Invalid user");
@@ -104,9 +118,15 @@ namespace indecisive_decider.Controllers
             OperationId = "preset.update",
             Tags = new[] { "PresetEndpoints" })
         ]
+        /// <summary>
+        /// Allows the user to edit the preset.
+        /// </summary>
+        /// <param name="presetId"></param>
+        /// <param name="updatedPreset"></param>
+        /// <returns>bad request or OK</returns>
         public async Task<ActionResult> Update(int presetId, PresetDto updatedPreset)
         {
-            var user = await VerifyUser();
+            var user = await _userService.VerifyUser(User);
             if (user == null)
             {
                 return BadRequest("Invalid user");
@@ -129,10 +149,15 @@ namespace indecisive_decider.Controllers
             OperationId = "preset.default.get",
             Tags = new[] { "PresetEndpoints" })
         ]
+        /// <summary>
+        /// This should get the default presets that we created for the user
+        /// </summary>
+        /// <returns>The created preset default</returns>
         public async Task<ActionResult<IEnumerable<PresetDto>>> GetDefaults()
         {
             return Ok((await presetService.GetDefaultPresetsAsync()).Select(preset => mapper.Map<PresetWithIdDto>(preset)));
         }
+
         [HttpPost("defaults")]
         [SwaggerOperation(
             Summary = "Adds default presets",
@@ -140,12 +165,18 @@ namespace indecisive_decider.Controllers
             OperationId = "preset.default.add",
             Tags = new[] { "PresetEndpoints" })
         ]
+        /// <summary>
+        /// Inserts the default presets for the user.
+        /// </summary>
+        /// <param name="presets"></param>
+        /// <returns>OK</returns>
         public async Task<IActionResult> PostPresets([FromBody] List<PresetDto> presets)
         {
             var presetList = presets.Select(p => mapper.Map<Preset>(p));
             await presetService.AddPresetsAsync(presetList);
             return Ok();
         }
+
         [HttpDelete("defaults")]
         [SwaggerOperation(
             Summary = "Clears all default presets",
@@ -153,17 +184,14 @@ namespace indecisive_decider.Controllers
             OperationId = "preset.default.delete",
             Tags = new[] { "PresetEndpoints" })
         ]
+        /// <summary>
+        /// deletes all the defaut presets
+        /// </summary>
+        /// <returns>OK</returns>
         public async Task<IActionResult> DeletePresets()
         {
             await presetService.RemoveDefaults();
             return Ok();
         }
-
-        private async Task<ApplicationUser> VerifyUser()
-        {
-            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userService.GetUserByIdAsync(id);
-            return user;
-        }        
     }
 }

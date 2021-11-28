@@ -1,7 +1,10 @@
+/*
+This is the code in order to split whatever list the user
+wants out of the choices they made. It is split by a , between words/items in the text box.
+*/
 export function createList(wordlist)
 {
     const userList = wordlist.split(",");
-    var counter = userList.length;
     for(let i = 0; i < userList.length; i++)
     {
         userList[i].trim();
@@ -9,13 +12,17 @@ export function createList(wordlist)
     return userList;
 }
 
+/*
+This should choose a random number based on the list length and return a random
+item within that list.
+*/
 export function returnRandomItem(userList)
 {
     var rand = Math.floor(Math.random() * (userList.length));
     return userList[rand];
 }
 
-//just a getting random function from a min and max value
+//Just getting a random number from a chosen min and max value
 export function getRandomNum(min, max)
 {
     return Math.floor(Math.random() * (parseInt(max) - parseInt(min) + 1) + parseInt(min));

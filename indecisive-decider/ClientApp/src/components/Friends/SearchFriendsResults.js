@@ -6,7 +6,6 @@ import {
   Avatar,
   Box,
   Card,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -19,69 +18,25 @@ import {
 import getInitials from './getInitials';
 import { fetchSendFriendRequest } from '../../ApiCalls';
 
-//TODO text bold
-
-const RootStyle = styled(Card)({
+const RootStyle = styled(Card)({ // set the card style by css
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
   backgroundColor: 'rgba(255,255,255,0.65)', // transparent
-  // minWidth: 1050,
 });
 
+/**
+ * show the friend search result list
+ */
 const SearchFriendsResults = ({ queryResults, removeItem, setIdResults, ...rest }) => {
-  const [selectedQueryResultIds, setSelectedQueryResultIds] = useState([]);
-  const [limit, setLimit] = useState(10);
+  // const [selectedQueryResultIds, setSelectedQueryResultIds] = useState([]);
+  const [limit, setLimit] = useState(10); 
+  // Set the maximum number of friends that can be displayed on each page
   const [page, setPage] = useState(0);
+  // set page number
 
   useEffect(() => {
     setIdResults([]);
-  }, [])
+  }, [setIdResults])
 
-  // const sendBackResults = (results) => {
-  //   console.log("SendBack Results: ", results);
-  //   setIdResults(results);
-  // }
-
-  const handleSelectAll = async(event) => {
-    let newSelectedQueryResultIds;
-
-    if (event.target.checked) {
-      newSelectedQueryResultIds = queryResults.map((queryResult) => queryResult.id);
-    } else {
-      newSelectedQueryResultIds = [];
-    }
-
-    await setSelectedQueryResultIds(newSelectedQueryResultIds);
-    console.log(newSelectedQueryResultIds);
-    //sendBackResults(selectedQueryResultIds);
-    setIdResults(newSelectedQueryResultIds);
-    // TODO bug:
-    // no friends, but selected the "select all" checkbox by default
-  };
-
-  const handleSelectOne = async(event, id) => { // the id is the user id
-    // console.log("Checking out ID: ", id); 
-    const selectedIndex = selectedQueryResultIds.indexOf(id);
-    let newSelectedQueryResultIds = [];
-
-    if (selectedIndex === -1) {
-      newSelectedQueryResultIds = newSelectedQueryResultIds.concat(selectedQueryResultIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedQueryResultIds = newSelectedQueryResultIds.concat(selectedQueryResultIds.slice(1));
-    } else if (selectedIndex === selectedQueryResultIds.length - 1) {
-      newSelectedQueryResultIds = newSelectedQueryResultIds.concat(selectedQueryResultIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedQueryResultIds = newSelectedQueryResultIds.concat(
-        selectedQueryResultIds.slice(0, selectedIndex),
-        selectedQueryResultIds.slice(selectedIndex + 1)
-      );
-    }
-
-    await setSelectedQueryResultIds(newSelectedQueryResultIds);
-    console.log(newSelectedQueryResultIds);
-    //sendBackResults(selectedQueryResultIds);
-    setIdResults(newSelectedQueryResultIds);
-    // setDelqueryResult("true");
-  };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -94,20 +49,11 @@ const SearchFriendsResults = ({ queryResults, removeItem, setIdResults, ...rest 
   return (
     <RootStyle {...rest}>
       <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
+        <Box>
           <Table>
             <TableHead>
               <TableRow>
-              <TableCell padding="checkbox">
-                  {/* <Checkbox
-                    checked={selectedQueryResultIds.length === queryResults.length}
-                    color="primary"
-                    indeterminate={
-                      selectedQueryResultIds.length > 0
-                      && selectedQueryResultIds.length < queryResults.length
-                    }
-                    onChange={handleSelectAll}
-                  /> */}
+              <TableCell>
                 </TableCell>
                 <TableCell>
                   Username
@@ -127,15 +73,8 @@ const SearchFriendsResults = ({ queryResults, removeItem, setIdResults, ...rest 
                 <TableRow
                   hover
                   key={queryResult.id}
-                  selected={selectedQueryResultIds.indexOf(queryResult.id) !== -1}
                 >
-                <TableCell padding="checkbox">
-                    {/* <Checkbox
-                      //checked={(event) => checkedBox(event, queryResult.id)}
-                      checked={(selectedQueryResultIds.indexOf(queryResult.id) !== -1)}
-                      onChange={(event) => handleSelectOne(event, queryResult.id)}
-                      value="true"
-                    /> */}
+                <TableCell>
                 </TableCell>
                   <TableCell>
                     <Box
@@ -145,7 +84,7 @@ const SearchFriendsResults = ({ queryResults, removeItem, setIdResults, ...rest 
                       }}
                     >
                       <Avatar
-                        src={queryResult.avatarUrl} //TODO need avatar url api
+                        src={queryResult.avatarUrl}
                         sx={{ mr: 2 }}
                       >
                         {getInitials(queryResult.username)}

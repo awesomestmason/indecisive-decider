@@ -1,3 +1,8 @@
+/**
+ * credit:
+ * https://codesandbox.io/s/dm-blog-post-comments-isdgm
+ */
+
 import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
 import Paper from "@mui/material/Paper";
@@ -5,25 +10,21 @@ import TextField from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 import { fetchPostComment } from "../../ApiCalls";
+
+// css for textfiled
 const useStyles = makeStyles((theme) => ({
   root: {
-    // backgroundColor: "yellow",
     display: "flex",
     alignItems: "center",
     padding: 16
   },
   paper: {
-    // backgroundColor: "red",
     padding: "4px 16px",
     flexGrow: 1,
     marginLeft: 16
   },
   input: {
-    // backgroundColor: "blue",
     width: "100%"
-  },
-  iconButton: {
-    // backgroundColor: "green",
   },
   divider: {
     width: 1,
@@ -31,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+/**
+ * Should send a comment onto the feed or post
+ * @param {element} feedId, onCommentAdd
+ * @return {element}
+ */
 export default function SendComment({feedId, onCommentAdd}) {
   const classes = useStyles();
   const [value, setValue] = useState("");
@@ -39,11 +45,11 @@ export default function SendComment({feedId, onCommentAdd}) {
     setValue(e.target.value);
   };
 
+  // send the comment when click
   const handleClick = () => {
     fetchPostComment(feedId, value);
     onCommentAdd(value);
     setValue("");
-    console.log("SEND COMMENT"); // do something
   };
 
   return (
@@ -60,10 +66,8 @@ export default function SendComment({feedId, onCommentAdd}) {
 
       <IconButton
         type="submit"
-        className={classes.iconButton}
         aria-label="send-comment"
         onClick={handleClick}
-        // size="small"
       >
         <SendIcon />
       </IconButton>

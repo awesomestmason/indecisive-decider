@@ -1,10 +1,9 @@
 import React from 'react';
 import './PresetCard.css';
-import Tilt from 'react-tilt';
 import { useState } from 'react';
 
 
-const PresetCard = ({ name, items, rngPreset, rngNumber, id, delPreset, onButtonEdit, isDefault}) => {
+const PresetCard = ({name, items, rngPreset, rngNumber, id, delPreset, onButtonEdit, isDefault}) => {
     const [min, setMin] = useState();
     const [max, setMax] = useState();
 
@@ -24,7 +23,7 @@ const PresetCard = ({ name, items, rngPreset, rngNumber, id, delPreset, onButton
         rngNumber(id, min, max);
     }
     
-    return [
+    return (
         <div className='card tc dib br3 pa3 ma2 grow bw2 shadow-5 pointer'>
             { !(isDefault && name === "Numbers") ?
             <div>
@@ -75,7 +74,7 @@ const PresetCard = ({ name, items, rngPreset, rngNumber, id, delPreset, onButton
                 </div>
             }
         </div>
-    ];
+    );
 }
 
 export default PresetCard;

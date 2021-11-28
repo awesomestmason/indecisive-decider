@@ -7,8 +7,8 @@ import audioFlip from "../../sounds/cardflip.wav";
 const Card = ({ i, x, y, rot, scale, trans, bind, result}) => {
   //const {url} = cards[i];
   const [flipped, set] = useState(false);
-  const transl = (r, s) =>
-  `perspective(1500px) rotateX(30deg) rotateY(0deg) rotateZ(${r}deg) scale(${s})`;
+  // const transl = (r, s) =>
+  // `perspective(1500px) rotateX(30deg) rotateY(0deg) rotateZ(${r}deg) scale(${s})`;
   const { transform, opacity } = useSpring({
     opacity: flipped ? 1 : 0,
     transform: `perspective(1250px) rotateX(${flipped ? -180 : 0}deg)`,
