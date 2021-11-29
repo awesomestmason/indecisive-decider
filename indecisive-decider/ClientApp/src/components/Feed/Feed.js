@@ -1,4 +1,14 @@
 /**
+ * Feed.js
+ * 
+ * Main Author: Qiance Yu
+ * Supporting Author:
+ * 
+ * This component enables display feeds 
+ * that includes the results of the users' decision 
+ * at the RNG and the preset name.
+ * 
+ * 
  * credit
  * https://codesandbox.io/s/fb-comment-logger-xzppb
  */
@@ -86,6 +96,16 @@ export default function RecipeReviewCard() {
     // TODO BUG
   };
 
+  /**
+  * show the feed
+  * @param {string} id - user id
+  * @param {string} result - decision result
+  * @param {string} presetName - preset name
+  * @param {string} username - username
+  * @param {string} date - decision date
+  * @param {string} comments - others comments
+  * @return {element}
+  */
   return feed.map(({ id, result, presetName, username, date, comments }) => (
     <RootStyle sx={false}>
       <CardHeader

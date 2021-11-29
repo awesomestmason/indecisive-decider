@@ -1,3 +1,12 @@
+/**
+ * SettingsPassword.js
+ * - Main Author: Qiance Yu
+ * - Supporting Authors: 
+ * 
+ * Description: This component enables users to 
+ * change their passwords
+ */
+
 import * as React from 'react';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
@@ -32,6 +41,7 @@ const SettingsPassword = (props) => {
     });
   };
 
+  // submit password
   const onPasswordSubmit = () => {
     updatePasswordCred(values.oldpassword, values.password, values.confirm);
     setValues({oldpassword: '',  password: '', confirm: ''});

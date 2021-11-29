@@ -1,4 +1,8 @@
 /**
+ * SendComment.js
+ * 
+ * This component enables users to send comments to the feed.
+ * 
  * credit:
  * https://codesandbox.io/s/dm-blog-post-comments-isdgm
  */
@@ -33,8 +37,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**
- * Should send a comment onto the feed or post
- * @param {element} feedId, onCommentAdd
+ * Send a comment onto the feed or post
+ * @param {element} feedId
+ * o@param {element} CommentAdd
  * @return {element}
  */
 export default function SendComment({feedId, onCommentAdd}) {

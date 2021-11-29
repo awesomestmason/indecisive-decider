@@ -1,3 +1,12 @@
+/* ListTextBox.js
+- Main Authors: Nathan Lin, Angel Martinez-Portillo
+
+Description: ListTextBox.js is responsible for handling all user list inputs and
+    is where the "Save List" and "Submit" buttons are located. This is also where
+    the checkbox for toggling animations is located. 
+
+*/
+
 import React from 'react';
 import './ListTextBox.css';
 import {
@@ -6,8 +15,19 @@ import {
     Checkbox
   } from '@mui/material';
 
-//<input className='f4 pa2 w-70 center' type='tex' onChange={onInputChange}/>
-const ListTextBox = ( {animCheckBox, onInputChange, onButtonSubmit, onButtonSave, isSave, isAnimationOn} ) => {
+
+/* 
+ListTextBox: 
+
+Keeps track of user input inside of the text area and includes buttons to implement saving and 
+  submitting lists for use in random decision making.
+
+Params: animCheckBox (bool), onInputChange (function), onButtonSubmit (function), onButtonSave(function)
+Returns: A div containing a text area, 2 buttons for submiting and saving lists user lists, and a
+checkbox for toggling animations.
+*/
+
+const ListTextBox = ( {animCheckBox, onInputChange, onButtonSubmit, onButtonSave} ) => {
     return (
         <div>
             <div className=" ">

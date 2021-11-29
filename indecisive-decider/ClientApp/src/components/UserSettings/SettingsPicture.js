@@ -1,3 +1,12 @@
+/**
+ * SettingsPicture.js
+ * - Main Authors: 
+ * - Supporting Authors: 
+ * 
+ * Description: This component enables
+ * users to modify their avatars.
+ */
+
 import * as React from 'react';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
@@ -30,15 +39,17 @@ function handleImageUpload (event) {
   }
 
   // check file size (< 2MB)
-  if(file.size > 2 * 1024 * 1024) {
+  else if(file.size > 2 * 1024 * 1024) {
     console.log('File must be less than 2MB.');
     return;
   }
 
-  //File is fine, so append into formData:
-  formData.append('myFile', file);
-  return fetchImageUpload(formData);
-
+  else{
+    //File is fine, so append into formData:
+    formData.append('myFile', file);
+    return fetchImageUpload(formData);
+  }
+  
 }
 
 const SettingsProfile = (props) => {
@@ -63,7 +74,8 @@ const SettingsProfile = (props) => {
                 type="file"
                 onChange={async event => {
                   setUploading(false);
-                  await handleImageUpload(event).then(e => setUploading(false));
+                  await handleImageUpload(event)
+                  .then(e => setUploading(false));
                 }
                 }
                 hidden

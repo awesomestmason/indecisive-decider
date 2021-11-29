@@ -1,4 +1,11 @@
 /**
+ * CommentContent.js
+ * 
+ * Main Author: Qiance Yu
+ * 
+ * This component enables display the user's comments under the feed. 
+ * Can display comment time as well as username and avatar.
+ * 
  * credit:
  * https://codesandbox.io/s/dm-blog-post-comments-isdgm
  */
@@ -58,7 +65,11 @@ const useStyles = makeStyles({
   }
 });
 
-//Create the actual comment content.
+/**
+ * Create the actual comment content.
+ * @param {element} commentContent - user comments
+ * @return {element}
+ */
 export default function CommentContent({ commentContent }) {
   const { user, avatar, comment, createdAt } = commentContent;
 

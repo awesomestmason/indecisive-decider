@@ -1,3 +1,13 @@
+/**
+ * Settings.js
+ * - Main Author: Qiance Yu
+ * - Supporting Authors: 
+ * 
+ * Description: A container, which has 
+ * password settings, avatar settings, 
+ * profile settings, these three components.
+ */
+
 import * as React from 'react';
 import { Box, Container} from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -9,16 +19,13 @@ const theme = createTheme({
   typography: {
    fontFamily: '"Courier New"',
     body1: {
-      fontWeight: 'bold', // or 'bold'
-      //color: "white"
+      fontWeight: 'bold',
     },
     button: {
-      fontWeight: 'bold', // or 'bold'
-      //color: "white"
+      fontWeight: 'bold',
     },
     h5: {
-      fontWeight: 'bold', // or 'bold'
-      //color: "white"
+      fontWeight: 'bold', 
     },
   }
 });

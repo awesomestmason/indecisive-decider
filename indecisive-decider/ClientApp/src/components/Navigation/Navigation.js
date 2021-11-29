@@ -1,5 +1,31 @@
+/* Navigation.js
+- Main Authors: Nathan Lin, Angel Martinez-Portillo
+
+Description: Navigation.js handles the display of the nav bar for navigating pages.
+    Depending on the state of "route" which is passed in from App.js, Navigation.js
+    will return a set of buttons linked to different pages.
+
+Acknowledgments: 
+We reused some code from a prior project to get started on the React app, 
+  which consisted of: SignIn, Register, tsParticle usage and the page routing logic.  
+
+*/
+
+
 import React from 'react';
 
+
+/* 
+Navigation:
+
+Takes in a string from App.js called "route" which determines what the Navigation bar will
+    display. For each option displayed the funtion "onRouteChange" is used to change the 
+    state of "route" inside of App.js. The bool "isSignedIn" is used to confirm if a user
+    has signed in. 
+
+Params: route (string), onRouteChange(function), isSignedIn(boolean)
+Returns: A nav tag with clickable text which allows users to change pages
+*/
 const Navigation = ({route, onRouteChange, isSignedIn}) => {
 
     if(isSignedIn){
@@ -37,6 +63,7 @@ const Navigation = ({route, onRouteChange, isSignedIn}) => {
         
     } 
     
+    //If the user is not logged in, this will show as the navigation bar.
     else{
         return(
             <nav style={{display: 'flex', justifyContent: 'flex-end'}}>

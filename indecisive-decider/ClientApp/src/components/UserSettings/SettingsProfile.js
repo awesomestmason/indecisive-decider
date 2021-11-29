@@ -1,3 +1,13 @@
+/**
+ * SettingsProfile.js
+ * - Main Author: Qiance Yu
+ * - Supporting Authors: 
+ * 
+ * Description: This component enables the 
+ * users to modify profile, 
+ * such as email address or username.
+ */
+
 import * as React from 'react';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';

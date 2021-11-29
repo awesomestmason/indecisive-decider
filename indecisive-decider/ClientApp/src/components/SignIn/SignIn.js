@@ -1,3 +1,16 @@
+/* SignIn.js
+- Main Authors: Nathan Lin, Angel Martinez-Portillo
+- Supporting Authors: Mason Rylander
+
+Description: SignIn.js handles the display of the "sign in" box on the "sign in" page. 
+All UI elements and related functionality related to said box are located here.
+
+Acknowledgments: 
+We reused some code from a prior project to get started on the React app, 
+  which consisted of: SignIn, Register, tsParticle usage and the page routing logic.  
+
+*/
+
 import React from 'react';
 import { fetchLogin } from '../../ApiCalls'
 
@@ -11,14 +24,34 @@ class SignIn extends React.Component {
         }
     }
     
+    /*
+        onEmailChange:
+            Saves the current state of the email field to "signInEmail"
+            Params: onChange event from the email field.
+        Returns: N/A
+   */
     onEmailChange = (event) => {
         this.setState({signInEmail: event.target.value})
     };
 
+    /*
+        onPasswordChange:
+            Saves the current state of the email field to "signInPassword"
+            Params: onChange event from the password field.
+        Returns: N/A
+   */
     onPasswordChange = (event) => {
         this.setState({signInPassword: event.target.value})
     };
 
+    /*
+        onSubmitSignIn:
+            Sends the data contained within "signInEmail" and "signInPassword"
+                to the backend using the api call "fetchLogin", to login into a user account. 
+                Then changes the state of "route" inside of app to "home" if procdure was successful.
+            Params: N/A
+        Returns: N/A
+   */
     onSubmitSignIn = () => {
         //console.log(this.state);
         fetchLogin(this.state.signInEmail, this.state.signInPassword)
@@ -32,7 +65,18 @@ class SignIn extends React.Component {
             this.setState({error: 1});
         })
     };
-    
+
+
+    /*
+    render:
+      This function is required for every Class Component in React.
+      It uses JSX, which is basically HTMl in JavaScript, to display elements into the website.
+      In this specific render for Signin.js, we make UI that displays the Sign In Form that will call 
+      functions that are passed as props into the onClick/onChange event actions. When they hit the
+      input tag with "Submit", it logs the user in said they give the correct account details.
+    Params: N/A
+    Returns: N/A
+    */
     render(){
         const {onRouteChange} = this.props
         return (
@@ -75,10 +119,6 @@ class SignIn extends React.Component {
                         {!!this.state.error && <div className="red">
                             <p> Incorrect Login! </p>
                         </div>}
-                        
-                        {/* <div className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer dib">
-                            <p onClick={() => onRouteChange('home')} className="f5 link dim black db pointer" > Continue As Guest </p>
-                        </div> */}
 
                     </div>
                 </main>
@@ -86,5 +126,5 @@ class SignIn extends React.Component {
         );
     }
 }
-
+//This exports the Component to be used in other places that require it. 
 export default SignIn ; 

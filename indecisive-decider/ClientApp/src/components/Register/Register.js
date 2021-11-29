@@ -1,3 +1,16 @@
+/* Register.js
+- Main Authors: Nathan Lin, Angel Martinez-Portillo
+- Supporting Authors: Mason Rylander
+
+Description: Register.js handles the display of the "Register" box on the "Register" page. 
+All UI elements and related functionality related to said box are located here.
+
+Acknowledgments: 
+We reused some code from a prior project to get started on the React app, 
+  which consisted of: SignIn, Register, tsParticle usage and the page routing logic.  
+
+*/
+
 import React from 'react';
 import { fetchRegister } from '../../ApiCalls'
 
@@ -12,18 +25,45 @@ class Register extends React.Component {
         }
     }
     
+    /*
+        onNameChange:
+            Saves the current state of the name field to "Name"
+            Params: onChange event from the name field.
+        Returns: N/A
+   */
     onNameChange = (event) => {
         this.setState({Name: event.target.value})
     };
 
+    /*
+        onEmailChange:
+            Saves the current state of the email field to "Email"
+            Params: onChange event from the email field.
+        Returns: N/A
+   */
     onEmailChange = (event) => {
         this.setState({Email: event.target.value})
     };
 
+    /*
+        onPasswordChange:
+            Saves the current state of the email field to "Password"
+            Params: onChange event from the password field.
+        Returns: N/A
+   */
     onPasswordChange = (event) => {
         this.setState({Password: event.target.value})
     };
 
+    /*
+        onSubmitRegister:
+            Sends the data contained within "Name", "Email", and "Password"
+                to the backend using the api call "fetchRegister", which creates a new account. 
+                Then changes the state of "route" inside of app to "signIn" if procdure was
+                successful.
+            Params: N/A
+        Returns: N/A
+   */
     onSubmitRegister = () => {
         fetchRegister(this.state.Name, this.state.Email, this.state.Password)
         .then(user => {
@@ -37,6 +77,17 @@ class Register extends React.Component {
         })
     };
 
+    /*
+    render:
+      This function is required for every Class Component in React.
+      It uses JSX, which is basically HTMl in JavaScript, to display elements into the website.
+      In this specific render for Register.js, we make UI that displays the Register Form that will call 
+      functions that are passed as props into the onClick/onChange event actions. When they fill in all the 
+      input forms that are required to make an account, they can press the "Submit" button. This will sent them back
+      to the Sign In page and then the user is created. 
+    Params: N/A
+    Returns: N/A
+    */
     render(){
         //const {onRouteChange} = this.props
         return (

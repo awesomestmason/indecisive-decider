@@ -15,7 +15,7 @@ We reused some code from a prior project to get started on the React app,
 import React, { Component } from 'react';
 import Navigation from './components/Navigation/Navigation';
 import Logo from './components/Logo/Logo';
-import Rank from './components/Rank/Rank';
+import WelcomeMessage from './components/WelcomeMessage/WelcomeMessage';
 import Particles from 'react-tsparticles';
 import SettingsView from './components/UserSettings/Settings';
 import './App.css';
@@ -343,14 +343,15 @@ class App extends Component {
     //RNG code here:
       // create list
       // get random list item
-      let result = await returnRandomItem(createList(this.state.input));
-      //  console.log("This is before result ",result);
-      this.setState({result: result, canShare: false});
-      //  console.log("This is after result ",result);
       
-      if(this.state.animationOn){
-        this.animToggle();
-      }
+    let result = await returnRandomItem(createList(this.state.textboxInput));
+    //  console.log("This is before result ",result);
+    this.setState({result: result, canShare: false});
+    //  console.log("This is after result ",result);
+    
+    if(this.state.animationOn){
+      this.animToggle();
+    }
 
       //console.log(this.state.result);
       //console.log("actual result from let", result);
@@ -382,7 +383,7 @@ class App extends Component {
     animToggle:
      Toggles "isAnim" true/false. Used to toggle the
       AnimationPopUp component. To be used in conjucntion
-      with animCheckBox to determine if animaitons should
+      with animCheckBox to determine if animations should
       be played.
     Params: N/A
     Returns: N/A
@@ -529,7 +530,7 @@ class App extends Component {
       case 'home': 
         return <div>
                 <Logo avatarUrl={this.state.user.avatarUrl}/> 
-                <Rank username={this.state.user.name}/> 
+                <WelcomeMessage username={this.state.user.name}/> 
                 { result !== "" &&
                   <ResultBox key={"keyorsoemthing"} result={result} presetId={presetId} canShare={canShare}/>
                 }
@@ -539,8 +540,8 @@ class App extends Component {
                   onInputChange={this.onInputChange}
                   onButtonSubmit={this.onButtonSubmit}
                   onButtonSave={this.onButtonSave}
-                  isSave={isSave}
-                  isAnimationOn={this.state.animationOn}
+                  // isSave={isSave}
+                  // isAnimationOn={this.state.animationOn}
                   />
 
                 <PresetCardList 
