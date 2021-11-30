@@ -12,6 +12,10 @@ namespace Tests.PresetTests
 {
     public class GetPresets
     {
+        /// <summary>
+        /// Tests that custom presets are fetched correctly
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task Get_custom_presets()
         {

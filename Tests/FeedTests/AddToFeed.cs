@@ -26,7 +26,10 @@ namespace Tests.FeedTests
 
         }
 
-
+        /// <summary>
+        /// Tests that sharing decisions are added into the database
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task Share_decision_adds_to_feed()
         {
@@ -51,7 +54,10 @@ namespace Tests.FeedTests
 
             }
         }
-
+        /// <summary>
+        /// Tests that the feed only shows items from friends
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task Feed_shows_friend()
         {
@@ -92,7 +98,10 @@ namespace Tests.FeedTests
 
             }
         }
-
+        /// <summary>
+        /// Tests that the feed doesn't show feed of non-friends
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task Feed_doesnt_show_nonfriend()
         {

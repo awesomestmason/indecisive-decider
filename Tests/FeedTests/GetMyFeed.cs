@@ -19,7 +19,10 @@ namespace Tests.FeedTests
             _friendService.Setup(s => s.GetFriendshipsAsync(It.IsAny<string>(), It.IsAny<FriendshipStatus>()).Result).Returns(new List<Friendship>());
 
         }
-
+        /// <summary>
+        /// Tests that fetching an empty feed returns an empty list
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task Empty_feed_returns_empty_list()
         {
@@ -34,7 +37,10 @@ namespace Tests.FeedTests
             }
 
         }
-
+        /// <summary>
+        /// Tests that the feed includes the current users decisions
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task Feed_shows_self()
         {
@@ -64,7 +70,10 @@ namespace Tests.FeedTests
             }
         }
 
-
+        /// <summary>
+        /// Tests that the feed includes the decisions of the users friends
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task Feed_shows_friend()
         {
@@ -105,6 +114,11 @@ namespace Tests.FeedTests
 
             }
         }
+
+        /// <summary>
+        /// Tests that the feed doesn't include the decisions of non-friends
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task Feed_doesnt_show_nonfriend()
         {
