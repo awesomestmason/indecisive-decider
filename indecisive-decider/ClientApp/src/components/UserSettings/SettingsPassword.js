@@ -1,10 +1,14 @@
 /**
  * SettingsPassword.js
  * - Main Author: Qiance Yu
- * - Supporting Authors: 
+ * - Supporting Authors: Nathan Lin, Angel Martinez-Portillo, Mason Rylander
  * 
  * Description: This component enables users to 
  * change their passwords
+ * 
+ * credit: https://material-kit-react.devias.io/
+ * 
+ * License: MIT License
  */
 
 import * as React from 'react';

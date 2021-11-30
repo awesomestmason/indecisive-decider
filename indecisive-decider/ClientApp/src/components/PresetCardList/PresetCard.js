@@ -79,7 +79,7 @@ const PresetCard = ({name, items, rngPreset, rngNumber, id, delPreset, onButtonE
                         className="db fw6 lh-copy f5 glow white m2"
                     >
                         Min:
-                        <input type='number' onChange={onInputMin}/>
+                        <input type='number' onChange={onInputMin} />
                     </label>
                     
                     <label 

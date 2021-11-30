@@ -1,9 +1,14 @@
 /**
- * FriendListResults.js
+ * SearchFriendsResults.js
  * - Main Author: Qiance Yu
- * - Supporting Authors: 
+ * - Supporting Authors: Nathan Lin, Angel Martinez-Portillo, Mason Rylander
  * 
- * Description: 
+ * Description: Search for users and return search results. 
+ * You can request the searched users as friends.
+ * 
+ * credit: https://material-kit-react.devias.io/
+ * 
+ * License: MIT License
  */
 
 import { useEffect, useState } from 'react';
@@ -26,21 +31,36 @@ import {
 import getInitials from './getInitials';
 import { fetchSendFriendRequest } from '../../ApiCalls';
 
+/*
+  theme: 
+    This sets the MUI styling for the following code.
+*/
 const RootStyle = styled(Card)({ // set the card style by css
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
   backgroundColor: 'rgba(255,255,255,0.65)', // transparent
 });
 
 /**
- * show the friend search result list
+ * SearchFriendsResults
+ * 
+ * For displaying search results and sending friend requests
+ * 
+ * Return: the friend search result list, and request friend button
  */
 const SearchFriendsResults = ({ queryResults, removeItem, setIdResults, ...rest }) => {
-  // const [selectedQueryResultIds, setSelectedQueryResultIds] = useState([]);
   const [limit, setLimit] = useState(10); 
   // Set the maximum number of friends that can be displayed on each page
   const [page, setPage] = useState(0);
   // set page number
 
+  /*
+    useEffect:
+      This function can be used when the function component gets called. In this
+      instance, it only activates once per load, and it will change the "setIdResults" state
+      to [].
+    Params: N/A
+    Returns: N/A
+  */
   useEffect(() => {
     setIdResults([]);
   }, [setIdResults])
@@ -113,7 +133,7 @@ const SearchFriendsResults = ({ queryResults, removeItem, setIdResults, ...rest 
                     color="primary"
                     variant="contained"
                     onClick={async event => {
-                      console.log("Sending friend request to user " + queryResult.id);
+                      // console.log("Sending friend request to user " + queryResult.id);
                       removeItem(queryResult.id);
                       await fetchSendFriendRequest(queryResult.id);
                     }}

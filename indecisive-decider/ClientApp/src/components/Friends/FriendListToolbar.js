@@ -1,10 +1,14 @@
 /**
  * FriendListToolbar.js
  * - Main Author: Qiance Yu
- * - Supporting Authors: 
+ * - Supporting Authors: Nathan Lin, Angel Martinez-Portillo, Mason Rylander
  * 
  * Description: Show page toggle button to toggle 
  * friend list, pending friend requests, and add friends.
+ * 
+ * credit: https://material-kit-react.devias.io/
+ * 
+ * License: MIT License
  */
 
 import { useState } from 'react';
@@ -45,6 +49,12 @@ const FriendListToolbar = ({
     searchField:'',
   });
 
+  /*
+    handleChange:
+      Changes the state specified by the event to be whatever was just typed in the specified loation where the  event was generated. 
+    Params: the website DOM's event object, which contains the string inside CustomListPopUp's input. 
+    Returns: N/A
+  */
   const handleChange = (event) => {
     setValues({
       ...values,
@@ -52,9 +62,16 @@ const FriendListToolbar = ({
     });
   };
 
+  /*
+    onSubmit:
+      When the submit button is pressed, the value from "values.searchField"
+        will be passed into the function onSearchSubmit which makes a call to 
+        the back-end to search for users mathcing the value from "values.searchField"
+    Params: N/A 
+    Returns: N/A
+  */
   const onSubmit = () =>{
     onSearchSubmit(values.searchField);
-    console.log("values.searchField");
   }
 
   let returnArray = []; //The combination of all things needed to be added as the toolbar
@@ -97,16 +114,7 @@ if(route === "friendsList") {
           justifyContent: 'flex-end',
           mt: "2vh",
         }}>
-          {/* <Button
-              color="error"
-              variant="contained"
-              onClick={async event => {
-                //console.log("Sending friend request to user " + queryResult.id);
-                await removeFriends(IdResults, setFriends, Friends);
-              }}
-            >
-              Delete Friend
-          </Button> */}
+          
         </Box>
       </Box>
     );
@@ -143,41 +151,11 @@ else if(route === "pendingFriends") {
           Add Friends
         </Button>
       </Box>
-      {/* <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          mt: "2vh",
-        }}>
-          <Button
-          sx={{
-            margin: "1vh",
-            //boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )'
-          }}
-          color="primary"
-          onClick={acceptRequests(IdResults, Request)}
-          variant="contained"
-        >
-          Accept Friend
-        </Button>
-        <Button
-        sx={{
-          margin: "1vh",
-          //boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )'
-        }}
-          color="error"
-          onClick={declineRequests(IdResults, Request)}
-          variant="contained"
-        >
-          Decline Friend
-        </Button>
-        </Box> */}
     </Box>
   );
 }
 
 else if(route === "searchFriends") {
-
   returnArray.push(
     <Box >
       <Box
@@ -214,19 +192,13 @@ else if(route === "searchFriends") {
           justifyContent: 'flex-end',
           mt: "2vh",
         }}>
-          {/* <Button
-              color="primary"
-              variant="contained"
-              onClick={() => makeRequests(IdResults, setQueryResults, queryResults)}
-            >
-              Send Friend Request
-          </Button> */}
         </Box>
     </Box>
   );
 }
 
 if(route === "searchFriends"){
+  returnArray.push(<div className="glow white f1">Add Friends</div>);
   returnArray.push(
     <Box sx={{ mt: 3 }}>
       <RootStyle>

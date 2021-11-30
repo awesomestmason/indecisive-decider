@@ -5,6 +5,10 @@
  * 
  * Description: This component enables
  * users to modify their avatars.
+ * 
+ * credit: https://material-kit-react.devias.io/
+ * 
+ * License: MIT License
  */
 
 import * as React from 'react';

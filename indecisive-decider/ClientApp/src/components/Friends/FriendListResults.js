@@ -1,9 +1,13 @@
 /**
  * FriendListResults.js
  * - Main Author: Qiance Yu
- * - Supporting Authors: 
+ * - Supporting Authors: Nathan Lin, Angel Martinez-Portillo, Mason Rylander
  * 
  * Description: Show the list of friends a user has
+ * 
+ * credit: https://material-kit-react.devias.io/
+ * 
+ * License: MIT License
  */
 
 import { useState, useEffect } from 'react';
@@ -54,6 +58,14 @@ const FriendListResults = ({setIdResults, removeItem}) => {
     });
   }
 
+  /*
+    useEffect:
+      This function can be used when the function component gets called. In this
+      instance, it only activates once per load, and it refresh the friends page
+      and it will change the "setIdResults" state to [].
+    Params: N/A
+    Returns: N/A
+  */
   useEffect(() => {
     refreshFriends();
     setIdResults([]);

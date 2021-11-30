@@ -1,9 +1,14 @@
 /**
- * FriendListResults.js
+ * PendingFriendRequest.js
  * - Main Author: Qiance Yu
- * - Supporting Authors: 
+ * - Supporting Authors: Nathan Lin, Angel Martinez-Portillo, Mason Rylander
  * 
- * Description: 
+ * Description: This component can show who has requested to 
+ * add the user as a friend
+ * 
+ * credit: https://material-kit-react.devias.io/
+ * 
+ * License: MIT License
  */
 
 import { useState, useEffect } from 'react';
@@ -26,7 +31,10 @@ import {
 import getInitials from './getInitials';
 import { fetchAcceptFriend, fetchDeclineFriend, fetchFriendRequests } from '../../ApiCalls';
 
-
+/*
+  theme: 
+    This sets the MUI styling for the following code.
+*/
 const RootStyle = styled(Card)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
   backgroundColor: 'rgba(255,255,255,0.65)', // transparent
@@ -37,7 +45,7 @@ const RootStyle = styled(Card)({
  * 
  * show the pending friend result list
  * 
- * Params: emoveItem, setIdResults, and rest props
+ * Params: removeItem, setIdResults, and rest props
  * Returns: A Card container that contains pending friend result list.
  */
 
@@ -51,7 +59,14 @@ const PendingFriendRequest = ({removeItem, setIdResults, ...rest }) => {
       setFriendsRequests(list);
     });
   }
-
+  /*
+    useEffect:
+      This function can be used when the function component gets called. In this
+      instance, it only activates once per load, and it will call refreshRequests() when the page loads,
+      then resets the IdRequests. 
+    Params: N/A
+    Returns: N/A
+  */
   useEffect(() => {
     refreshRequests();
     setIdResults([]);
@@ -61,6 +76,12 @@ const PendingFriendRequest = ({removeItem, setIdResults, ...rest }) => {
     setLimit(event.target.value);
   };
 
+  /*
+    handlePageChange:
+      Changes the state "page" to be whatever was just changed in the row buttons for the TablePagination. 
+    Params: the website DOM's event object, which contains the change in the row buttons for the TablePagination. 
+    Returns: N/A
+  */
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };

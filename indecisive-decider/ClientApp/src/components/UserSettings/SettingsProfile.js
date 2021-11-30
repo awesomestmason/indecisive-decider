@@ -1,11 +1,15 @@
 /**
  * SettingsProfile.js
  * - Main Author: Qiance Yu
- * - Supporting Authors: 
+ * - Supporting Authors: Nathan Lin, Angel Martinez-Portillo, Mason Rylander
  * 
  * Description: This component enables the 
  * users to modify profile, 
  * such as email address or username.
+ * 
+ * credit: https://material-kit-react.devias.io/
+ * 
+ * License: MIT License
  */
 
 import * as React from 'react';

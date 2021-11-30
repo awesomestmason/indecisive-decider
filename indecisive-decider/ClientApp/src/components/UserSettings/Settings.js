@@ -1,11 +1,15 @@
 /**
  * Settings.js
  * - Main Author: Qiance Yu
- * - Supporting Authors: 
+ * - Supporting Authors: Nathan Lin, Angel Martinez-Portillo, Mason Rylander
  * 
  * Description: A container, which has 
  * password settings, avatar settings, 
  * profile settings, these three components.
+ * 
+ * credit: https://material-kit-react.devias.io/
+ * 
+ * License: MIT License
  */
 
 import * as React from 'react';
