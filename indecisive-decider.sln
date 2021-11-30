@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31313.79
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "indecisive-decider", "indecisive-decider\indecisive-decider.csproj", "{041C2E6E-ACB8-4128-9C09-102A91A1D010}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "indecisive-decider", "indecisive-decider\indecisive-decider.csproj", "{041C2E6E-ACB8-4128-9C09-102A91A1D010}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{0D5DB310-0BDC-44D5-9388-2D91668E3AC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{041C2E6E-ACB8-4128-9C09-102A91A1D010}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{041C2E6E-ACB8-4128-9C09-102A91A1D010}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{041C2E6E-ACB8-4128-9C09-102A91A1D010}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D5DB310-0BDC-44D5-9388-2D91668E3AC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D5DB310-0BDC-44D5-9388-2D91668E3AC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D5DB310-0BDC-44D5-9388-2D91668E3AC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D5DB310-0BDC-44D5-9388-2D91668E3AC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

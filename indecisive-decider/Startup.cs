@@ -77,6 +77,8 @@ namespace indecisive_decider
             });
 
             //Add various services
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
             services.AddAutoMapper(typeof(MapperProfile));
             services.AddScoped<IPresetService,PresetService>();
             services.AddScoped<IUserService,UserService>();
