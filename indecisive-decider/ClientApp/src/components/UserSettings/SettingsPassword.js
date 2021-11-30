@@ -27,6 +27,15 @@ const RootStyle = styled(Card)({
   backgroundColor: 'rgba(255,255,255,.65)', // transparent
 });
 
+/* 
+  SettingsPassword: 
+    This component contains MUI-based components imported from the MUI library.
+    This will display a box that will have many input textbox that will verify the 
+    password change desired and then send it to the database using one of the props.
+
+  Params: props(function/string/int/etc...)
+  Returns: A ThemeProvider component that contains the components to display user profile setting changes.
+*/
 const SettingsPassword = (props) => {
   const [values, setValues] = useState({
     oldpassword:'',
@@ -34,6 +43,12 @@ const SettingsPassword = (props) => {
     confirm: ''
   });
 
+  /*
+    handleChange:
+      Changes the state specified by the event to be whatever was just typed in the specified loation where the  event was generated. 
+    Params: the website DOM's event object, which contains the string inside CustomListPopUp's input. 
+    Returns: N/A
+  */
   const handleChange = (event) => {
     setValues({
       ...values,
@@ -41,7 +56,12 @@ const SettingsPassword = (props) => {
     });
   };
 
-  // submit password
+  /*
+    onPasswordSubmit:
+      submits the password that was given in the input boxes that is now confirmed.  
+    Params: N/A
+    Returns: N/A
+  */
   const onPasswordSubmit = () => {
     updatePasswordCred(values.oldpassword, values.password, values.confirm);
     setValues({oldpassword: '',  password: '', confirm: ''});

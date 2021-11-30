@@ -1,7 +1,31 @@
-// Popup Base and Reference taken from: https://www.cluemediator.com/create-simple-popup-in-reactjs
+/* EditListPopUp.js
+- Main Authors: Nathan Lin, Angel Martinez-Portillo
+
+Description: EditListPopUp.js handles the display and functionality of the popup that appears
+  when a user clicks the edit button on a card.
+
+Acknowledgments: Popup Base and Reference taken from: https://www.cluemediator.com/create-simple-popup-in-reactjs
+*/
+
 import React from "react";
 import './EditListPopUp.css';
+/* 
+EditListPopUp: 
 
+A popup containing a text area which auto-fills, according to the content of the preset the
+  user has decided to edit, and a button to submit any changes made to the list inside of the
+  text area. Any changes made/not made are then sent to the back-end on clicking "Submit" 
+  to modify the preset of the same name and ID with the new list data. 
+
+Params: 
+  handlClose(function), handles closing of the popup 
+  onEditChange(function), keeps track of changes to list in the text area
+  onEditSubmit(function), sends list data to back-end
+  editInput(string), List of items inside the preset
+  editName(string), Name of Preset
+  editID (int), Id of preset
+Returns: A div containing a text area and a button to submit edited presets
+*/
 const EditListPopup = ({handleClose, onEditChange, onEditSubmit, editInput, editName, editID}) => {
   return (
     <div className="editPopup-box">
@@ -20,14 +44,6 @@ const EditListPopup = ({handleClose, onEditChange, onEditSubmit, editInput, edit
               id="editList"
               value={editInput}>
             </textarea>
-            {/* <input 
-              className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-              type="listName" 
-              name="listName"
-              id="listName"
-              value="Hi!"
-              onChange={onEditChange}
-              /> */}
             <p></p>
             
             <button

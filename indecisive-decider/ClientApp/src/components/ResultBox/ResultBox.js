@@ -1,9 +1,25 @@
+/* ResultBox.js
+- Main Authors: Nathan Lin, Angel Martinez-Portillo
+
+Description: ResultBox.js handles the display of results inside of a container. This
+    box is rendered if there is valid result regardless of whether or not animation
+    is toggled on/off. It ensures that users always have a way of seeing there results.
+
+*/
+
 import React from 'react';
-import './ResultBox.css';
 import { fetchShareToFeed } from '../../ApiCalls'
 
-//<input className='f4 pa2 w-70 center' type='tex' onChange={onInputChange}/>
+/* ResultBox.js
+- Main Authors: Nathan Lin, Angel Martinez-Portillo
+
+Description: ResultBox.js handles the display of results inside of a container. This
+    box is rendered if there is valid result regardless of whether or not animation
+    is toggled on/off. It ensures that users always have a way of seeing there results.
+
+*/
 class ResultBox extends React.Component {
+    //props contains key, result, presedId, and canShare
     constructor(props) {
         super(props);
         this.state = {
@@ -11,12 +27,28 @@ class ResultBox extends React.Component {
         }
     }
 
+    /*
+        shareDecision:
+            Sends the results to the back end so it can be fed into the 
+            user feed.
+        Params: onClick event from the "Share your results button"
+        Returns: N/A
+    */
     shareDecision = async (event) => {
         this.setState({shared: true});
         const {result, presetId} = this.props;
         await fetchShareToFeed(result, presetId);
     }
+    /*
+        render:
+            This function is required for every Class Component in React.
+            It uses JSX, which is basically HTMl in JavaScript, to display elements into the website.
 
+
+
+        Params: N/A
+        Returns: N/A
+    */
     render(){
         const {result, canShare} = this.props;
         const {shared} = this.state

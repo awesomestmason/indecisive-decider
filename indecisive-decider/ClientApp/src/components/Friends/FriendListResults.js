@@ -1,3 +1,11 @@
+/**
+ * FriendListResults.js
+ * - Main Author: Qiance Yu
+ * - Supporting Authors: 
+ * 
+ * Description: Show the list of friends a user has
+ */
+
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -17,11 +25,24 @@ import {
 import getInitials from './getInitials';
 import { fetchDeleteFriend, fetchFriends} from '../../ApiCalls';
 
+/*
+  theme: 
+    This sets the MUI styling for the following code.
+*/
 const RootStyle = styled(TableContainer)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
   backgroundColor: 'rgba(255,255,255,0.65)', // transparent
 });
 
+/**
+* FriendListResults: 
+*
+* This will display the user's friend list.
+* The function of deleting friends can also be implemented.
+*
+* Params: setIdResults, removeItem
+* Returns: A TableContainer component that contains friend list and delete button.
+*/
 const FriendListResults = ({setIdResults, removeItem}) => {
   const [Friends, setFriends] = useState([]);
   const [limit, setLimit] = useState(10);
