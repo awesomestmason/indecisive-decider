@@ -42,8 +42,6 @@ namespace Tests.PresetTests
                 Assert.Equal("Test", customPresets[0].Name);
                 Assert.Equal(selfUser.Id, customPresets[0].Owner.Id);
                 Assert.Equal(3, customPresets[0].Items.Count);
-
-
             }
         }
     }
