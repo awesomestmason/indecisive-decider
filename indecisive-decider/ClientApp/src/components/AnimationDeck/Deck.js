@@ -1,6 +1,15 @@
-// Built off of code from :https://codesandbox.io/embed/j0y0vpz59
-// Also :https://medium.com/swlh/tinder-card-swipe-feature-using-react-spring-and-react-use-gesture-7236d7abf2db
-// Flipping Card Help From: https://codesandbox.io/s/spring-flip-card-g30zr?file=/src/App.tsx
+/* Deck.js
+- Main Authors: Nathan Lin, Angel Martinez-Portillo
+
+Description: Deck.j handles the creation of deck of cards in the animation.
+  This file gathers the card into a deck and handles what happens on animation
+  start up as well as what happens when a user clicks on a card in the deck.
+  Styling and size of cards handled in Deck.css.
+
+Acknowledgments: 
+  Built off of code from :https://codesandbox.io/embed/j0y0vpz59
+  Also :https://medium.com/swlh/tinder-card-swipe-feature-using-react-spring-and-react-use-gesture-7236d7abf2db
+*/
 
 import React, { useState } from "react";
 import { useSprings } from "react-spring";
@@ -13,7 +22,7 @@ import Card from "./Card";
 const cards = 6;
 
 // used to randomize which sides cards flow in from 
-//on animation start up
+// on animation start up
 function randomSide( max, min ) {
     return (Math.floor(Math.random() * (max - min + 1)) + min) > 0 ? 1000 : -1000;
 }
@@ -23,16 +32,13 @@ function randomSide( max, min ) {
 const to = i => ({
   x: -100 + i * 3 * 20,
   y: i * -15,
-  // y: i * -4,
   scale: 1,
-  // rot: -10 + Math.random() * 20,
   rot: -50 + i * 15,
   delay: i * 100
 });
 
+//Randomizes the side from which a card comes from
 const from = i => ({x: randomSide(5,-5), rot: 0, scale: 1.5, y: 0 });
-
-//const [flipped, set] = useState(false)
 
 // This is being used down there in the view, it interpolates rotation and scale into a css transform
 const trans = (r, s) =>
@@ -51,28 +57,17 @@ const Deck = (props) => {
   // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
   const bind = useDrag(({ args: [index], down, movement: [mx], direction: [xDir], velocity }) => {
     const trigger = velocity > 0.2 // If you flick hard enough it should trigger the card to fly out
-    //const dir = xDir < 0 ? -1 : 1 // Direction should either point left or right
     if (!down && trigger) gone.add(index) // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
     api.start(i => {
       if (index !== i) // We want to make them fly. We're only interested in changing spring-data for the current spring
       {
-        //console.log("Checking out index ", index);
-        //console.log("Checking out i ", i);
         gone.add(i);
-        // const direc = randomSide(2,-2) < 0 ? -1 : 1
-        // const vel = randomSide(20,-20) / 100;
         const y =  (200 - window.innerHeight) ; 
-        // const rot = mx / 100 + (direc * 10 * vel)
-        // const scale = 1;
-        //return;
         return {
            y,
-        //   rot,
-        //   scale,
-        //   delay: undefined,
         };
       }
-      //const isGone = gone.has(index)
+      
       const x = down ? mx : 0; // When a card is gone it flys out left or right, otherwise goes back to zero
       const rot = mx / 100; // How much the card tilts, flicking it harder makes it rotate faster
       const scale = down ? 1.1 : 1 // Active cards lift up a bit

@@ -1,5 +1,11 @@
 /**
+ * FriendList.js
+ * - Main Author: Qiance Yu
+ * - Supporting Authors: 
  * 
+ * Description: A container, which has 
+ * user's friend list, toolbar, pending friend
+ * requests, and search friends results
  */
 
 import { Box, Container, Grid } from '@mui/material';
@@ -10,9 +16,12 @@ import FriendListResults from '../Friends/FriendListResults';
 import FriendListToolbar from '../Friends/FriendListToolbar';
 import PendingFriendRequest from '../Friends/PendingFriendRequest';
 import SearchFriendsResults from './SearchFriendsResults';
-//import Friends from '../Friends/friends';
 import Feed from '../Feed/Feed'
 
+/*
+  theme: 
+    This sets the MUI styling for the following code.
+*/
 const theme = createTheme({
   typography: {
    fontFamily: '"Courier New"', // set font
@@ -28,15 +37,26 @@ const theme = createTheme({
   }
 });
 
-// function to chnage route
-// route used to tell us where user plans to go
+/* 
+  onRouteChange 
+
+  function to change route
+  route used to tell us where user plans to go
+
+  Params: route, setRoute
+  Returns: N/A
+*/
 function onRouteChange(route, setRoute) {
     setRoute(route);
   }
 
+/**
+ * FriendList
+ * 
+ * Returns: A ThemeProvider component that contains the components to display the 
+ * friend list, toolbar, pending friends request, search friends results
+ */
 const FriendList = () => {
-  //js code here
-  //const route = useState('searchFriends');
   const [Friends, setFriends] = useState([]);
   const [Requests, setFriendsRequests] = useState([]);
   const [route, setRoute] = useState([]);

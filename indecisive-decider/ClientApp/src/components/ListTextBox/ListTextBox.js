@@ -33,10 +33,9 @@ const ListTextBox = ( {animCheckBox, onInputChange, onButtonSubmit, onButtonSave
             <div className=" ">
                 <div className='center'>
                     <div className='center form pa4 br3 shadow-5 d-flex flex-column '>
-                        {/* <input className='f4 pa2 w-70 center' type='tex' onChange={onInputChange}/> */}
                         <textarea 
-                        className="form-control b pa2 input-reset ba bg-black white w-100" 
-                        style={{resize: 'vertical'}} onChange={onInputChange} rows="5" id="userList" ></textarea>
+                        className="form-control b pa2 input-reset ba white w-100" 
+                        style={{resize: 'vertical', backgroundColor: 'rgba(0,0,0,0.93)'}} onChange={onInputChange} rows="5" id="userList" ></textarea>
                         <div>
                             <p></p>
                                 <button 

@@ -1,3 +1,12 @@
+/**
+ * FriendListToolbar.js
+ * - Main Author: Qiance Yu
+ * - Supporting Authors: 
+ * 
+ * Description: Show page toggle button to toggle 
+ * friend list, pending friend requests, and add friends.
+ */
+
 import { useState } from 'react';
 import {
   Box,
@@ -16,7 +25,15 @@ const RootStyle = styled(Card)({
   backgroundColor: 'rgba(255,255,255,0.65)', // transparent
 });
 
-
+/**
+* FriendListToolbar: 
+*
+* This will display friend list, pending friend requests, 
+* and add friends, these toolbars.
+*
+* Params: route, onRouteChange, setRoute, onSearchSubmit
+* Returns: The three buttons that enable route switching
+*/
 const FriendListToolbar = ({
     route, 
     onRouteChange, 

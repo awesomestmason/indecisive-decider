@@ -1,3 +1,11 @@
+/**
+ * FriendListResults.js
+ * - Main Author: Qiance Yu
+ * - Supporting Authors: 
+ * 
+ * Description: 
+ */
+
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -18,10 +26,20 @@ import {
 import getInitials from './getInitials';
 import { fetchAcceptFriend, fetchDeclineFriend, fetchFriendRequests } from '../../ApiCalls';
 
+
 const RootStyle = styled(Card)({
   boxShadow: '4px 4px 8px 0px rgba( 0, 0, 0, 0.2 )', // shadow-5
   backgroundColor: 'rgba(255,255,255,0.65)', // transparent
 });
+
+/**
+ * PendingFriendRequest
+ * 
+ * show the pending friend result list
+ * 
+ * Params: emoveItem, setIdResults, and rest props
+ * Returns: A Card container that contains pending friend result list.
+ */
 
 const PendingFriendRequest = ({removeItem, setIdResults, ...rest }) => {
   const [limit, setLimit] = useState(10);

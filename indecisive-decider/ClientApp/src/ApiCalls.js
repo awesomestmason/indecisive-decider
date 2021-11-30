@@ -369,7 +369,7 @@ export function fetchImageUpload (formData) {
                 return data;
             }
             let errmsg = await data.text();
-            throw new Error(data);
+            throw new Error(errmsg);
         }) 
     );
 }

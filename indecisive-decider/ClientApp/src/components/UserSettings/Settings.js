@@ -15,6 +15,10 @@ import SettingsPassword from './SettingsPassword';
 import SettingsProfile from './SettingsProfile';
 import SettingsPicture from './SettingsPicture';
 
+/*
+  theme: 
+    This sets the MUI styling for the following code.
+*/
 const theme = createTheme({
   typography: {
    fontFamily: '"Courier New"',
@@ -30,6 +34,16 @@ const theme = createTheme({
   }
 });
 
+/**
+* SettingsView: 
+*
+* This component contains MUI-based components imported from the MUI library and
+* components imported from SettingsPassword.js, SettingsPicture.js, and SettingsProfile.js.
+* This will display three components that all focus on user profile changes.
+*
+* Params: N/A
+* Returns: A ThemeProvider component that contains the components to display user profile setting changes.
+*/
 const SettingsView = () => (
   <ThemeProvider theme={theme}>
     <Container 
