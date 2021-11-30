@@ -18,7 +18,7 @@ namespace indecisive_decider.Interfaces
         /// <param name="from">The requesting user</param>
         /// <param name="to">The target user</param>
         /// <returns></returns>
-        Task AddFriendshipRequestAsync(ApplicationUser from, ApplicationUser to);
+        Task<Friendship> AddFriendshipRequestAsync(string fromUserId, string toUserId);
 
         /// <summary>
         /// Gets all the users friendships
@@ -26,7 +26,7 @@ namespace indecisive_decider.Interfaces
         /// <param name="user">The user</param>
         /// <param name="status">Filter by the status of the friendship</param>
         /// <returns></returns>
-        Task<IEnumerable<Friendship>> GetFriendshipsAsync(ApplicationUser user, FriendshipStatus? status = null);
+        Task<List<Friendship>> GetFriendshipsAsync(string userId, FriendshipStatus? status = null);
 
         /// <summary>
         /// Declines a friendship request

@@ -7,37 +7,37 @@ using indecisive_decider.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using indecisive_decider.Interfaces;
+using indecisive_decider.Specifications.Feed;
 
 namespace indecisive_decider.Services{
     public class FeedService : IFeedService
     {
-        private readonly AppDbContext _context;
-        private readonly IPresetService _presetService;
         private readonly IFriendService _friendService;
-        private readonly IUserService _userService;
-        public FeedService(AppDbContext context, IPresetService presetService, IFriendService friendService, IUserService userService)
+        private readonly IRepository<FeedItem> _feedRepository;
+        private readonly IRepository<FeedComment> _commentRepository;
+        public FeedService(
+            IRepository<FeedItem> feedRepository,
+            IRepository<FeedComment> commentRepository,
+            IFriendService friendService)
         {
-            _context = context;
-            _presetService = presetService;
             _friendService = friendService;
-            _userService = userService;
+            _feedRepository = feedRepository;
+            _commentRepository = commentRepository;
         }   
         public async Task ShareDecisionAsync(string userId, int presetId, string result)
         {
-            var preset = await _presetService.GetPreset(presetId);
             var feedItem = new FeedItem(){
                 PresetId = presetId,
                 UserId = userId,
                 Result = result,
-                Date = DateTime.Now
+                Date = DateTime.Now,
+                Comments = new List<FeedComment>()
             };
-            _context.FeedItems.Add(feedItem);
-            _context.SaveChanges();
+            await _feedRepository.AddAsync(feedItem);
         }
         public async Task<List<FeedItem>> GetFeedItemsAsync(string userId, int limit = 10)
         {
-            var user = await _userService.GetUserByIdAsync(userId);
-            var friends = await _friendService.GetFriendshipsAsync(user, FriendshipStatus.Accepted);
+            var friends = await _friendService.GetFriendshipsAsync(userId, FriendshipStatus.Accepted);
             List<FeedItem> feedItems = new List<FeedItem>();
 
             var myDecisions = await GetUserDecisionsAsync(userId, limit);
@@ -54,10 +54,7 @@ namespace indecisive_decider.Services{
         }
         public async Task<List<FeedItem>> GetUserDecisionsAsync(string userId, int limit = 10)
         {
-            var results = await _context.FeedItems
-                .Include(x => x.Preset)
-                .Include(x => x.Comments)
-                .Where(x => x.UserId == userId).OrderByDescending(x => x.Date).Take(limit).ToListAsync();
+            var results = await _feedRepository.ListAsync(new FeedItemSpecification(userId, limit));
             return results;
         }
         public async Task PostCommentAsync(string userId, int feedItemId, string comment)
@@ -68,17 +65,16 @@ namespace indecisive_decider.Services{
                 Comment = comment,
                 CreatedAt = DateTime.Now
             };
-            await _context.FeedComments.AddAsync(commentItem);
-            await _context.SaveChangesAsync();
+            await _commentRepository.AddAsync(commentItem);
         }
         public async Task<bool> DeleteCommentAsync(string userId, int commentId)
         {
-            var comment = await _context.FeedComments.FirstOrDefaultAsync(x => x.Id == commentId && x.UserId == userId);
-            if(comment == null){
+            var comment = await _commentRepository.GetByIdAsync(commentId);
+            if(comment == null || comment.UserId != userId)
+            {
                 return false;
             }
-            _context.Remove(comment);
-            await _context.SaveChangesAsync();
+            await _commentRepository.DeleteAsync(comment);
             return true;
         }
     }

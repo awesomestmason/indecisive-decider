@@ -11,5 +11,10 @@
         {
         }
 
+        public PresetItem(string value)
+        {
+            Value = value;
+        }
+
     }
 }

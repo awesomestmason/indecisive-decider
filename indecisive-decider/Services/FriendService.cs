@@ -7,38 +7,33 @@ using indecisive_decider.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using indecisive_decider.Interfaces;
+using indecisive_decider.Specifications.Friendship;
 
 namespace indecisive_decider.Services
 {
     public class FriendService : IFriendService
     {
-        private readonly AppDbContext _context;
+        private readonly IRepository<Friendship> _friendshipRepository;
 
-        public FriendService(AppDbContext context)
+        public FriendService(IRepository<Friendship> friendshipRepository)
         {
-            _context = context;
+            _friendshipRepository = friendshipRepository;
         }
-        public async Task AddFriendshipRequestAsync(ApplicationUser from, ApplicationUser to)
+        public async Task<Friendship> AddFriendshipRequestAsync(string fromUserId, string toUserId)
         {
-            await _context.Friendships.AddAsync(new Friendship()
+            return await _friendshipRepository.AddAsync(new Friendship()
             {
-                FromUser = from,
-                ToUser = to,
+                FromUserId = fromUserId,
+                ToUserId = toUserId,
                 Status = FriendshipStatus.Requested
             });
-            await _context.SaveChangesAsync();
         }
-        public async Task<IEnumerable<Friendship>> GetFriendshipsAsync(ApplicationUser user, FriendshipStatus? status = null)
+        public async Task<List<Friendship>> GetFriendshipsAsync(string userId, FriendshipStatus? status = null)
         {
-            return await _context.Friendships
-                .Include(f => f.FromUser)
-                .Include(f => f.ToUser)
-                .Where(friendship => friendship.FromUserId == user.Id || friendship.ToUserId == user.Id)
-                .Where(friendship => status == null || friendship.Status == status)
-                .ToListAsync();
+            return await _friendshipRepository.ListAsync(new UserFriendshipsSpecification(userId, status));
         }
         public async Task DeclineRequestAsync(int id){
-            var friendship = await _context.Friendships.FindAsync(id);
+            var friendship = await _friendshipRepository.GetByIdAsync(id);
             if(friendship.Status != FriendshipStatus.Requested){
                 return;
             }
@@ -50,9 +45,9 @@ namespace indecisive_decider.Services
         }
         public async Task AcceptRequestAsync(int id)
         {
-            var friendship = await _context.Friendships.FindAsync(id);
+            var friendship = await _friendshipRepository.GetByIdAsync(id);
             //Check to make sure friendship is not null!
-            if(friendship == null)
+            if (friendship == null)
             {
                 throw new ArgumentException("Invalid id");
             }
@@ -60,20 +55,19 @@ namespace indecisive_decider.Services
                 return;
             }
             friendship.Status = FriendshipStatus.Accepted;
-            _context.Friendships.Update(friendship);
-            await _context.SaveChangesAsync();
+            await _friendshipRepository.UpdateAsync(friendship);
         }
         public async Task DeleteFriendshipAsync(int id)
         {
-            var friendship = await _context.Friendships.FindAsync(id);
-            _context.Friendships.Remove(friendship);
-            await _context.SaveChangesAsync();
+            var friendship = await _friendshipRepository.GetByIdAsync(id);
+            if(friendship == null)
+            {
+                throw new ArgumentException(nameof(id));
+            }
+            await _friendshipRepository.DeleteAsync(friendship);
         }
         public async Task<Friendship> GetFriendshipByIdAsync(int id){
-            var friendship = await _context.Friendships
-                .Include(f => f.FromUser)
-                .Include(f => f.ToUser)
-                .FirstOrDefaultAsync(f => f.Id == id);
+            var friendship = await _friendshipRepository.GetBySpecAsync(new FriendshipByIdSpecification(id));
             return friendship;
         }
 
