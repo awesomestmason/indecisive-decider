@@ -67,7 +67,7 @@ namespace indecisive_decider.Services
             await _friendshipRepository.DeleteAsync(friendship);
         }
         public async Task<Friendship> GetFriendshipByIdAsync(int id){
-            var friendship = await _friendshipRepository.GetBySpecAsync(new FriendshipByIdSpecification(id));
+            var friendship = await _friendshipRepository.GetByIdAsync(id);
             return friendship;
         }
 

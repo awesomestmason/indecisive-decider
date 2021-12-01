@@ -26,7 +26,7 @@ import {
 } from '@mui/material';
 
 import { updateCred } from '../../ApiCalls';
-
+import { saveUser, getSavedUser, hasSavedUser } from '../../util/localStorageUtil';
 /* 
   RootStyle:
     Used to style the Card Component to the styles specified.
@@ -71,6 +71,14 @@ const SettingsProfile = (props) => {
   const onCredSubmit = () => {
     updateCred(values.name, values.email);
     setValues({name:'', email: ''});
+    if(hasSavedUser()){
+      let user = getSavedUser();
+      user.user.email = values.email;
+      user.user.username = values.name;
+      saveUser(user);
+      props.loadUser(user.user);
+    }
+    
   }
 
   return (

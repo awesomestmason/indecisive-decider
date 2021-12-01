@@ -16,6 +16,7 @@ namespace indecisive_decider.Specifications.Feed
                 .Where(x => x.UserId == userId)
                 .Include(x => x.Preset)
                 .Include(x => x.Comments)
+                    .ThenInclude(x => x.User)
                 .OrderByDescending(x => x.Date);
         }
         public FeedItemSpecification(string userId, int limit)
@@ -24,6 +25,7 @@ namespace indecisive_decider.Specifications.Feed
                 .Where(x => x.UserId == userId)
                 .Include(x => x.Preset)
                 .Include(x => x.Comments)
+                    .ThenInclude(x => x.User)
                 .OrderByDescending(x => x.Date)
                 .Take(limit);
         }

@@ -124,7 +124,7 @@ const PendingFriendRequest = ({removeItem, setIdResults, ...rest }) => {
                       }}
                     >
                       <Avatar
-                        src={Request.avatarUrl} //TODO need avatar url api
+                        src={Request.user.avatarUrl} //TODO need avatar url api
                         sx={{ mr: 2 }}
                       >
                         {getInitials(Request.user.username)}

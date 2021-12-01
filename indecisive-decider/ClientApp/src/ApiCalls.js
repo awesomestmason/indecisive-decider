@@ -148,7 +148,7 @@ export function updateCred(name, email){
             headers: {'Content-Type': 'application/json', 
                       'Authorization': "Bearer "+ token},
             body: JSON.stringify({
-                    name: name,
+                    username: name,
                     email: email,
                 })
         })

@@ -511,7 +511,7 @@ class App extends Component {
       
       // Settings Page
       case 'settings': 
-        return <SettingsView />;
+        return <SettingsView loadUser={this.loadUser} />;
 
       // Friends Page
       case 'friends': 

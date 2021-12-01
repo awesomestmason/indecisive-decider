@@ -48,12 +48,12 @@ const theme = createTheme({
 * Params: N/A
 * Returns: A ThemeProvider component that contains the components to display user profile setting changes.
 */
-const SettingsView = () => (
+const SettingsView = ({loadUser}) => (
   <ThemeProvider theme={theme}>
     <Container 
       maxWidth="sm"
       >
-      <SettingsProfile />
+      <SettingsProfile loadUser={loadUser}/>
       <Box sx={{ pt: 3 }}>
         <SettingsPassword 
         />
