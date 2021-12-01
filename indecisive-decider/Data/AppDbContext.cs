@@ -13,7 +13,6 @@ namespace indecisive_decider.Data
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
-            Console.WriteLine(operationalStoreOptions);
         }
 
         public DbSet<PresetItem> PresetItems { get; set; }
