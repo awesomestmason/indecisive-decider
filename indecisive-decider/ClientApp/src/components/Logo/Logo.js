@@ -19,10 +19,10 @@ Takes in a url which is passed in from "user" located in App.js
     in order to display the profile picture. Because of the way the
     profile pictures are handled in the back-end only png images
     can be used.
-
 Params: avatarUrl (string of url to png)
 Returns: A Tilt Block with the User's profile image.
 */
+
 const Logo = ({avatarUrl}) => {
     return (
         <div className='ma4 mt0'>

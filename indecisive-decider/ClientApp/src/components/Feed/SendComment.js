@@ -51,8 +51,8 @@ export default function SendComment({feedId, onCommentAdd}) {
   };
 
   // send the comment when click
-  const handleClick = () => {
-    fetchPostComment(feedId, value);
+  const handleClick = async () => {
+    await fetchPostComment(feedId, value);
     onCommentAdd(value);
     setValue("");
   };
