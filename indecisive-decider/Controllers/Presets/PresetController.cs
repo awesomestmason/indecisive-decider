@@ -138,7 +138,7 @@ namespace indecisive_decider.Controllers
             }
             Preset p = mapper.Map<Preset>(updatedPreset);
             p.Id = presetId;
-            await presetService.UpdatePresetAsync(p);
+            await presetService.UpdatePresetAsync(presetId, p.Name, p.Items);
             return Ok();
         }
 

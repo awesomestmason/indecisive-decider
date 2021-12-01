@@ -50,7 +50,7 @@ namespace indecisive_decider.Interfaces
         /// </summary>
         /// <param name="preset">THe preset to update</param>
         /// <returns></returns>
-        Task UpdatePresetAsync(Preset preset);
+        Task UpdatePresetAsync(int presetId, string name, IList<PresetItem> items);
         /// <summary>
         /// Adds multiple presets
         /// </summary>

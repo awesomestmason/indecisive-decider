@@ -36,7 +36,7 @@ namespace Tests.PresetTests
                 });
                 await context.SaveChangesAsync();
 
-                var presetService = new PresetService(context, presetRepository);
+                var presetService = new PresetService(presetRepository);
                 var customPresets = await presetService.GetUserPresetsAsync(selfUser.Id);
                 Assert.NotEmpty(customPresets);
                 Assert.Equal("Test", customPresets[0].Name);
