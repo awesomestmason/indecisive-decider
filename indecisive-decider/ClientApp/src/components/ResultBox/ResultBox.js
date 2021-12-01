@@ -19,7 +19,12 @@ class ResultBox extends React.Component {
             shared: false
         }
     }
-
+    
+    componentDidUpdate(prevProps) {
+        if(prevProps.result !== this.props.result) {
+            this.setState({shared: false})
+        }
+    }
     /*
         shareDecision:
             Sends the results to the back-end so it can be fed into the 
