@@ -27,7 +27,7 @@ cd ./indecisive-decider/ClientApp
 
 ---
 ## Contributions
-- Angel Martinez-Portillo (reapingtrace), angelmtz0271@gmail.com, ammart221@ucsc.edu
+- Angel Martinez-Portillo (reapingtrace), angelmtz0271@gmail.com, amart221@ucsc.edu
 - Nathan Lin, nathan2000person@gmail.com, nlin8@ucsc.edu
 - Mason Rylander, awesomest.mason@gmail.com, mrylande@ucsc.edu 
 - Richard Choe (Evoluze), richardrep@hotmail.com, rkchoe@ucsc.edu
